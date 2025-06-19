@@ -1,0 +1,3942 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Documentación  de WS para Sistema de Terapias Médicas",
+    "version": "1.0.0",
+    "title": "Documentación  de WS para Sistema de Terapias Médicas",
+    "termsOfService": "Leer wwww.jucacorp.com",
+    "contact": {
+      "email": "juca.cedeno.rodriguez@gmail.com"
+    },
+    "license": {
+      "name": "Proyecto Gestión Médica",
+      "url": "none"
+    }
+  },
+  "tags": [
+    {
+      "name": "WS CERAGEN",
+      "description": "WS CERAGEN"
+    },
+    {
+      "name": "WS Security",
+      "description": "Módulo de Seguridad y Auditoría"
+    },
+    {
+      "name": "WS Admin",
+      "description": "Módulo de Administración"
+    }
+  ],
+  "paths": {
+    "/Audit/list": {
+
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Audit   SQL: List ",
+        "description": "Lista de comandos  SQL ",
+        "operationId": "auditSQLList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Error/list": {
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Error : List ",
+        "description": "Lista de Errores del Sistema ",
+        "operationId": "errorList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Notification/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Lista de Notificiones",
+        "description": "Lista de Notificiones",
+        "operationId": "NotificationList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Notification/read": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Notificacion: Update ",
+        "description": "Actualization:  the notification is read",
+        "operationId": "notificationUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Notification_is_read",
+            "description": "Notification_is_read",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/notification_update"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/security/login": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Login de Usuario",
+        "description": "Login de Usuario",
+        "operationId": "loginUser",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginUserDef"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/security/logout": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Salir",
+        "description": "Salir  de la aplicacion",
+        "operationId": "LogOut",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "logout",
+            "description": " the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/logoutUserDef"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/list": {
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Lista de Usuarios",
+        "description": "Lista de Usuarios",
+        "operationId": "userList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/actulization/data": {
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Datos de Usuario",
+        "description": "Se envia los datos al  usuarios cuando se recarga la pagina",
+        "operationId": "userActualizationData",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/change-password": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Update Password",
+        "description": "Se actualiza la contraseña cuando, cuando esta conectado",
+        "operationId": "UserUpdatePassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "User_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_password"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/security/recover-password": {
+
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Send Mail from reset password",
+        "description": "Se en via el correo para actualizar la contraseña",
+        "operationId": "SendEmailPassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+
+
+          {
+            "in": "body",
+            "name": "User_id",
+            "description": "Mail from reset password",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/send_email_password"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/security/change-password":{
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Update Password Email",
+        "description": "Se actualiza la contraseña mediante correo ",
+        "operationId": "EmailUpdatePassword",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+
+
+          {
+            "in": "body",
+            "name": "User_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_email_password"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/insert": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Insert ",
+        "description": "Insert un nuevo usuario",
+        "operationId": "user_Insert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "User_Rol_Insert",
+            "description": "Information to Insert",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_user"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Delete",
+        "description": "Eliminar un User",
+        "operationId": "UserDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "User_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/user/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "User: Delete",
+        "description": "update un User",
+        "operationId": "Userupdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "User_id",
+            "description": "ID of the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/person/get": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Obtener datos de Persona ",
+        "description": "Obtener datos de Persona",
+        "operationId": "PersonGet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/RolSistem/insert":{
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Rol del Sistema: Insert ",
+        "description": "Insert un nuevo rol",
+        "operationId": "rolInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "RolSistem_Insert",
+            "description": "Information to Insert",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_rolsistem"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/RolSistem/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Rol del Sistema: List ",
+        "description": "Lista de los roles",
+        "operationId": "rolList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/RolSistem/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Rol del Sistema: Update ",
+        "description": "Eliminar un Rol",
+        "operationId": "rolDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Rol_id",
+            "description": "ID of the resource to delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/RolSistem/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Rol del Sistema: Update ",
+        "description": "Actualizar un Rol",
+        "operationId": "rolUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "Rol_id",
+            "description": "ID of the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/up_rolsistem"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/UserRol/insert": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "UserRol: Insert ",
+        "description": "Asignar un nuevo rol al Usuario",
+        "operationId": "UserRolInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "UserRol_Insert",
+            "description": "Information to Insert",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_useRol"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/UserRol/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "  Roles y Menu: List",
+        "description": "Lista de Roles y Menu",
+        "operationId": "RolUserList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/UserRol/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "  Roles y Menu: Delete",
+        "description": "Eliminar un  Rol_Menu",
+        "operationId": "RolUserDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "UserRol_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/UserRol/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "  Roles y Menu: Update",
+        "description": "Aectualizar  Roles y Menu",
+        "operationId": "UserRolList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "modulo_id",
+            "description": "ID of the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/up_useRol"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Module/insert": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": " Modulo : Insert",
+        "description": "Insertar un Modulo",
+        "operationId": "ModuloInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_modulo"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Module/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Modulo: List",
+        "description": "Lista de Modulos",
+        "operationId": "ModuloList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Module/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Modulo: Delete",
+        "description": "Eliminar un Modulo",
+        "operationId": "ModuloDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "modulo_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Module/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Modulo: Update",
+        "description": "Actualizar un Modulo",
+        "operationId": "ModuloUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "modulo_id",
+            "description": "ID of the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/up_modulo"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Menu/insert": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: Insert",
+        "description": "Ingresar un nuevo Menu",
+        "operationId": "MenuInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_menu"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Menu/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: List",
+        "description": "Lista de Menu",
+        "operationId": "MenuList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Menu/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: Delete",
+        "description": "Eliminar un nuevo Menu",
+        "operationId": "MenuDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "menu_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/Menu/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: Update",
+        "description": "Actualizar un nuevo Menu",
+        "operationId": "MenuUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "menu_update",
+            "description": " the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/up_menu"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/MenuRol/insert": {
+      "post": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "MenuRol: Insert",
+        "description": "Ingresar un nuevo Menu y Rol",
+        "operationId": "MenuRolInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_menurol"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/MenuRol/list":{
+      "get": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "MenuRol: List",
+        "description": "Lista de Menus y Roles",
+        "operationId": "MenuRolList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/MenuRol/delete": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: Delete",
+        "description": "Eliminar un  Menu-Rol",
+        "operationId": "MenuRolDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "MenuRol_id",
+            "description": "ID of the resource to Delete",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/delete_id"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/MenuRol/update": {
+      "patch": {
+        "tags": [
+          "WS Security"
+        ],
+        "summary": "Menu: Update",
+        "description": "Actualizar un nuevo Menu-Rol",
+        "operationId": "MenuRolUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "menu_update",
+            "description": " the resource to update",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/up_menurol"
+            }
+
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/persons/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de Personas Admin",
+        "description": "Obtiene una lista de todas las personas ",
+        "operationId": "listAdminPersons",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "items": {
+                "$ref": "#/definitions/AdminPersonResponse"
+              }
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/persons/add": {
+      "post": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Agregar Personas",
+        "description": "Agregar los datos de una Persona",
+        "operationId": "add_admin_person",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Person_insert",
+            "description": "Datos insertados de la Persona",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "per_identification": {
+                  "type": "string",
+                  "description": "Nombre de la unidad académica"
+                },
+                "per_names": {
+                  "type": "string",
+                  "description": "ID de la institución de educación superior (IES)"
+                },
+                "per_surnames": {
+                  "type": "string",
+                  "description": "Descripción de la unidad académica"
+                },
+                "per_genre_id": {
+                  "type": "integer",
+                  "description": "Número de teléfono de la unidad académica (opcional)"
+                },
+                "per_marital_status_id": {
+                  "type": "integer",
+                  "description": "Dirección de la unidad académica (opcional)"
+                },
+                "per_country": {
+                  "type": "string",
+                  "description": "Nombre del director de la unidad académica (opcional)"
+                },
+                "per_city": {
+                  "type": "string",
+                  "description": "Sitio web de la unidad académica (opcional)"
+                },
+                "per_address": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "per_phone": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "per_mail": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unidad académica actualizada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar la unidad académica",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/persons/update": {
+      "patch": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Actualizar Personas",
+        "description": "Actualizar los datos de una Persona",
+        "operationId": "update_admin_person",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Person_insert",
+            "description": "Datos insertados de la Persona",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "per_id": {
+                  "type": "integer",
+                  "description": "Nombre de la unidad académica"
+                },
+                "per_identification": {
+                  "type": "string",
+                  "description": "Nombre de la unidad académica"
+                },
+                "per_names": {
+                  "type": "string",
+                  "description": "ID de la institución de educación superior (IES)"
+                },
+                "per_surnames": {
+                  "type": "string",
+                  "description": "Descripción de la unidad académica"
+                },
+                "per_genre_id": {
+                  "type": "integer",
+                  "description": "Número de teléfono de la unidad académica (opcional)"
+                },
+                "per_marital_status_id": {
+                  "type": "integer",
+                  "description": "Dirección de la unidad académica (opcional)"
+                },
+                "per_country": {
+                  "type": "string",
+                  "description": "Nombre del director de la unidad académica (opcional)"
+                },
+                "per_city": {
+                  "type": "string",
+                  "description": "Sitio web de la unidad académica (opcional)"
+                },
+                "per_address": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "per_phone": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "per_mail": {
+                  "type": "string",
+                  "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unidad académica actualizada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar la unidad académica",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/persons/delete/{id}/{user}": {
+      "delete": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Eliminar Persona por ID",
+        "description": "Elimina una Persona específico por su ID",
+        "operationId": "delete_admin_person",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la persona a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "usuario del proceso",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/AdminCicleResponse"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Marital_status/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de Estados civiles",
+        "description": "Obtiene una lista de todos los estados civiles",
+        "operationId": "ListAllMaritalStatus",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Marital_status/list/{id}": {
+      "get": {
+        "tags": ["WS Admin"],
+        "summary": "Obtener Estado Marital por ID",
+        "description": "Obtiene un Estado Marital específico por su ID",
+        "operationId": "GetMaritalStatusById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del Estado Marital",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Marital_status/add": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Agregar Estado Civil",
+        "description": "Agregar los datos de un Estado Civil específico",
+        "operationId": "AddMaritalStatus",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Marital_Status_insert",
+            "description": "Datos insertados del Estado Civil",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "status_name": {
+                  "type": "string",
+                  "description": "Estado Civil"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unidad académica actualizada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar la unidad académica",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Marital_status/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar Estado Civil",
+        "description": "Actualiza un estado civil específico",
+        "operationId": "UpdateMaritalStatus",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Marital_Status_update",
+            "description": "Datos actualizados del estado civil",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "Id del estado civil a actualizar"
+                },
+                "status_name": {
+                  "type": "string",
+                  "description": "Nombre del estado civil"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Unidad académica actualizada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar la unidad académica",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Marital_status/delete/{id}/{user}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar estado Civil por ID",
+        "description": "Elimina un estado civil específico por su ID",
+        "operationId": "DeleteMaritalStatus",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del estado civil a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "usuario del proceso",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/AdminCicleResponse"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Parameter_list/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de Parametros",
+        "description": "Obtiene una lista de todos los Parametros ",
+        "operationId": "ListAllParameterList",
+        "produces": [
+          "application/json"
+        ],
+
+
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Parameter_list/add": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Agregar Lista de Parametros",
+        "description": "Agregar los datos de un parametro específico",
+        "operationId": "AddParameterList",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Parameter_List_insert",
+            "description": "Datos insertados del Parametro",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pli_code_parameter": {
+                  "type": "string",
+                  "description": "Codigo de Parametro"
+                },
+                "pli_string_value_return": {
+                  "type": "string",
+                  "description": "Retorno de valor"
+                },
+                "pli_numeric_value_return": {
+                  "type": "integer",
+                  "description": "valor de retorno"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Parameter_list/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar Lista de Parametros",
+        "description": "Actualiza los datos de un Parametro específico",
+        "operationId": "UpdateParameterList",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Parameter_List_update",
+            "description": "Datos actualizados del Parametro",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pli_id": {
+                  "type": "integer",
+                  "description": "Id de la unidad academica"
+                },
+                "pli_code_parameter": {
+                  "type": "string",
+                  "description": "Codigo de Parametro"
+                },
+                "pli_string_value_return": {
+                  "type": "string",
+                  "description": "Retorno de valor string"
+                },
+                "pli_numeric_value_return": {
+                  "type": "integer",
+                  "description": "Valor numerico de retorno"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          },
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar la lista de parametros",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Parameter_list/delete/{id}/{user}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar lista de parametros por ID",
+        "description": "Elimina una lista de parametros específica por su ID",
+        "operationId": "DeleteParamaterList",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID de la lista de parametros a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "usuario del proceso",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/AdminCicleResponse"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Person_genre/list": {
+      "get": {
+        "tags": ["WS Admin"],
+        "summary": "Lista de Personas",
+        "description": "Obtiene una lista de los géneros de las personas",
+        "operationId": "ListAllPersonGenre",
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Person_genre/list/{id}": {
+      "get": {
+        "tags": ["WS Admin"],
+        "summary": "Obtener Género por ID",
+        "description": "Obtiene un género específico por su ID",
+        "operationId": "GetPersonGenreById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del género",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Person_genre/add": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Agregar Género",
+        "description": "Agregar un género específico",
+        "operationId": "AddAPersonGenre",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Person_Genre_insert",
+            "description": "Datos insertados del género",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "genre_name": {
+                  "type": "string",
+                  "description": "Nombre del género"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Género agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el género",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Person_genre/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar Género",
+        "description": "Actualiza un Género específico",
+        "operationId": "UpdatePersonGenre",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "Person_Genre_update",
+            "description": "Género actualizado",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "ID del Género"
+                },
+                "genre_name": {
+                  "type": "string",
+                  "description": "Nombre del Género"
+                },
+                "user_process": {
+                  "type": "string",
+                  "description": "Usuario que ejecuta el proceso"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Género actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el Género",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Person_genre/delete/{id}/{user}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar Género de Persona por ID",
+        "description": "Elimina un Género de Persona específico por su ID",
+        "operationId": "DeletePersonGenre",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID del Género de Persona a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user",
+            "in": "path",
+            "description": "Usuario del proceso",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/AdminCicleResponse"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "addQuestion": {
+      "type": "object",
+      "properties": {
+        "qst_description": {
+          "type": "string",
+          "format": "string",
+          "description": "Ingreso de la pregunta"
+        },
+        "qst_dimension_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "ID de dimension de la pregunta"
+        },
+        "qst_tooltip_text": {
+            "type": "string",
+            "format": "string",
+            "description": "Texto de ayuda de la pregunta"
+        },
+        "qst_answer_type_id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "Tipo de respuesta",
+          "example": "1"
+        }
+      }
+    },
+    "insert_urcp": {
+      "type": "object",
+      "properties": {
+        "ur_id": {
+          "type": "integer",
+          "format": "integer"
+        },
+        "cp_id": {
+          "type": "integer",
+          "format": "integer"
+        }
+      }
+    },
+    "update_urcp": {
+      "type": "object",
+      "properties": {
+        "urcp_id": {
+          "type": "integer"
+        },
+        "cp_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "update_password": {
+      "type": "object",
+      "properties": {
+        "oldPassword": {
+          "type": "string"
+
+        },
+        "newPassword": {
+          "type": "string"
+        },
+        "user_id": {
+          "type": "integer"
+        }
+      }
+    },
+    "send_email_password": {
+      "type": "object",
+      "properties": {
+        "user_mail": {
+          "type": "string",
+          "example": "eddermontoya99@gmail.com"
+        }
+      }
+    },
+    "update_email_password": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "new_password": {
+          "type": "string"
+        },
+        "token_temp": {
+          "type": "string"
+        }
+      }
+
+    },
+    "select_activecp_faculty":{
+      "type": "object",
+      "properties": {
+        "id_unit": {
+          "type": "integer"
+        }
+      }
+    },
+    "insert_menurol":{
+      "type": "object",
+      "properties": {
+        "menu_id": {
+          "type": "integer",
+          "format": "integer"
+        },
+        "rol_id": {
+          "type": "integer",
+          "format": "integer"
+        }
+      }
+    },
+    "up_menurol": {
+      "type": "object",
+      "properties": {
+        "mr_id": {
+          "type": "integer",
+          "format": "integer"
+        },
+        "menu_id": {
+          "type": "integer",
+          "format": "integer"
+        },
+        "rol_id": {
+          "type": "integer",
+          "format": "integer"
+        }
+
+      }
+    },
+    "notification_update": {
+      "type": "object",
+      "properties": {
+        "notification_id":{
+          "type": "integer"
+
+        },
+        "notification_read": {
+          "type": "boolean"
+        }
+      }
+    },
+    "insert_useRol": {
+      "type": "object",
+      "properties": {
+        "id_rol": {
+          "type": "integer",
+          "example": 1
+
+        },
+        "id_user": {
+          "type": "integer",
+            "example": 57
+        },
+        "id_career_period": {
+          "type": "integer"
+        }
+      }
+    },
+    "up_useRol": {
+      "type": "object",
+      "properties": {
+        "id_user_rol": {
+          "type": "integer",
+          "example": 1
+
+        },
+        "id_rol": {
+          "type": "integer",
+          "example": 1
+
+        },
+        "id_user": {
+          "type": "integer",
+            "example": 57
+        }
+
+      }
+    },
+    "insert_user": {
+       "type": "object",
+       "properties": {
+         "person_id": {
+           "type": "integer",
+           "format": "integer"
+         },
+         "person_ci": {
+           "type": "string",
+           "format": "string"
+         },
+         "person_mail": {
+           "type": "string",
+           "format": "string"
+         },
+         "person_password": {
+           "type": "string"
+         },
+         "rol_id": {
+           "type": "integer"
+         },
+         "id_career_period": {
+           "type": "integer"
+         }
+       }
+    },
+    "delete_id": {
+      "type": "object",
+      "properties": {
+        "del_id": {
+          "type": "integer",
+          "format": "integer",
+          "example": 4
+        }
+      }
+    },
+    "update_id": {
+      "type": "object",
+      "properties": {
+        "id_user": {
+          "type": "integer",
+          "format": "integer",
+          "example": 4
+        }
+      }
+    },
+    "insert_modulo": {
+       "type": "object",
+       "properties": {
+
+         "mod_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "mod_description": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "mod_order": {
+           "type": "integer",
+           "format": "integer",
+           "example": 56
+         },
+         "mod_icon_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         }
+       }
+    },
+    "insert_menu": {
+       "type": "object",
+       "properties": {
+         "menu_name": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_order": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_module_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_parent_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_icon_name": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_href": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_url": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         }
+       }
+    },
+    "insert_rolsistem": {
+       "type": "object",
+       "properties": {
+         "rol_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "rol_description": {
+           "type": "string",
+           "format": "String",
+           "example": "numero 4"
+         }
+       }
+    },
+    "up_rolsistem": {
+       "type": "object",
+       "properties": {
+         "rol_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "rol_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "rol_description":{
+           "type": "string",
+           "format": "String",
+           "example": "numero 4"
+         }
+       }
+    },
+    "up_modulo": {
+       "type": "object",
+       "properties": {
+         "mod_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "mod_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "mod_description": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         },
+         "mod_order": {
+           "type": "string",
+           "format": "String",
+           "example": ""
+         },"mod_icon_name": {
+           "type": "string",
+           "format": "String",
+           "example": "4"
+         }
+       }
+    },
+    "up_menu": {
+       "type": "object",
+       "properties": {
+         "menu_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_name": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_order": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_module_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_parent_id": {
+           "type": "integer",
+           "format": "integer",
+           "example": 4
+         },
+         "menu_icon_name": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_href": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         },
+         "menu_url": {
+           "type": "string",
+           "format": "string",
+           "example": "string"
+         }
+       }
+    },
+    "loginUserDef": {
+       "type": "object",
+       "properties": {
+         "login_user": {
+           "type": "string",
+           "format": "string",
+           "example": "admin"
+         },
+         "login_password": {
+           "type": "string",
+           "format": "string",
+           "example": "21232f297a57a5a743894a0e4a801fc3"
+         },
+         "host_name": {
+           "type": "string",
+           "format": "string",
+           "example": "localhost"
+         }
+       }
+    },
+    "logoutUserDef": {
+      "type": "object",
+      "properties": {
+        "logId": {
+          "type": "integer"
+        }
+      }
+    },
+    "AcademyUnitResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the academic unit"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the academic unit"
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the academic unit"
+        },
+        "state": {
+          "type": "boolean",
+          "description": "The status of the academic unit (active/inactive)"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the academic unit was created"
+        },
+        "date_updated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the academic unit was last updated"
+        }
+      }
+    },
+    "AcademyUnit": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID de la unidad académica"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre de la unidad académica"
+        },
+        "id_ies": {
+          "type": "string",
+          "description": "ID de la institución educativa"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descripción de la unidad académica"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Número de teléfono de la unidad académica"
+        },
+        "address": {
+          "type": "string",
+          "description": "Dirección de la unidad académica"
+        },
+        "manager_name": {
+          "type": "string",
+          "description": "Nombre del director de la unidad académica"
+        },
+        "web_site": {
+          "type": "string",
+          "description": "Sitio web de la unidad académica"
+        },
+        "mail_address": {
+          "type": "string",
+          "description": "Correo electrónico de la unidad académica"
+        },
+        "state": {
+          "type": "boolean",
+          "description": "Estado de la unidad académica (activo/inactivo)"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "ID del usuario que creó la unidad académica"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de creación de la unidad académica"
+        },
+        "user_modified": {
+          "type": "string",
+          "description": "ID del usuario que modificó la unidad académica"
+        },
+        "date_modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de modificación de la unidad académica"
+        },
+        "user_deleted": {
+          "type": "string",
+          "description": "ID del usuario que eliminó la unidad académica"
+        },
+        "date_deleted": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de eliminación de la unidad académica"
+        }
+      },
+      "required": [
+        "name",
+        "id_ies",
+        "description",
+        "phone_number",
+        "address",
+        "manager_name",
+        "web_site",
+        "mail_address",
+        "state",
+        "user_created",
+        "date_created"
+      ]
+    },
+    "CareerPeriodResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "el ID del período de carrera."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del período de carrera"
+        },
+        "description": {
+          "type": "string",
+          "description": "Desripcion del periodo "
+        }
+      }
+    },
+    "AdminCicleResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the admin cycle"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the admin cycle"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the admin cycle"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The start date of the admin cycle"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The end date of the admin cycle"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the admin cycle (active, inactive, etc.)"
+        }
+      }
+    },
+    "AdminPersonResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the admin person"
+        },
+        "first_name": {
+          "type": "string",
+          "description": "The first name of the admin person"
+        },
+        "last_name": {
+          "type": "string",
+          "description": "The last name of the admin person"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the admin person"
+        },
+        "user_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the admin person was created (optional)"
+        },
+        "user_modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date and time the admin person was last modified (optional)"
+        }
+      }
+    },
+    "ies": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "ID de la unidad académica"
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre de la unidad académica"
+        },
+        "id_ies": {
+          "type": "string",
+          "description": "ID de la institución educativa"
+        },
+        "description": {
+          "type": "string",
+          "description": "Descripción de la unidad académica"
+        },
+        "phone_number": {
+          "type": "string",
+          "description": "Número de teléfono de la unidad académica"
+        },
+        "address": {
+          "type": "string",
+          "description": "Dirección de la unidad académica"
+        },
+        "manager_name": {
+          "type": "string",
+          "description": "Nombre del director de la unidad académica"
+        },
+        "web_site": {
+          "type": "string",
+          "description": "Sitio web de la unidad académica"
+        },
+        "mail_address": {
+          "type": "string",
+          "description": "Correo electrónico de la unidad académica"
+        },
+        "state": {
+          "type": "string",
+          "description": "Estado de la unidad académica (activo/inactivo)"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "ID del usuario que creó la unidad académica"
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de creación de la unidad académica"
+        },
+        "user_modified": {
+          "type": "string",
+          "description": "ID del usuario que modificó la unidad académica"
+        },
+        "date_modified": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de modificación de la unidad académica"
+        },
+        "user_deleted": {
+          "type": "string",
+          "description": "ID del usuario que eliminó la unidad académica"
+        },
+        "date_deleted": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de eliminación de la unidad académica"
+        }
+      },
+      "required": [
+        "name",
+        "id_ies",
+        "description",
+        "address",
+        "manager_name",
+        "web_site",
+        "mail_address",
+        "state",
+        "user_created"
+      ]
+    },
+    "AdminiesResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the admin cycle"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the admin cycle"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the admin cycle"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The start date of the admin cycle"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The end date of the admin cycle"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the admin cycle (active, inactive, etc.)"
+        }
+      }
+    },
+    "MaritalStatusResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "The unique identifier of the admin cycle"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the admin cycle"
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the admin cycle"
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The start date of the admin cycle"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "The end date of the admin cycle"
+        },
+        "status": {
+          "type": "string",
+          "description": "The status of the admin cycle (active, inactive, etc.)"
+        }
+      }
+    },
+    "ParameterListResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "el ID del período de carrera."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del período de carrera"
+        },
+        "description": {
+          "type": "string",
+          "description": "Desripcion del periodo "
+        }
+      }
+    },
+    "PeriodResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "el ID del período de carrera."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del período de carrera"
+        },
+        "description": {
+          "type": "string",
+          "description": "Desripcion del periodo "
+        }
+      }
+    },
+    "PersonGenreResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "el ID del período de carrera."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del período de carrera"
+        },
+        "description": {
+          "type": "string",
+          "description": "Desripcion del periodo "
+        }
+      }
+    },
+    "UniversitycareerResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer",
+          "format": "int64",
+          "description": "el ID del período de carrera."
+        },
+        "name": {
+          "type": "string",
+          "description": "Nombre del período de carrera"
+        },
+        "description": {
+          "type": "string",
+          "description": "Desripcion del periodo "
+        }
+      }
+    },
+    "Cursos": {
+     "type": "object",
+     "properties": {
+       "curso": {
+         "type": "string",
+         "format": "string"
+       },
+       "tipo": {
+         "type": "string",
+         "format": "string"
+       },
+       "periodo": {
+         "type": "string",
+         "format": "string"
+       },
+       "carrera": {
+         "type": "string",
+         "format": "string"
+       }
+      }
+     },
+    "CursosPeriodo": {
+     "type": "object",
+     "properties": {
+       "curso": {
+         "type": "string",
+         "format": "string"
+       },
+       "tipo": {
+         "type": "string",
+         "format": "string"
+       },
+       "periodo": {
+         "type": "string",
+         "format": "string"
+       }
+
+      }
+     },
+    "Categorias": {
+     "type": "object",
+     "properties": {
+       "curso": {
+         "type": "string",
+         "format": "string"
+       },
+       "tipo": {
+         "type": "string",
+         "format": "string"
+       }
+      }
+     },
+    "ListRequisitos": {
+     "type": "object",
+     "properties": {
+       "requisito": {
+         "type": "string"
+       }
+      }
+     },
+    "MoodleCons": {
+     "type": "object",
+     "properties": {
+       "wstoken": {
+         "type": "string"
+       },
+       "wsfunction": {
+         "type": "string"
+       },
+       "key": {
+         "type": "string"
+       },
+       "value": {
+         "type": "string"
+       }
+      }
+     },
+    "MoodleCreate": {
+     "type": "object",
+     "properties": {
+       "wstoken": {
+         "type": "string"
+       },
+       "wsfunction": {
+         "type": "string"
+        },
+        "fullname": {
+        "type": "string",
+        "description": "Nombre completo del curso"
+        },
+        "shortname": {
+          "type": "string",
+          "description": "Nombre corto del curso"
+        },
+        "categoryid": {
+          "type": "integer",
+          "description": "ID de la categoría del curso"
+        },
+        "idnumber": {
+          "type": "string",
+          "description": "Número de ID del curso"
+        },
+        "summary": {
+          "type": "string",
+          "description": "Resumen del curso"
+        },
+        "summaryformat": {
+          "type": "integer",
+          "description": "Formato del resumen del curso",
+          "default": 1
+        },
+        "format": {
+          "type": "string",
+          "description": "Formato del curso",
+          "default": "topics"
+        },
+        "showgrades": {
+          "type": "integer",
+          "description": "Mostrar calificaciones",
+          "default": 1
+        },
+        "newsitems": {
+          "type": "integer",
+          "description": "Número de elementos de noticias en la página del curso",
+          "default": 5
+        },
+        "startdate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha de inicio del curso en timestamp UNIX"
+        },
+        "enddate": {
+           "type": "string",
+           "format": "date-time",
+          "description": "Fecha de fin del curso en timestamp UNIX"
+        },
+        "numsections": {
+          "type": "integer",
+          "description": "Número de secciones del curso",
+          "default": 1
+        },
+        "maxbytes": {
+          "type": "integer",
+          "description": "Tamaño máximo de archivo que se puede subir",
+          "default": 0
+        },
+        "showreports": {
+          "type": "integer",
+          "description": "Mostrar informes de actividad",
+          "default": 0
+        },
+        "visible": {
+          "type": "integer",
+          "description": "Curso visible para los estudiantes",
+          "default": 1
+        },
+        "hiddensections": {
+          "type": "integer",
+          "description": "Cómo se muestran las secciones ocultas",
+          "default": 0
+        },
+        "groupmode": {
+          "type": "integer",
+          "description": "Modo de grupo del curso",
+          "default": 0
+        },
+        "groupmodeforce": {
+          "type": "integer",
+          "description": "Forzar el modo de grupo",
+          "default": 0
+        },
+        "defaultgroupingid": {
+          "type": "integer",
+          "description": "ID de agrupación predeterminado",
+          "default": 0
+        },
+        "enablecompletion": {
+          "type": "integer",
+          "description": "Habilitar el seguimiento de finalización",
+          "default": 0
+        },
+        "completionnotify": {
+          "type": "integer",
+          "description": "Notificar sobre la finalización",
+          "default": 0
+        },
+        "lang": {
+          "type": "string",
+          "description": "Idioma del curso"
+        },
+        "forcetheme": {
+          "type": "string",
+          "description": "Nombre del tema forzado"
+        },
+        "courseformatoptions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Nombre de la opción de formato del curso",
+                "default": "hiddensections"
+              },
+              "value": {
+                "type": "string",
+                "description": "Valor de la opción de formato del curso"
+              }
+            }
+          }
+        },
+        "customfields": {
+          "type": "string"
+        }
+      }
+
+     },
+    "CreateCursos": {
+     "type": "object",
+     "properties": {
+       "tipo": {
+         "type": "string",
+         "format": "string"
+       },
+       "id_curso": {
+         "type": "integer"
+       },
+       "namecurso": {
+         "type": "string",
+         "format": "string"
+       },
+       "shortnamecurso": {
+         "type": "string",
+         "format": "string"
+       },
+       "descripcion": {
+         "type": "string",
+         "format": "string"
+       },
+       "id_moodle": {
+         "type": "integer"
+       },
+       "id_categoria": {
+         "type": "integer"
+       },
+       "id_dimension": {
+         "type": "integer"
+       },
+       "datestart": {
+         "type": "string",
+         "format": "date-time"
+       },
+       "dateend": {
+         "type": "string",
+         "format": "date-time"
+       },
+       "isclosed": {
+         "type": "boolean"
+       },
+       "state": {
+         "type": "boolean"
+       },
+       "user": {
+         "type": "string",
+         "format": "string"
+       },
+       "date": {
+         "type": "string",
+         "format": "date-time"
+       },
+       "showreport": {
+         "type": "integer"
+         },
+        "showhidden": {
+         "type": "integer"
+         },
+        "showqualification": {
+         "type": "integer"
+         },
+        "endcourse": {
+         "type": "integer"
+         }
+     }
+     },
+    "CreateReq": {
+     "type": "object",
+     "properties": {
+       "id_criterio": {
+         "type": "integer"
+       },
+
+       "id_nivel": {
+         "type": "integer"
+       },
+
+       "descripcion": {
+         "type": "string",
+         "format": "string"
+       },
+       "maxrange": {
+         "type": "integer"
+       },
+       "id_semaforo": {
+         "type": "integer"
+       },
+
+       "state": {
+         "type": "boolean"
+       }
+
+     }
+     },
+    "CreateCursosAsignacion": {
+     "type": "object",
+     "properties": {
+       "id_asignacion": {
+         "type": "integer"
+       },
+       "state": {
+         "type": "boolean"
+       },
+       "date": {
+         "type": "string",
+         "format": "date-time"
+       },
+       "id_asesor": {
+         "type": "integer"
+       },
+       "id_curso": {
+         "type": "integer"
+       },
+       "id_user": {
+         "type": "integer"
+       }
+
+      }
+     },
+    "Content": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "contentData": {
+          "type": "string"
+        }
+      }
+    },
+    "Tokens": {
+     "type": "object",
+     "properties": {
+       "curso": {
+         "type": "string",
+         "format": "string"
+       },
+       "tipo": {
+         "type": "string",
+         "format": "string"
+       },
+       "periodo": {
+         "type": "string",
+         "format": "string"
+       },
+       "carrera": {
+         "type": "string",
+         "format": "string"
+       }
+      }
+     },
+    "NotFound": {
+      "type": "object",
+      "properties": {
+        "success": {
+            "type": "boolean",
+            "default": false
+        },
+        "message": {
+            "type": "string",
+            "example": "Recurso no encontrado"
+        },
+        "data": {
+          "type": "string",
+          "example": "{}"
+        },
+        "status": {
+          "type": "string",
+          "example": "404"
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "success": {
+            "type": "boolean",
+            "default": false
+        },
+        "message": {
+            "type": "string"
+        },
+        "data": {
+          "type": "string",
+          "example": "{}"
+        },
+        "status": {
+          "type": "string",
+          "example": "500"
+        }
+      }
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "success": {
+            "type": "boolean",
+            "default": false
+        },
+        "message": {
+            "type": "string",
+            "example": "ok"
+        },
+        "data": {
+          "type": "string",
+          "example": "{}"
+        },
+        "status": {
+          "type": "string",
+          "example": "200"
+        }
+      }
+    }
+  },
+  "externalDocs": {
+    "description": "Find out more about Swagger",
+    "url": "http://swagger.io"
+  }
+}

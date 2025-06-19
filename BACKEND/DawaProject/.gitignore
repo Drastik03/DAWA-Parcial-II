@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+LOGS/
+credentials.json
+ws_secoed/src/utils/general/LOGS
+node_modules
+.venv
+.idea
+venv/
