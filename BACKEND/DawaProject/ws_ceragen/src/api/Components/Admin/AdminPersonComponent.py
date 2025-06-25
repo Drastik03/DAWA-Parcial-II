@@ -48,17 +48,42 @@ class AdminPersonComponent:
                 v_message = None
                 v_result = False
                 v_data = None
-                sql = "INSERT INTO ceragen.admin_person(per_identification, per_names, per_surnames, per_genre_id, " \
-                      "per_marital_status_id, per_country, per_city, per_address, per_phone, per_mail, per_birth_date, " \
-                      "per_state, user_created, date_created) " \
-                      "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+                sql = """
+                    INSERT INTO ceragen.admin_person(
+                              per_identification,
+                              per_names,
+                              per_surnames,
+                              per_genre_id,
+                              per_marital_status_id,
+                              per_country,
+                              per_city,
+                              per_address,
+                              per_phone,
+                              per_mail,
+                              per_birth_date,
+                              per_state,
+                              user_created,
+                              date_created
+                            )
+                        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                    """
 
                 record = (
-                    data_to_insert['per_identification'], data_to_insert['per_names'], data_to_insert['per_surnames'],
-                    data_to_insert['per_genre_id'], data_to_insert['per_marital_status_id'], data_to_insert['per_country'],
-                    data_to_insert['per_city'], data_to_insert['per_address'], data_to_insert['per_phone'],
-                    data_to_insert['per_mail'], datetime.now(), True,
-                    data_to_insert['user_process'], datetime.now())
+                    data_to_insert['per_identification'],
+                    data_to_insert['per_names'],
+                    data_to_insert['per_surnames'],
+                    data_to_insert['per_genre_id'],
+                    data_to_insert['per_marital_status_id'],
+                    data_to_insert['per_country'],
+                    data_to_insert['per_city'],
+                    data_to_insert['per_address'],
+                    data_to_insert['per_phone'],
+                    data_to_insert['per_mail'],
+                    data_to_insert['per_birth_date'],
+                    True,
+                    data_to_insert['user_process'],
+                    datetime.now()
+                )
 
                 # Execute the UPDATE query
                 v_data = DataBaseHandle.ExecuteNonQuery(sql, record)
@@ -85,11 +110,22 @@ class AdminPersonComponent:
                   "user_modified=%s, date_modified=%s " \
                   "WHERE per_id = %s"
 
-            record = (data_to_update['per_identification'], data_to_update['per_names'], data_to_update['per_surnames'],
-                      data_to_update['per_genre_id'], data_to_update['per_marital_status_id'], data_to_update['per_country'],
-                      data_to_update['per_city'], data_to_update['per_address'], data_to_update['per_phone'],
-                      data_to_update['per_mail'], datetime.now(),
-                      data_to_update['user_process'], datetime.now(), data_to_update['per_id'])
+            record = (
+                data_to_update['per_identification'],
+                data_to_update['per_names'],
+                data_to_update['per_surnames'],
+                data_to_update['per_genre_id'],
+                data_to_update['per_marital_status_id'],
+                data_to_update['per_country'],
+                data_to_update['per_city'],
+                data_to_update['per_address'],
+                data_to_update['per_phone'],
+                data_to_update['per_mail'],
+                data_to_update['per_birth_date'],
+                data_to_update['user_process'],
+                datetime.now(),
+                data_to_update['per_id']
+            )
 
             # Execute the UPDATE query
             v_data = DataBaseHandle.ExecuteNonQuery(sql, record)
@@ -112,9 +148,10 @@ class AdminPersonComponent:
             HandleLogs.write_log("Filas afectadas: " + str(rows_affected))
 
             if rows_affected > 0:
-                return True, f"Registro con ID {per_id} eliminado exitosamente."
+               # return True, f"Registro con ID {per_id} eliminado exitosamente."
+               return internal_response(True, f"Registro con ID {per_id} eliminado exitosamente.", 1)
             else:
-                return False, f"No se encontró ningún registro con ID {per_id}."
+                return internal_response(False, f"No se encontró ningún registro con ID {per_id}.", 0)
         except Exception as err:
             HandleLogs.write_error(err)
             return None

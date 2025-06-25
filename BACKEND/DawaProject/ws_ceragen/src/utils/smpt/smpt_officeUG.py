@@ -7,12 +7,19 @@ from email.mime.multipart import MIMEMultipart
 from ..general.logs import HandleLogs
 from ...api.Components.Security.TokenComponent import TokenComponent
 from ..general.config import Config_SMPT
+import os
 
 
 def get_email_template(reset_password_url):
-    template_path = os.path.join('static/MessagePassword.html')
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    base_dir = os.path.abspath(os.path.join(current_dir, '..', '..', '..'))
+    template_path = os.path.join(base_dir, 'static', 'MessagePassword.html')
+
+    print("Ruta usada:", template_path)  # Debug
+
     with open(template_path, 'r', encoding='utf-8') as file:
         html_content = file.read()
+
     return html_content.replace("{reset_password_url}", reset_password_url)
 
 def send_password_recovery_email(destinatario):
@@ -22,6 +29,11 @@ def send_password_recovery_email(destinatario):
         data = None
         token_temp = TokenComponent.Token_Generate_ResetPassword(destinatario)
         token = base64.urlsafe_b64encode(token_temp.encode()).decode()
+
+        print("DESDE TOKEN EMAIL", token)
+        print("DESDE TOKEN TEMP", token_temp)
+
+
         reset_password_url = f"{Config_SMPT.url}{Config_SMPT.ruta}/{token}"
         content_mail = get_email_template(reset_password_url )
         msg = MIMEMultipart()

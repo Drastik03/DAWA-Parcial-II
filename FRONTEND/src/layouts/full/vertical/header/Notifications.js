@@ -10,12 +10,13 @@ import {
   Typography,
   Button,
   Chip,
+  CircularProgress,
 } from '@mui/material';
-import * as dropdownData from './data';
 import Scrollbar from 'src/components/custom-scroll/Scrollbar';
 
 import { IconBellRinging } from '@tabler/icons';
 import { Stack } from '@mui/system';
+import { useFetch } from '../../../../hooks/useFetch';
 
 const Notifications = () => {
   const [anchorEl2, setAnchorEl2] = useState(null);
@@ -28,6 +29,9 @@ const Notifications = () => {
     setAnchorEl2(null);
   };
 
+  const { data, loading,error } = useFetch("http://localhost:5000/Notification/list");
+  console.log("Notifications data:", data);
+  
   return (
     <Box>
       <IconButton
@@ -47,9 +51,6 @@ const Notifications = () => {
           <IconBellRinging size="21" stroke="1.5" />
         </Badge>
       </IconButton>
-      {/* ------------------------------------------- */}
-      {/* Message Dropdown */}
-      {/* ------------------------------------------- */}
       <Menu
         id="msgs-menu"
         anchorEl={anchorEl2}
@@ -66,10 +67,20 @@ const Notifications = () => {
       >
         <Stack direction="row" py={2} px={4} justifyContent="space-between" alignItems="center">
           <Typography variant="h6">Notifications</Typography>
-          <Chip label="5 new" color="primary" size="small" />
+          <Chip label={data && Array.isArray(data) ? `${data.length} new` : "0 new"} color="primary" size="small" />
         </Stack>
         <Scrollbar sx={{ height: '385px' }}>
-          {dropdownData.notifications.map((notification, index) => (
+          {loading && (
+            <Box display="flex" justifyContent="center" alignItems="center" height="100%">
+              <CircularProgress size={24} />
+            </Box>
+          )}
+          {data && Array.isArray(data) && data.length === 0 && !loading && (
+            <Box p={2}>
+              <Typography textAlign="center">No notifications</Typography>
+            </Box>
+          )}
+          {data && Array.isArray(data) && data.map((notification, index) => (
             <Box key={index}>
               <MenuItem sx={{ py: 2, px: 4 }}>
                 <Stack direction="row" spacing={2}>

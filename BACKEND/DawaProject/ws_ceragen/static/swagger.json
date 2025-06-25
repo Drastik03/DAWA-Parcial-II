@@ -1789,7 +1789,14 @@
           "application/json"
         ],
         "parameters": [
-          {
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+        {
             "in": "body",
             "name": "Person_insert",
             "description": "Datos insertados de la Persona",
@@ -1836,6 +1843,11 @@
                 "per_mail": {
                   "type": "string",
                   "description": "Correo electrónico de la unidad académica (opcional)"
+                },
+                "per_birth_date": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Fecha de nacimiento"
                 },
                 "user_process": {
                   "type": "string",
@@ -1971,6 +1983,14 @@
         "operationId": "delete_admin_person",
         "parameters": [
           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+
+          },
+          {
             "name": "id",
             "in": "path",
             "description": "ID de la persona a eliminar",
@@ -2018,6 +2038,16 @@
         "operationId": "ListAllMaritalStatus",
         "produces": [
           "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
         ],
         "responses": {
           "200": {
@@ -2443,6 +2473,15 @@
         "description": "Obtiene una lista de los géneros de las personas",
         "operationId": "ListAllPersonGenre",
         "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
         "responses": {
           "200": {
             "description": "Operación exitosa",

@@ -1,6 +1,6 @@
 from ....utils.general.logs import HandleLogs
 from ...Model.Request.Security.LoginRequest import LoginRequest
-from flask import request
+from flask import request, make_response
 from flask_restful import Resource
 from ....utils.general.response import response_error, response_success
 from ...Components.Security.LoginComponent import LoginComponent
@@ -45,6 +45,8 @@ class LoginService(Resource):
                         'Datos': resultado['data'],
                         'LogId': result['data']
                     }
+                    #res = make_response(response_success(respuesta))
+                    #res.set_cookie('access_token', token, httponly=True, secure=True, samesite='Lax')
                     return response_success(respuesta)
             else:
                 return response_error(resultado['message'])

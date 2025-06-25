@@ -1,0 +1,25 @@
+import { useFetch } from "../../../../hooks/useFetch";
+import UserPaginationTable from "../../../tables/UserPaginationTable";
+
+export const UserList = () => {
+	const { data, loading, error, refetch } = useFetch(
+		"http://localhost:5000/user/list",
+	);
+	console.log("DESDE DATA USERS", data);
+
+	const headerRow = ["ID", "Person ID", "Login ID", "Email", "Acciones"];
+
+	return (
+		<main>
+			<UserPaginationTable
+				title="Usuario"
+				header={headerRow}
+				description="Listado de usuarios registradas"
+				list={data}
+				loading={loading}
+				error={error}
+				onRefresh={refetch}
+			/>
+		</main>
+	);
+};

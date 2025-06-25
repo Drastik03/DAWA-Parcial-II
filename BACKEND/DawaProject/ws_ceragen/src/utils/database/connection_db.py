@@ -13,6 +13,7 @@ def conn_db():
                             password=Parametros.db_pass,
                             database=Parametros.db_name,
                             cursor_factory=RealDictCursor)
+print("Base actual:", Parametros.db_host, Parametros.db_name)
 
 class DataBaseHandle:
     #Nuestros Metodos para ejecutar sentencias.

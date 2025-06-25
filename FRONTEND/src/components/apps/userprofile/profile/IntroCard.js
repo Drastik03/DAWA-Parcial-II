@@ -1,35 +1,45 @@
-import React from 'react';
-import { Stack, Typography } from '@mui/material';
+import { Stack, Typography } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import EmailIcon from "@mui/icons-material/Email";
+import BadgeIcon from "@mui/icons-material/Badge";
+import ChildCard from "src/components/shared/ChildCard";
+import { useAuth } from "../../../../context/AuthContext";
 
-import ChildCard from 'src/components/shared/ChildCard';
-import { IconBriefcase, IconDeviceDesktop, IconMail, IconMapPin } from '@tabler/icons';
+const UserInfoCard = () => {
+	const { user, role } = useAuth();
+	console.log("ROLE PROFILE:", role);
 
-const IntroCard = () => (
-  <ChildCard>
-    <Typography fontWeight={600} variant="h4" mb={2}>
-      Introduction
-    </Typography>
-    <Typography color="textSecondary" variant="subtitle2" mb={2}>
-      Hello, I am Mathew Anderson. I love making websites and graphics. Lorem ipsum dolor sit amet,
-      consectetur adipiscing elit.
-    </Typography>
-    <Stack direction="row" gap={2} alignItems="center" mb={3}>
-      <IconBriefcase size="21" />
-      <Typography variant="h6">Sir, P P Institute Of Science</Typography>
-    </Stack>
-    <Stack direction="row" gap={2} alignItems="center" mb={3}>
-      <IconMail size="21" />
-      <Typography variant="h6">xyzjonathan@gmail.com</Typography>
-    </Stack>
-    <Stack direction="row" gap={2} alignItems="center" mb={3}>
-      <IconDeviceDesktop size="21" />
-      <Typography variant="h6">www.xyz.com</Typography>
-    </Stack>
-    <Stack direction="row" gap={2} alignItems="center" mb={1}>
-      <IconMapPin size="21" />
-      <Typography variant="h6">Newyork, USA - 100001</Typography>
-    </Stack>
-  </ChildCard>
-);
+	if (!user?.user) {
+		return null;
+	}
 
-export default IntroCard;
+	const { user_login_id, user_mail, per_names, per_surnames } = user.user;
+
+	return (
+		<ChildCard>
+			<Typography fontWeight={600} variant="h4" mb={2}>
+				Perfil de Usuario
+			</Typography>
+			<Stack direction="row" gap={2} alignItems="center" mb={2}>
+				<BadgeIcon />
+				<Typography variant="h6">
+					{per_names} {per_surnames}
+				</Typography>
+			</Stack>
+			<Stack direction="row" gap={2} alignItems="center" mb={2}>
+				<PersonIcon />
+				<Typography variant="h6">{user_login_id}</Typography>
+			</Stack>
+			<Stack direction="row" gap={2} alignItems="center" mb={2}>
+				<EmailIcon />
+				<Typography variant="h6">{user_mail}</Typography>
+			</Stack>
+			<Stack direction="row" gap={2} alignItems="center" mb={2}>
+				<BadgeIcon />
+				<Typography variant="h6">Rol: {role?.rol_name}</Typography>
+			</Stack>
+		</ChildCard>
+	);
+};
+
+export default UserInfoCard;

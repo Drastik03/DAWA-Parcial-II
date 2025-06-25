@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import { Grid, InputAdornment, Button } from '@mui/material';
 import React from 'react';
 import CustomFormLabel from '../theme-elements/CustomFormLabel';

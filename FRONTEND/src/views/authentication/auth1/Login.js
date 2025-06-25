@@ -1,4 +1,3 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import { Grid, Box, Stack, Typography } from '@mui/material';
 import PageContainer from 'src/components/container/PageContainer';
@@ -67,10 +66,10 @@ const Login = () => (
       >
         <Box p={4}>
           <AuthLogin
-            title="Welcome to Modernize"
+            title="Bienvenido"
             subtext={
               <Typography variant="subtitle1" color="textSecondary" mb={1}>
-                Your Admin Dashboard
+                Accede al Dashboard
               </Typography>
             }
             subtitle={

@@ -11,6 +11,7 @@ class PersonInsertRequest(Schema):
     per_address = fields.String(required=False)
     per_phone = fields.String(required=False)
     per_mail = fields.String(required=True)
+    per_birth_date = fields.Date(required=True)
     user_process = fields.String(required=True)
 
 class PersonUpdateRequest(Schema):

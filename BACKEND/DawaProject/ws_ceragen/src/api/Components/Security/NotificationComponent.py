@@ -28,9 +28,9 @@ class NotificationComponent:
                         ceragen.segu_user su_source
                     ON 
                         s.sun_user_source_id = su_source.user_id
-                    WHERE 
-                        su_dest.user_login_id = %s
-                        AND s.sun_state_notification = true
+                        WHERE 
+                            su_dest.user_id = 1
+                            AND s.sun_state_notification = true
                     ORDER BY 
                         s.sun_date_notification DESC;
                                         """
