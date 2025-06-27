@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
 import {
-	Grid,
 	Box,
 	Typography,
 	Avatar,
-	Stack,
 	CardMedia,
 	styled,
 	Skeleton,
+	useTheme,
 } from "@mui/material";
-
 
 import profilecover from "src/assets/images/backgrounds/profilebg.jpg";
 import userimg from "src/assets/images/profile/user-1.jpg";
@@ -18,18 +16,20 @@ import ProfileTab from "./ProfileTab";
 import { useAuth } from "src/context/AuthContext";
 
 const ProfileBanner = () => {
-	const { user } = useAuth(); 
+	const { user } = useAuth();
 	const [isLoading, setLoading] = useState(true);
+	const theme = useTheme();
 
-	const ProfileImage = styled(Box)(() => ({
-		backgroundImage: "linear-gradient(#50b2fc,#f44c66)",
+	const ProfileImageWrapper = styled(Box)(() => ({
+		background: "linear-gradient(135deg, #50b2fc, #f44c66)",
 		borderRadius: "50%",
-		width: "110px",
-		height: "110px",
+		width: 120,
+		height: 120,
 		display: "flex",
 		alignItems: "center",
 		justifyContent: "center",
 		margin: "0 auto",
+		boxShadow: theme.shadows[4],
 	}));
 
 	useEffect(() => {
@@ -44,57 +44,42 @@ const ProfileBanner = () => {
 	return (
 		<BlankCard>
 			{isLoading
-				? <Skeleton variant="rectangular" width="100%" height={330} />
+				? <Skeleton
+						variant="rectangular"
+						width="100%"
+						height={330}
+						sx={{ borderRadius: 2 }}
+					/>
 				: <CardMedia
 						component="img"
 						image={profilecover}
 						alt="cover"
-						width="100%"
+						height="240"
 					/>}
 
-			<Grid container spacing={0} justifyContent="center" alignItems="center">
-				<Grid item lg={4} sm={12} md={5} xs={12}>
-					<Stack
-						direction="row"
-						textAlign="center"
-						justifyContent="center"
-						gap={6}
-						m={3}
-					></Stack>
-				</Grid>
-
-				<Grid item lg={12} sm={12} xs={12}>
-					<Box
-						display="flex"
-						justifyContent="center"
-						alignItems="center"
-						sx={{ mt: "-85px" }}
+			<Box display="flex" flexDirection="column" alignItems="center" mt={-7}>
+				<ProfileImageWrapper>
+					<Avatar
+						sx={{
+							width: 80,
+							height: 80,
+							bgcolor: "primary.main",
+							fontSize: 32,
+						}}
 					>
-						<Box>
-							<ProfileImage>
-								<Avatar
-									src={userimg}
-									alt="avatar"
-									sx={{
-										borderRadius: "50%",
-										width: "100px",
-										height: "100px",
-										border: "4px solid #fff",
-									}}
-								/>
-							</ProfileImage>
-							<Box mt={1} textAlign="center">
-								<Typography fontWeight={600} variant="h5">
-									{per_names} {per_surnames}
-								</Typography>
-								<Typography color="textSecondary" variant="h6" fontWeight={400}>
-									{user_mail}
-								</Typography>
-							</Box>
-						</Box>
-					</Box>
-				</Grid>
-			</Grid>
+						{per_names?.[0] ?? "U"}
+					</Avatar>
+				</ProfileImageWrapper>
+
+				<Typography variant="h5" fontWeight={600} mt={1}>
+					{per_names} {per_surnames}
+				</Typography>
+
+				<Typography variant="body1" color="text.secondary">
+					{user_mail}
+				</Typography>
+			</Box>
+
 			<ProfileTab />
 		</BlankCard>
 	);

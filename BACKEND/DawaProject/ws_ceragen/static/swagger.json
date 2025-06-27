@@ -2691,9 +2691,319 @@
           }
         }
       }
+    },
+    "/admin/product/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de productos",
+        "description": "Obtiene una lista de todos los productos",
+        "operationId": "ListAllProducts",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/product/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Agregar Producto",
+        "description": "Agregar un producto específico",
+        "operationId": "AddProduct",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminProductInsert",
+            "description": "Datos para insertar un producto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminProductInsert"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Producto agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el producto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/product/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un Producto",
+        "description": "Actualizar un producto específico",
+        "operationId": "UpdateProduct",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminProductUpdate",
+            "description": "Datos para actualizar un producto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminProductUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Producto agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el producto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
+    "/admin/product/delete/{id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un Producto",
+        "description": "Eliminar un producto específico",
+        "operationId": "DeleteProduct",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminProductUpdate",
+            "description": "Datos para eliminar un producto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminProductDelete"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Producto agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el producto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
+
   },
   "definitions": {
+    "AdminProductInsert": {
+      "type": "object",
+      "properties": {
+        "pro_code": {
+          "type": "string",
+          "description": "Código del producto"
+        },
+        "pro_name": {
+          "type": "string",
+          "description": "Nombre del producto"
+        },
+        "pro_description": {
+          "type": "string",
+          "description": "Descripción del producto"
+        },
+        "pro_price": {
+          "type": "number",
+          "format": "float",
+          "description": "Precio del producto"
+        },
+        "pro_total_sessions": {
+          "type": "integer",
+          "description": "Número total de sesiones"
+        },
+        "pro_duration_days": {
+          "type": "integer",
+          "description": "Duración en días"
+        },
+        "pro_image_url": {
+          "type": "string",
+          "description": "URL de la imagen"
+        },
+        "pro_therapy_type_id": {
+          "type": "integer",
+          "description": "ID del tipo de terapia"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el producto"
+        }
+      },
+      "required": [
+        "pro_code",
+        "pro_name",
+        "pro_price",
+        "pro_total_sessions",
+        "pro_therapy_type_id",
+        "user_created"
+      ]
+    },
+    "AdminProductUpdate": {
+      "type": "object",
+      "properties": {
+        "pro_id": {
+          "type": "integer",
+          "description": "ID del producto"
+        },
+        "pro_code": {
+          "type": "string",
+          "description": "Código del producto"
+        },
+        "pro_name": {
+          "type": "string",
+          "description": "Nombre del producto"
+        },
+        "pro_description": {
+          "type": "string",
+          "description": "Descripción del producto"
+        },
+        "pro_price": {
+          "type": "number",
+          "format": "float",
+          "description": "Precio del producto"
+        },
+        "pro_total_sessions": {
+          "type": "integer",
+          "description": "Número total de sesiones"
+        },
+        "pro_duration_days": {
+          "type": "integer",
+          "description": "Duración en días"
+        },
+        "pro_image_url": {
+          "type": "string",
+          "description": "URL de la imagen"
+        },
+        "pro_therapy_type_id": {
+          "type": "integer",
+          "description": "ID del tipo de terapia"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el producto"
+        }
+      },
+      "required": [
+        "pro_id",
+        "pro_code",
+        "pro_name",
+        "pro_price",
+        "pro_total_sessions",
+        "pro_therapy_type_id",
+        "user_created"
+      ]
+    },
+    "AdminProductDelete": {
+      "type": "object",
+      "properties": {
+        "pro_id": {
+          "type": "integer",
+          "description": "ID del producto"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el producto"
+        }
+      },
+      "required": [
+        "pro_id",
+        "user_created"
+      ]
+    },
+
+
     "addQuestion": {
       "type": "object",
       "properties": {

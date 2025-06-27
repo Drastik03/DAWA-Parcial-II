@@ -60,8 +60,7 @@ class UserInsert(Resource):
             user_name = TokenComponent.User(token)
             # LLamar al metodo del componente
             answer = UserComponent.UserInsert(rq_json['person_id'], rq_json['person_ci'], rq_json['person_password'],
-                                            rq_json['person_mail'], user_name, rq_json['rol_id'],
-                                            rq_json['id_career_period'])
+                                            rq_json['person_mail'], user_name)
             if answer['result'] is True:
                 return response_inserted(answer['data'])
             else:
@@ -148,16 +147,12 @@ class UserpasswordUpdate(Resource):
             if error:
                 HandleLogs.write_error("Error al Validar el Request -> " + str(error))
                 return response_error("Error al Validar el Request -> " + str(error))
-            # LLamar al metodo del componente
             if token is None:
                 return response_error("Error: No se ha podido Obtener el Token")
-
-            # Validar el Token
             token_valido = TokenComponent.Token_Validate(token)
             if not token_valido:
                 return response_unauthorize()
             user_name = TokenComponent.User(token)
-            # LLamar al metodo del componente
             answer = UserComponent.UserPasswordUpdate(rq_json['newPassword'], user_name,
                                                             rq_json['user_id'], rq_json['oldPassword'])
             HandleLogs.write_log(answer)
@@ -229,6 +224,8 @@ class EmailPasswordUpdate(Resource):
         try:
             HandleLogs.write_log("Actualizar Password Por Email")
             rq_json = request.get_json()
+            HandleLogs.write_log("Token recibido: " + rq_json["token_temp"])
+
             new_request = UpdatePasswordSchema()
             error = new_request.validate(rq_json)
             if error:
@@ -236,8 +233,11 @@ class EmailPasswordUpdate(Resource):
                 return response_error("Error al Validar el Request -> " + str(error))
             print(rq_json["token_temp"])
             mail_user = TokenComponent.Token_Validate_ResetPassword(rq_json["token_temp"])
+            #if mail_user is None:
+                #return response_error("Error: No se ha podido Validar el Token")()
             if mail_user is None:
-                return response_error("Error: No se ha podido Validar el Token")()
+                return response_error("Error: No se ha podido Validar el Token")
+
             answer = UserComponent.UsePaswoedUpdateMail(rq_json["user_id"],rq_json["new_password"],mail_user)
             HandleLogs.write_log(answer)
             if answer['result'] is True:

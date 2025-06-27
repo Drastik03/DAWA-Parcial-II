@@ -22,34 +22,35 @@ def get_email_template(reset_password_url):
 
     return html_content.replace("{reset_password_url}", reset_password_url)
 
-def send_password_recovery_email(destinatario):
+def send_password_recovery_email(destinatario, user_id):
     try:
         result = True
         message = None
         data = None
+
         token_temp = TokenComponent.Token_Generate_ResetPassword(destinatario)
-        token = base64.urlsafe_b64encode(token_temp.encode()).decode()
 
-        print("DESDE TOKEN EMAIL", token)
-        print("DESDE TOKEN TEMP", token_temp)
+        token_raw = f"{user_id}:{token_temp}"
+        token = base64.urlsafe_b64encode(token_raw.encode()).decode()
 
+        print("TOKEN EN BASE64:", token)
 
         reset_password_url = f"{Config_SMPT.url}{Config_SMPT.ruta}/{token}"
-        content_mail = get_email_template(reset_password_url )
+        content_mail = get_email_template(reset_password_url)
+
         msg = MIMEMultipart()
         msg['From'] = Config_SMPT.smpt_mail
         msg['To'] = destinatario
         msg['Subject'] = 'Recuperación de Contraseña'
         msg.attach(MIMEText(content_mail, 'html'))
+
         server = smtplib.SMTP(Config_SMPT.smpt_server, Config_SMPT.smpt_port)
         server.starttls()
         server.login(Config_SMPT.smpt_mail, Config_SMPT.smpt_password)
-
-
         server.send_message(msg)
         server.quit()
 
-        message = "Mensaje de recuperación enviado a "+ destinatario
+        message = "Mensaje de recuperación enviado a " + destinatario
         data = destinatario
     except Exception as err:
         result = False

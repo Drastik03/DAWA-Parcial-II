@@ -1,9 +1,23 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Box, Button, Typography, TextField, Paper } from "@mui/material";
+import {
+	Box,
+	Button,
+	Typography,
+	TextField,
+	Paper,
+	InputAdornment,
+	IconButton,
+	Divider,
+	Fade,
+	Alert,
+} from "@mui/material";
 import { useEffect, useState } from "react";
 import { Base64 } from "js-base64";
 import axios from "axios";
+import LockResetIcon from "@mui/icons-material/LockReset";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
 const ResetPasswordPage = () => {
 	const { token } = useParams();
@@ -11,11 +25,14 @@ const ResetPasswordPage = () => {
 
 	const [userId, setUserId] = useState("");
 	const [tokenTemp, setTokenTemp] = useState("");
+	const [showPassword, setShowPassword] = useState(false);
+	const [errorMsg, setErrorMsg] = useState("");
 
 	const {
 		register,
 		handleSubmit,
-		formState: { errors },
+		formState: { errors, isSubmitting },
+		reset,
 	} = useForm();
 
 	useEffect(() => {
@@ -26,40 +43,43 @@ const ResetPasswordPage = () => {
 		}
 
 		try {
-			const decoded = Base64.decode(token);
-			const parsed = JSON.parse(decoded);
-			setUserId(parsed.user_id);
-			setTokenTemp(parsed.token_temp);
+			const decodedToken = Base64.decode(token);
+			const [id, tempToken] = decodedToken.split(":");
+			if (!id || !tempToken) throw new Error("Token inválido");
+			setUserId(id);
+			setTokenTemp(tempToken);
 		} catch (err) {
-			alert("El token es inválido o está corrupto.");
+			alert("Error al decodificar el token");
 			navigate("/auth/login");
 		}
 	}, [token, navigate]);
 
 	const onSubmit = async (data) => {
 		try {
+			setErrorMsg("");
 			const response = await axios.patch(
-				"http://localhost:5173/security/change-password",
+				"http://localhost:5000/security/change-password",
 				{
-					user_id: "0931112536",
 					new_password: data.new_password,
 					token_temp: tokenTemp,
+					user_id: userId,
 				},
 				{
-					headers: { "Content-Type": "application/json" },
+					headers: {
+						"Content-Type": "application/json",
+					},
 				},
 			);
 
-			const result = response.data;
-
-			if (result.result) {
-				alert("Contraseña actualizada con éxito");
+			if (response.data.result) {
 				navigate("/auth/login");
 			} else {
-				alert("Error: " + result.message);
+				setErrorMsg(response.data.message || "Error al cambiar la contraseña");
 			}
 		} catch (error) {
-			alert("Error del servidor");
+			setErrorMsg("Error de red o servidor");
+		} finally {
+			reset();
 		}
 	};
 
@@ -68,27 +88,88 @@ const ResetPasswordPage = () => {
 			display="flex"
 			justifyContent="center"
 			alignItems="center"
-			minHeight="80vh"
+			minHeight="100vh"
 		>
-			<Paper sx={{ padding: 4, width: "100%", maxWidth: 400 }}>
-				<Typography variant="h5" fontWeight="bold" mb={2}>
-					Restablecer contraseña
-				</Typography>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<TextField
-						label="Nueva contraseña"
-						type="password"
-						fullWidth
-						margin="normal"
-						{...register("new_password", { required: true, minLength: 6 })}
-						error={!!errors.new_password}
-						helperText={errors.new_password ? "Mínimo 6 caracteres" : ""}
-					/>
-					<Button type="submit" variant="contained" color="primary" fullWidth>
-						Cambiar contraseña
-					</Button>
-				</form>
-			</Paper>
+			<Fade in>
+				<Paper
+					elevation={10}
+					sx={{
+						padding: 5,
+						width: "100%",
+						maxWidth: 420,
+						borderRadius: 4,
+						boxShadow: "0 12px 30px rgba(0,0,0,0.1)",
+					}}
+				>
+					<Box display="flex" flexDirection="column" alignItems="center" mb={2}>
+						<LockResetIcon color="primary" sx={{ fontSize: 48, mb: 1 }} />
+						<Typography variant="h3" fontWeight="bold" mb={0.5}>
+							Restablecer Contraseña
+						</Typography>
+						<Typography variant="body1" color="text.secondary" align="center">
+							Ingresa tu nueva contraseña para completar el proceso.
+						</Typography>
+					</Box>
+
+					<Divider sx={{ mb: 3 }} />
+
+					{errorMsg && (
+						<Alert severity="error" sx={{ mb: 2 }}>
+							{errorMsg}
+						</Alert>
+					)}
+
+					<form onSubmit={handleSubmit(onSubmit)} autoComplete="off">
+						<TextField
+							label="Nueva contraseña"
+							placeholder="Mínimo 6 caracteres"
+							type={showPassword ? "text" : "password"}
+							fullWidth
+							margin="normal"
+							variant="outlined"
+							{...register("new_password", { required: true, minLength: 6 })}
+							error={!!errors.new_password}
+							helperText={
+								errors.new_password
+									? errors.new_password.type === "minLength"
+										? "Debe tener al menos 6 caracteres"
+										: "Este campo es requerido"
+									: ""
+							}
+							InputProps={{
+								endAdornment: (
+									<InputAdornment position="end">
+										<IconButton
+											aria-label="Mostrar u ocultar contraseña"
+											onClick={() => setShowPassword((show) => !show)}
+											edge="end"
+										>
+											{showPassword ? <VisibilityOff /> : <Visibility />}
+										</IconButton>
+									</InputAdornment>
+								),
+							}}
+						/>
+
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+							fullWidth
+							size="large"
+							sx={{
+								mt: 2,
+								borderRadius: 2,
+								fontWeight: "bold",
+								textTransform: "none",
+							}}
+							disabled={isSubmitting}
+						>
+							Cambiar contraseña
+						</Button>
+					</form>
+				</Paper>
+			</Fade>
 		</Box>
 	);
 };

@@ -49,7 +49,7 @@ const UserRow = ({ user, onEdit, onDelete }) => {
 					<Stack direction="row" spacing={1}>
 						<Button
 							variant="outlined"
-							color="primary"
+							color="warning"
 							size="small"
 							onClick={handleEditClick}
 						>
@@ -62,6 +62,16 @@ const UserRow = ({ user, onEdit, onDelete }) => {
 							onClick={handleDeleteClick}
 						>
 							Desactivar
+						</Button>
+						{/*ACCION PARA ASIGNAR ROLES*/}
+						<Button
+							variant="outlined"
+							color="secondary"
+							size="small"
+							onClick={() => console.log("Asignar roles a", user.user_login_id)}
+						>
+							{/*icono */}
+							Asignar Roles
 						</Button>
 					</Stack>
 				</TableCell>

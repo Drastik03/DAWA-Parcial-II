@@ -5,6 +5,7 @@ import Loadable from "../layouts/full/shared/loadable/Loadable";
 import { Protected } from "../components/auth/Protected";
 import ResetPasswordPage from "../views/authentication/auth1/RecoverPassword";
 import { UserList } from "../views/pages/admin/users/UserList";
+import RoleList from "../views/pages/admin/role/RoleList";
 
 /* ***Layouts**** */
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
@@ -35,6 +36,11 @@ const UserProfile = Loadable(
 const FormPerson = Loadable(
 	lazy(() => import("../views/pages/admin/persons/FormLoginPerson")),
 );
+
+const Roles = Loadable(
+	lazy(() => import("../views/pages/admin/role/RoleList")),
+);
+
 const RollbaseCASL = Loadable(
 	lazy(() => import("../views/pages/rollbaseCASL/RollbaseCASL")),
 );
@@ -199,19 +205,18 @@ const Landingpage = Loadable(
 
 const Router = [
 	{
+		path: "/auth/reset-password",
+		element: <ResetPasswordPage />,
+	},
+	{
+		path: "/auth/reset-password/:token",
+		element: <ResetPasswordPage />,
+	},
+	{
 		path: "/",
 		element: <FullLayout />,
-
 		children: [
 			{ path: "/", element: <Navigate to="/auth/login" /> },
-			{
-				path: "/auth/reset-password",
-				element: <Navigate to="/auth/login" />, 
-			},
-			{
-				path: "/auth/reset-password/:token",
-				element: <ResetPasswordPage />,
-			},
 
 			{
 				element: <Protected isRolUser={["Administrador"]} />,
@@ -222,12 +227,10 @@ const Router = [
 					{ path: "/admin/persons/list", element: <PersonsList /> },
 					{ path: "/admin/persons/create", element: <FormPerson /> },
 
-					{ path: "/dashboards/modern", exact: true, element: <ModernDash /> },
-					{
-						path: "/dashboards/ecommerce",
-						exact: true,
-						element: <EcommerceDash />,
-					},
+					{ path: "/admin/roles", element: <Roles /> },
+
+					{ path: "/dashboards/modern", element: <ModernDash /> },
+					{ path: "/dashboards/ecommerce", element: <EcommerceDash /> },
 				],
 			},
 
@@ -235,6 +238,7 @@ const Router = [
 			{ path: "/pages/casl", element: <RollbaseCASL /> },
 			{ path: "/pages/treeview", element: <Treeview /> },
 			{ path: "/pages/account-settings", element: <AccountSetting /> },
+
 			{
 				path: "/forms/form-elements/autocomplete",
 				element: <MuiAutoComplete />,
@@ -245,7 +249,6 @@ const Router = [
 			{ path: "/forms/form-elements/slider", element: <MuiSlider /> },
 			{ path: "/forms/form-elements/date-time", element: <MuiDateTime /> },
 			{ path: "/forms/form-elements/switch", element: <MuiSwitch /> },
-			{ path: "/forms/form-elements/switch", element: <MuiSwitch /> },
 			{ path: "/forms/quill-editor", element: <QuillEditor /> },
 			{ path: "/forms/form-layouts", element: <FormLayouts /> },
 			{ path: "/forms/form-horizontal", element: <FormHorizontal /> },
@@ -253,12 +256,14 @@ const Router = [
 			{ path: "/forms/form-custom", element: <FormCustom /> },
 			{ path: "/forms/form-wizard", element: <FormWizard /> },
 			{ path: "/forms/form-validation", element: <FormValidation /> },
+
 			{ path: "/tables/basic", element: <BasicTable /> },
 			{ path: "/tables/collapsible", element: <CollapsibleTable /> },
 			{ path: "/tables/enhanced", element: <EnhancedTable /> },
 			{ path: "/tables/fixed-header", element: <FixedHeaderTable /> },
 			{ path: "/tables/pagination", element: <PaginationTable /> },
 			{ path: "/tables/search", element: <SearchTable /> },
+
 			{ path: "/charts/line-chart", element: <LineChart /> },
 			{ path: "/charts/gredient-chart", element: <GredientChart /> },
 			{ path: "/charts/doughnut-pie-chart", element: <DoughnutChart /> },
@@ -266,6 +271,7 @@ const Router = [
 			{ path: "/charts/column-chart", element: <ColumnChart /> },
 			{ path: "/charts/candlestick-chart", element: <CandlestickChart /> },
 			{ path: "/charts/radialbar-chart", element: <RadialbarChart /> },
+
 			{ path: "/ui-components/alert", element: <MuiAlert /> },
 			{ path: "/ui-components/accordion", element: <MuiAccordion /> },
 			{ path: "/ui-components/avatar", element: <MuiAvatar /> },
@@ -278,6 +284,7 @@ const Router = [
 			{ path: "/ui-components/tooltip", element: <MuiTooltip /> },
 			{ path: "/ui-components/transfer-list", element: <MuiTransferList /> },
 			{ path: "/ui-components/typography", element: <MuiTypography /> },
+
 			{ path: "/widgets/cards", element: <WidgetCards /> },
 			{ path: "/widgets/banners", element: <WidgetBanners /> },
 			{ path: "/widgets/charts", element: <WidgetCharts /> },

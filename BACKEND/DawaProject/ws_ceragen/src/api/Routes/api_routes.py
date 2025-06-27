@@ -25,6 +25,8 @@ from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_servi
                                                         admin_Person_Genre_service_add,
                                                         admin_Person_Genre_service_Update,
                                                         admin_Person_Genre_service_Delete)
+from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
+    AdminProductService_Update, AdminProductService_Delete
 
 from ..Services.Security.LoginService import LoginService
 from ..Services.Security.LogoutService import LogoutService
@@ -128,3 +130,9 @@ def load_routes(api):
     api.add_resource(Inserturcp, '/urcp/insert')
     api.add_resource(Updateurcp, '/urcp/update')
     api.add_resource(Deleteurcp, '/urcp/delete')
+
+    # rutas paara el product
+    api.add_resource(AdminProductService_GetAll, '/admin/product/list')
+    api.add_resource(AdminProductService_Add, '/admin/product/insert')
+    api.add_resource(AdminProductService_Update, '/admin/product/update')
+    api.add_resource(AdminProductService_Delete, '/admin/product/delete/<int:pro_id>')

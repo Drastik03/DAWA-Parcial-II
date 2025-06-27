@@ -60,22 +60,21 @@ class TokenComponent:
                 'iat': datetime.now(tz=timezone),
                 'exp': datetime.now(tz=timezone) + timedelta(minutes=15)
             }
-            # Generar el token
             respuesta = jwt.encode(payload, Parametros.secret_jwt, algorithm="HS256")
         except Exception as err:
             HandleLogs.write_error(err)
         finally:
             return respuesta
 
-
     @staticmethod
     def Token_Validate_ResetPassword(token):
         try:
             data = None
-            decoded_token = base64.urlsafe_b64decode(token).decode("utf-8")
-            payload = jwt.decode(decoded_token, Parametros.secret_jwt, algorithms=['HS256'])
+            payload = jwt.decode(token, Parametros.secret_jwt, algorithms=['HS256'])
             data = str(payload['email'])
         except Exception as err:
             HandleLogs.write_error(err)
+            data = None
         finally:
             return data
+

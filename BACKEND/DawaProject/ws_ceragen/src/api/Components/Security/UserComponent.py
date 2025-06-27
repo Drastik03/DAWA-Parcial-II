@@ -1,4 +1,4 @@
-
+from ....utils.common.encrypt_password import hashed_password, compare_password
 from ....utils.general.logs import HandleLogs
 from ....utils.database.connection_db import DataBaseHandle
 from .UserRolComponent import UserRolComponent
@@ -49,11 +49,30 @@ class UserComponent:
                 result = False
                 message = None
                 data = None
-                sql = "select us.user_id, us.user_login_id,us.user_mail , per_names, per_surnames, user_locked, user_last_login " \
-                      "from ceragen.segu_user us " \
-                      "inner join ceragen.admin_person pe on us.user_person_id = pe.per_id " \
-                      "where user_login_id = %s " \
-                      "and user_state = true and user_locked = false;"
+                sql = """
+                    SELECT 
+                        us.user_id,
+                        us.user_login_id,
+                        us.user_mail,
+                        us.user_password,
+                        us.user_locked,
+                        us.user_last_login,
+                        pe.per_names,
+                        pe.per_surnames,
+                        lg.slo_id  -- ← logId
+                    FROM ceragen.segu_user us
+                    INNER JOIN ceragen.admin_person pe ON us.user_person_id = pe.per_id
+                    LEFT JOIN LATERAL (
+                        SELECT slo_id
+                        FROM ceragen.segu_login
+                        WHERE slo_user_id = us.user_id
+                        ORDER BY slo_date_start_connection DESC
+                        LIMIT 1
+                    ) lg ON true
+                    WHERE user_login_id = %s
+                      AND user_state = TRUE;
+
+                """
                 record = (user_token,)
 
                 resultado = DataBaseHandle.getRecords(sql, 1, record)
@@ -108,10 +127,12 @@ class UserComponent:
                     'data': data
                 }
     @staticmethod
-    def UserInsert(person_id, person_ci,person_password, person_mail,user_id,rol_id,id_career_period):
+    def UserInsert(person_id, person_ci, person_password, person_mail, user_id):
         try:
-
-            record = (person_id, person_ci, person_mail,person_password,user_id,user_id)
+            password_hashed = hashed_password(person_password).decode("utf-8")
+            print(password_hashed)
+            record = (person_id, person_ci, person_mail,password_hashed,user_id,user_id)
+            print(f"Valores que se insertarán: {record}")
 
             data = None
             sql = """ 
@@ -133,8 +154,8 @@ class UserComponent:
                 value = resultado['data'][0]
                 result = True
                 data = list(value.values())[0]
-                if rol_id > 0:
-                    response_insert_rol_period = UserRolComponent.UserRolInsert(rol_id, data, id_career_period, user_id)
+                #if rol_id > 0:
+                   # response_insert_rol_period = UserRolComponent.UserRolInsert(rol_id, data, id_career_period, user_id)
 
         except Exception as err:
             HandleLogs.write_error(err)
@@ -229,61 +250,84 @@ class UserComponent:
                 'data': data
             }
     @staticmethod
-    def UserPasswordUpdate( new_password, user,user_id, old_password):
+    def UserPasswordUpdate(new_password, user, user_id, old_password):
         try:
-            HandleLogs.write_log('new_password'+new_password)
-            HandleLogs.write_log('user'+user)
-            HandleLogs.write_log('user_id' + str(user_id))
-            HandleLogs.write_log('old' + old_password)
-            record = (new_password,user,user_id,  old_password)
-            result = False
-            message = None
-            data = None
-            sql = """UPDATE ceragen.segu_user
-                    SET user_password=%s,  user_modified=%s, date_modified=timezone('America/Guayaquil', now())
-                    WHERE user_id = %s AND user_password = %s AND user_locked=false AND user_state=true;
-                                          """
-            answer = DataBaseHandle.ExecuteNonQuery(sql, record)
-            HandleLogs.write_log(answer)
+            HandleLogs.write_log(f"user: {user}, user_id: {user_id}")
+            query = """
+                   SELECT user_password FROM ceragen.segu_user
+                   WHERE user_id = %s AND user_locked = false AND user_state = true
+               """
+            current_data = DataBaseHandle.getRecord(query, 1, (user_id,))
+            HandleLogs.write_log(f"current_data: {current_data}")
+
+            if not current_data or 'user_password' not in current_data:
+                return {'result': False, 'message': "Usuario no encontrado", 'data': None}
+            current_hashed = current_data['user_password']
+
+            if not compare_password(old_password, current_hashed):
+                return {'result': False, 'message': "Contraseña actual incorrecta", 'data': None}
+
+            new_hashed = hashed_password(new_password).decode("utf-8")
+
+            update_sql = """
+                   UPDATE ceragen.segu_user
+                   SET user_password = %s, user_modified = %s, date_modified = timezone('America/Guayaquil', now())
+                   WHERE user_id = %s
+               """
+            record = (new_hashed, user, user_id)
+            answer = DataBaseHandle.ExecuteNonQuery(update_sql, record)
+
+            HandleLogs.write_log(f"Respuesta actualización: {answer}")
+
             if answer['result'] is True:
-                result = True
-                data = answer['data']
+                return {
+                    'result': True,
+                    'message': "Contraseña actualizada correctamente",
+                    'data': answer['data']
+                }
             else:
-                message = answer['message']
+                return {
+                    'result': False,
+                    'message': answer['message'],
+                    'data': None
+                }
+
         except Exception as err:
             HandleLogs.write_error(err)
-            message = err.__str__()
-            data = None
-        finally:
             return {
-                'result': result,
-                'message': message,
-                'data': data
+                'result': False,
+                'message': str(err),
+                'data': None
             }
 
     @staticmethod
     def UserMailPassword(email):
         try:
-            HandleLogs.write_log('email: '+ email)
+            HandleLogs.write_log('email: ' + email)
             result = False
             message = None
             data = None
+
             record = (email,)
-            sql = """ SELECT user_login_id
-                        FROM ceragen.segu_user
-                        WHERE user_mail = %s;
-                        """
-            answer = DataBaseHandle.getRecords(sql,1,record)
+            sql = """
+                SELECT user_login_id
+                FROM ceragen.segu_user
+                WHERE user_mail = %s;
+            """
+            answer = DataBaseHandle.getRecords(sql, 1, record)
             HandleLogs.write_log(answer)
+
             if answer['result'] is True and answer['data'] is not None:
-                answer_to_send = send_password_recovery_email(email)
+                user_id = answer['data']["user_login_id"]
+                answer_to_send = send_password_recovery_email(email, user_id)
                 result = answer_to_send['result']
                 data = answer_to_send['data']
                 message = answer_to_send['message']
             else:
                 HandleLogs.write_log(answer['message'])
                 message = (
-                    f"El correo {email} no se encuentra registrado" if answer['message'] is None else answer['message']
+                    f"El correo {email} no se encuentra registrado"
+                    if answer['message'] is None else answer['message']
                 )
         except Exception as err:
             HandleLogs.write_error(err)
@@ -296,12 +340,11 @@ class UserComponent:
                 'data': data
             }
 
-
     @staticmethod
     def UsePaswoedUpdateMail(user_id, new_password, user_mail):
         try:
-
-            record = (new_password,user_id,user_id,user_mail)
+            hashed = hashed_password(new_password).decode("utf-8")
+            record = (hashed,user_id,user_id,user_mail)
             result = False
             message = None
             data = None

@@ -12,7 +12,7 @@ export const useLoginForm = () => {
 		formState: { errors },
 	} = useForm();
 	const [errorMsg, setErrorMsg] = useState("");
-	const { login, setUser, setRole } = useAuth();
+	const { setLoginId, login, setUser, setRole } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -31,6 +31,7 @@ export const useLoginForm = () => {
 				login(response.data.Token);
 				setRole(response.data.Datos.rols[0]);
 				setUser(response.data.Datos);
+				setLoginId(response.data.LogId);
 				navigate("/dashboards/modern");
 			} else {
 				console.error("Respuesta inesperada:", response);

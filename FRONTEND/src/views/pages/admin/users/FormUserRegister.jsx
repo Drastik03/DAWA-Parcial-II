@@ -34,27 +34,17 @@ const FormUserRegister = () => {
 		reset,
 	} = useForm();
 
-	const { user } = useAuth();
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-	// Fetch roles y periodos
-	const { data: rolesData } = useFetch(
-		"http://localhost:5000/admin/roles/list",
-	);
-	const { data: careersData } = useFetch(
-		"http://localhost:5000/admin/career_periods/list",
-	);
-
-	const roles = Array.isArray(rolesData?.data) ? rolesData.data : [];
-	const careers = Array.isArray(careersData?.data) ? careersData.data : [];
+	const { data } = useFetch("http://localhost:5000/admin/persons/list");
+	const persons = Array.isArray(data?.data) ? data.data : [];
 
 	const registerUser = async (data) => {
 		try {
 			const payload = {
 				...data,
-				person_id: 0,
 			};
 			const res = await createUser(payload);
 			if (res.result) {
@@ -118,6 +108,34 @@ const FormUserRegister = () => {
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Persona</CustomFormLabel>
+							<FormControl fullWidth error={!!errors.person_id}>
+								<Controller
+									name="person_id"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={persons}
+											getOptionLabel={(option) =>
+												`${option?.per_names ?? ""} ${option?.per_surnames ?? ""}`.trim()
+											}
+											onChange={(_, newValue) =>
+												field.onChange(newValue ? newValue.per_id : "")
+											}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.person_id}
+													helperText={errors.person_id && "Campo requerido"}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Correo</CustomFormLabel>
 							<CustomTextField
 								type="email"
@@ -136,60 +154,6 @@ const FormUserRegister = () => {
 								error={!!errors.person_password}
 								helperText={errors.person_password && "Campo requerido"}
 							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<CustomFormLabel>Rol</CustomFormLabel>
-							<FormControl fullWidth error={!!errors.rol_id}>
-								<Controller
-									name="rol_id"
-									control={control}
-									rules={{ required: true }}
-									render={({ field }) => (
-										<Autocomplete
-											options={roles}
-											getOptionLabel={(option) => option.rol_name || ""}
-											onChange={(_, newValue) =>
-												field.onChange(newValue ? newValue.id : "")
-											}
-											renderInput={(params) => (
-												<CustomTextField
-													{...params}
-													error={!!errors.rol_id}
-													helperText={errors.rol_id && "Campo requerido"}
-												/>
-											)}
-										/>
-									)}
-								/>
-							</FormControl>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<CustomFormLabel>Periodo Carrera</CustomFormLabel>
-							<FormControl fullWidth error={!!errors.id_career_period}>
-								<Controller
-									name="id_career_period"
-									control={control}
-									rules={{ required: true }}
-									render={({ field }) => (
-										<Autocomplete
-											options={careers}
-											getOptionLabel={(option) => option.period_name || ""}
-											onChange={(_, newValue) =>
-												field.onChange(newValue ? newValue.id : "")
-											}
-											renderInput={(params) => (
-												<CustomTextField
-													{...params}
-													error={!!errors.id_career_period}
-													helperText={
-														errors.id_career_period && "Campo requerido"
-													}
-												/>
-											)}
-										/>
-									)}
-								/>
-							</FormControl>
 						</Grid>
 					</Grid>
 				</Box>

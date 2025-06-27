@@ -19,8 +19,12 @@ export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(null);
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [loginId, setLoginId] = useState(null);
 	const [role, setRole] = useState(null);
 
+	useEffect(() => {
+		console.log(loginId);
+	});
 	useEffect(() => {
 		async function checkAuth() {
 			setLoading(true);
@@ -37,6 +41,7 @@ export const AuthProvider = ({ children }) => {
 					);
 					setUser(response.data.data);
 					setRole(response.data.data.rols[0]);
+					setLoginId(response.data.data.user.slo_id);
 				} catch (error) {
 					console.error("Error al validar el token:", error);
 					setIsAuthenticated(false);
@@ -81,6 +86,8 @@ export const AuthProvider = ({ children }) => {
 				user,
 				setUser,
 				role,
+				loginId,
+				setLoginId,
 				setRole,
 				loading,
 			}}

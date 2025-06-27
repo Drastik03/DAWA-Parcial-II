@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
 	Box,
 	Menu,
@@ -18,16 +18,32 @@ import { Stack } from "@mui/system";
 import ProfileImg from "src/assets/images/profile/user-1.jpg";
 import Scrollbar from "src/components/custom-scroll/Scrollbar";
 import { useAuth } from "../../../../context/AuthContext";
+import axios from "axios";
 
 const Profile = () => {
 	const [anchorEl2, setAnchorEl2] = useState(null);
-	const { login, user } = useAuth();
+	const { loginId, user, logout, login } = useAuth();
+	const navigate = useNavigate();
 
 	const handleClick2 = (event) => {
 		setAnchorEl2(event.currentTarget);
 	};
 	const handleClose2 = () => {
 		setAnchorEl2(null);
+	};
+	const handleLogout = async () => {
+		try {
+			const res = await axios.patch("http://localhost:5000/security/logout", {
+				logId: loginId,
+			});
+			if (!res.data.result) {
+				return;
+			}
+			logout();
+			navigate("auth/login");
+		} catch (error) {
+			console.error("Error during logout:", error);
+		}
 	};
 	console.log("Profile: login:", login);
 	console.log("Profile: setUser:", user);
@@ -164,8 +180,9 @@ const Profile = () => {
 								to="/auth/login"
 								variant="outlined"
 								color="primary"
-								component={Link}
 								fullWidth
+								// component={Link}
+								onClick={handleLogout}
 							>
 								Logout
 							</Button>

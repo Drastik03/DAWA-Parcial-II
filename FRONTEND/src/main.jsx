@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/Store";
 import Spinner from "./views/spinner/Spinner";
 import "./_mockApis";
+import "./i18n";
 import { AuthProvider } from "./context/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
