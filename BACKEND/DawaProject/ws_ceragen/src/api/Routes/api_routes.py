@@ -2,37 +2,26 @@
 
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
-from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
-                                                 AdminPersonService_getbyid,
-                                                 admin_Person_service_add,
-                                                 admin_Person_service_Update,
+from ..Services.Admin.AdminPersonService import (AdminPersonService_get, AdminPersonService_getbyid,
+                                                 admin_Person_service_add, admin_Person_service_Update,
                                                  admin_person_service_Delete)
 
 
-from ..Services.Admin.AdminMaritalStatusservice import (MaritalStatus_get,
-                                                        admin_Marital_Status_getbyid,
-                                                        admin_Marital_Satus_service_add,
-                                                        admin_Marital_Satus_service_Update,
+from ..Services.Admin.AdminMaritalStatusservice import (MaritalStatus_get, admin_Marital_Status_getbyid,
+                                                        admin_Marital_Satus_service_add, admin_Marital_Satus_service_Update,
                                                         admin_Marital_Status_Delete)
 
-from ..Services.Admin.AdminParameterListservice import (admin_Parameter_List_service_get,
-                                                        admin_Parameter_List_add,
-                                                        admin_Parameter_List_Update,
-                                                        admin_Parameter_list_Delete)
+from ..Services.Admin.AdminParameterListservice import (admin_Parameter_List_service_get, admin_Parameter_List_add,
+                                                        admin_Parameter_List_Update, admin_Parameter_list_Delete)
 
-from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_service_get,
-                                                        admin_Person_Genre_getbyid,
-                                                        admin_Person_Genre_service_add,
-                                                        admin_Person_Genre_service_Update,
+from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_service_get, admin_Person_Genre_getbyid,
+                                                        admin_Person_Genre_service_add, admin_Person_Genre_service_Update,
                                                         admin_Person_Genre_service_Delete)
-from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
-    AdminProductService_Update, AdminProductService_Delete
-from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetAll, AdminPromotionService_Add, \
-    AdminPromotionService_Update
 
 from ..Services.Security.LoginService import LoginService
 from ..Services.Security.LogoutService import LogoutService
-from ..Services.Security.UserService import UserService, UserInsert, UserDelete, UserUpdate,UserpasswordUpdate,RecoveringPassword,EmailPasswordUpdate
+from ..Services.Security.UserService import (UserService, UserInsert, UserDelete, UserUpdate,UserpasswordUpdate,
+                                             RecoveringPassword,EmailPasswordUpdate)
 
 from ..Services.Security.MenuService import MenuService, DeleteMenu, UpdateMenu, InsertMenu
 from ..Services.Security.RolSistemService import RolSistemService, DeleteRolSistem, UpdateRolSistem, InsertRolSistem
@@ -50,6 +39,12 @@ from ..Services.Security.UserService import UserListId
 #-------------------------------------------------------------------------------
 #user/insert
 #-------------------------------------------------------------------------------
+
+#----------- MÓDULO PACIENTES ----------------------------
+#Gestión de Pacientes
+from ..Services.Patients.PatientService import (PatientListService, PatientGetByIdService, PatientInsertService,
+                                                PatientUpdateService, PatientDeleteService)
+
 
 def load_routes(api):
 
@@ -133,15 +128,13 @@ def load_routes(api):
     api.add_resource(Updateurcp, '/urcp/update')
     api.add_resource(Deleteurcp, '/urcp/delete')
 
-    # rutas paara el product
-    api.add_resource(AdminProductService_GetAll, '/admin/product/list')
-    api.add_resource(AdminProductService_Add, '/admin/product/insert')
-    api.add_resource(AdminProductService_Update, '/admin/product/update')
-    api.add_resource(AdminProductService_Delete, '/admin/product/delete/<int:pro_id>')
 
-
-    #PROMOTION
-    api.add_resource(AdminPromotionService_GetAll, '/admin/promotion/list')
-    api.add_resource(AdminPromotionService_Add, '/admin/promotion/insert')
-    api.add_resource(AdminPromotionService_Update, '/admin/promotion/update')
+    # ----------- MÓDULO PACIENTES ----------------------------
+    # Gestión de Pacientes
+    api.add_resource(PatientListService, '/clinic/patients/list')  # Listar todos los pacientes
+    api.add_resource(PatientGetByIdService, '/clinic/patients/list/<int:patient_id>')  # Obtener paciente por ID
+    api.add_resource(PatientInsertService, '/clinic/patients/add')  # Agregar nuevo paciente
+    api.add_resource(PatientUpdateService, '/clinic/patients/update')  # Actualizar paciente
+    # Eliminar paciente (eliminación lógica), siguiendo el patrón de AdminPersonService
+    api.add_resource(PatientDeleteService, '/clinic/patients/delete/<int:patient_id>/<string:user>')
 
