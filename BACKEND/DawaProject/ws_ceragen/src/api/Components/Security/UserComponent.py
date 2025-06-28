@@ -15,7 +15,17 @@ class UserComponent:
             result = False
             message = None
             data = None
-            sql = "SELECT user_id,user_person_id,user_login_id,user_mail FROM ceragen.segu_user WHERE user_state = true;"
+            #sql = "SELECT user_id,user_person_id,user_login_id,user_mail FROM ceragen.segu_user WHERE user_state = true;"
+
+            sql = """
+                SELECT r.rol_name, u.user_id, u.user_login_id,u.user_mail, concat(p.per_names, ' ' ,p.per_surnames) as full_name
+                FROM ceragen.segu_user_rol AS ur
+                         INNER JOIN ceragen.segu_user AS u ON ur.id_user = u.user_id
+                         INNER JOIN ceragen.segu_rol AS r ON ur.id_rol = r.rol_id
+                         INNER JOIN ceragen.admin_person AS p ON ur.id_rol = p.per_id
+                WHERE u.user_state = TRUE
+            """
+
 
             resultado = DataBaseHandle.getRecords(sql, 0)
             HandleLogs.write_log(resultado)
@@ -62,6 +72,7 @@ class UserComponent:
                         lg.slo_id  -- ← logId
                     FROM ceragen.segu_user us
                     INNER JOIN ceragen.admin_person pe ON us.user_person_id = pe.per_id
+                    INNER JOIN ceragen.admin_
                     LEFT JOIN LATERAL (
                         SELECT slo_id
                         FROM ceragen.segu_login

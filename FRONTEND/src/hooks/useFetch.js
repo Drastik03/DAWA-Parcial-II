@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 
 export const useFetch = (url, autoFetch = true) => {
@@ -7,7 +7,7 @@ export const useFetch = (url, autoFetch = true) => {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
-	const fetchApi = async () => {
+	const fetchApi = useCallback(async () => {
 		try {
 			setLoading(true);
 			const response = await axios.get(url, {
@@ -24,15 +24,13 @@ export const useFetch = (url, autoFetch = true) => {
 		} finally {
 			setLoading(false);
 		}
-	};
+	}, [url]);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (autoFetch) {
 			fetchApi();
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [url]);
+	}, [autoFetch, fetchApi]);
 
 	return {
 		data,

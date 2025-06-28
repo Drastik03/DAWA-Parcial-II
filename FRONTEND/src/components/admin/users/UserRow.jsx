@@ -10,7 +10,9 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogActions,
+	IconButton,
 } from "@mui/material";
+import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 // import { EditUserModal } from "./EditUserModal";
 
 const UserRow = ({ user, onEdit, onDelete }) => {
@@ -42,38 +44,27 @@ const UserRow = ({ user, onEdit, onDelete }) => {
 		<>
 			<TableRow key={user.user_id}>
 				<TableCell>{user.user_id}</TableCell>
-				<TableCell>{user.user_person_id}</TableCell>
 				<TableCell>{user.user_login_id}</TableCell>
 				<TableCell>{user.user_mail}</TableCell>
-				<TableCell>
-					<Stack direction="row" spacing={1}>
-						<Button
-							variant="outlined"
-							color="warning"
-							size="small"
-							onClick={handleEditClick}
-						>
-							Editar
-						</Button>
-						<Button
-							variant="outlined"
-							color="error"
-							size="small"
-							onClick={handleDeleteClick}
-						>
-							Desactivar
-						</Button>
-						{/*ACCION PARA ASIGNAR ROLES*/}
-						<Button
-							variant="outlined"
-							color="secondary"
-							size="small"
-							onClick={() => console.log("Asignar roles a", user.user_login_id)}
-						>
-							{/*icono */}
-							Asignar Roles
-						</Button>
-					</Stack>
+				<TableCell>{user.full_name}</TableCell>
+				<TableCell>{user.rol_name}</TableCell>
+
+				{/* ACCION EDITAR - ELIMINAR CON ICONOS */}
+				<TableCell align="center">
+					<IconButton
+						color="primary"
+						aria-label="editar"
+						onClick={handleEditClick}
+					>
+						<EditOutlined />
+					</IconButton>
+					<IconButton
+						color="error"
+						aria-label="desactivar"
+						onClick={handleDeleteClick}
+					>
+						<DeleteOutline />
+					</IconButton>
 				</TableCell>
 			</TableRow>
 

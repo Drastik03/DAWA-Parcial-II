@@ -9,14 +9,35 @@ class AdminProductComponent:
     def list_all_products():
         try:
             query = """
-                SELECT pro_id, pro_code, pro_name, pro_description, pro_price, pro_total_sessions,
-                       pro_duration_days, pro_image_url, pro_therapy_type_id, pro_state,
-                       user_created, to_char(date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
-                       user_modified, to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
-                       user_deleted, to_char(date_deleted, 'DD/MM/YYYY HH24:MI:SS') as date_deleted
-                FROM ceragen.admin_product
-                WHERE pro_state = true
-            """
+                        SELECT 
+                            p.pro_id,
+                            p.pro_code,
+                            p.pro_name,
+                            p.pro_description,
+                            p.pro_price,
+                            p.pro_total_sessions,
+                            p.pro_duration_days,
+                            p.pro_image_url,
+                            p.pro_therapy_type_id,
+                            t.tht_name,
+                            p.pro_state,
+                            p.user_created,
+                            promo.ppr_name,
+                            promo.ppr_description,
+                            promo.ppr_discount_percent,
+                            promo.ppr_extra_sessions,
+                            TO_CHAR(promo.ppr_start_date, 'DD/MM/YYYY') AS ppr_start_date,
+                            TO_CHAR(promo.ppr_end_date, 'DD/MM/YYYY') AS ppr_end_date,
+                            TO_CHAR(p.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                            p.user_modified,
+                            TO_CHAR(p.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                            p.user_deleted,
+                            TO_CHAR(p.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS date_deleted
+                        FROM ceragen.admin_product p
+                        LEFT JOIN ceragen.admin_therapy_type t ON p.pro_therapy_type_id = t.tht_id
+                        LEFT JOIN ceragen.admin_product_promotion promo ON p.pro_id = promo.ppr_product_id
+                        WHERE p.pro_state = true;
+                    """
             data = DataBaseHandle.getRecords(query, 0)
             data = convert_decimal_to_float(data)
             return data
@@ -111,7 +132,10 @@ class AdminProductComponent:
                 WHERE pro_id = %s
             """
             record = (user, datetime.now(), pro_id)
-            affected = DataBaseHandle.ExecuteNonQuery(sql, record)
+            res = DataBaseHandle.ExecuteNonQuery(sql, record)
+
+            affected = res.get("data", 0) if isinstance(res, dict) else 0
+
             if affected > 0:
                 return internal_response(True, f"Producto con ID {pro_id} eliminado correctamente.", affected)
             else:

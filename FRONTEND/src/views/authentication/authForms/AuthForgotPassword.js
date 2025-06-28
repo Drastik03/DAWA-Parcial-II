@@ -6,6 +6,7 @@ import CustomTextField from "../../../components/forms/theme-elements/CustomText
 import CustomFormLabel from "../../../components/forms/theme-elements/CustomFormLabel";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { IconX } from "@tabler/icons";
 
 const AuthForgotPassword = () => {
 	const {
@@ -37,23 +38,26 @@ const AuthForgotPassword = () => {
 		<>
 			<form onSubmit={handleSubmit(onSubmit)}>
 				<Stack mt={4} spacing={2}>
-					<Alert
-						severity="success"
-						icon={<IconX size={20} stroke={1.5} color="inherit" />}
-						variant="filled"
-						sx={{
-							mb: 2,
-							"& .MuiAlert-icon": {
-								color: "inherit",
-							},
-						}}
-					>
-						{message && (
-							<Stack mt={2} sx={{ color: "text.secondary" }}>
-								{message}
-							</Stack>
-						)}
-					</Alert>
+					{message && (
+						<Alert
+							severity="success"
+							icon={<IconX size={20} stroke={1.5} color="inherit" />}
+							variant="filled"
+							sx={{
+								mb: 2,
+								"& .MuiAlert-icon": {
+									color: "inherit",
+								},
+							}}
+						>
+							{message && (
+								<Stack mt={2} sx={{ color: "text.secondary" }}>
+									{message}
+								</Stack>
+							)}
+						</Alert>
+					)}
+
 					<CustomFormLabel htmlFor="reset-email">Email Address</CustomFormLabel>
 					<CustomTextField
 						id="reset-email"

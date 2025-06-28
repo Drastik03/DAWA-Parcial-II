@@ -131,7 +131,7 @@ class AdminProductService_Delete(Resource):
 
             user = TokenComponent.User(token)
             res = AdminProductComponent.delete_product(pro_id, user)
-            return response_success(res) if res else response_not_found()
+            return res
         except Exception as err:
             HandleLogs.write_error(err)
             return response_error(str(err))

@@ -6,6 +6,7 @@ import {
 	FormControlLabel,
 	Button,
 	Stack,
+	Alert,
 } from "@mui/material";
 import { Link } from "react-router-dom";
 
@@ -24,20 +25,20 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 	const { register, errors, handleSubmit, onSubmit, errorMsg } = useLoginForm();
 	return (
 		<>
-			{title ? (
-				<Typography fontWeight="700" variant="h3" mb={1}>
-					{title}
-				</Typography>
-			) : null}
+			{title
+				? <Typography fontWeight="700" variant="h3" mb={1}>
+						{title}
+					</Typography>
+				: null}
 
 			{subtext}
-
 			<form>
 				{errorMsg && (
-					<Typography color="crimson" mb={2}>
+					<Alert variant="filled" severity="error">
 						{errorMsg}
-					</Typography>
+					</Alert>
 				)}
+
 				<Box>
 					<CustomFormLabel htmlFor="login_user">Usuario</CustomFormLabel>
 					<CustomTextField

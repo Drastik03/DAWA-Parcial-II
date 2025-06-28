@@ -7,7 +7,9 @@ export const UserList = () => {
 	);
 	console.log("DESDE DATA USERS", data);
 
-	const headerRow = ["ID", "Person ID", "Login ID", "Email", "Acciones"];
+	// const headerRow = ["ID", "Person ID", "Login ID", "Email", "Acciones"];
+
+	const headerRow = ["ID", "User", "Email", "Nombre completo", "Rol"];
 
 	return (
 		<main>

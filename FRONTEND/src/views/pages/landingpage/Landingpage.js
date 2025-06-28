@@ -1,5 +1,4 @@
 import React from 'react';
-import PageContainer from 'src/components/container/PageContainer';
 
 // components
 import Banner from '../../../components/landingpage/banner/Banner';
@@ -11,6 +10,7 @@ import Footer from '../../../components/landingpage/footer/Footer';
 import Frameworks from '../../../components/landingpage/frameworks/Frameworks';
 import LpHeader from '../../../components/landingpage/header/Header';
 import Testimonial from '../../../components/landingpage/testimonial/Testimonial';
+import PageContainer from '../../../components/container/PageContainer';
 
 const Landingpage = () => {
   return (

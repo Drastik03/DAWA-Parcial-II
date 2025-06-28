@@ -27,6 +27,8 @@ from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_servi
                                                         admin_Person_Genre_service_Delete)
 from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
     AdminProductService_Update, AdminProductService_Delete
+from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetAll, AdminPromotionService_Add, \
+    AdminPromotionService_Update
 
 from ..Services.Security.LoginService import LoginService
 from ..Services.Security.LogoutService import LogoutService
@@ -136,3 +138,10 @@ def load_routes(api):
     api.add_resource(AdminProductService_Add, '/admin/product/insert')
     api.add_resource(AdminProductService_Update, '/admin/product/update')
     api.add_resource(AdminProductService_Delete, '/admin/product/delete/<int:pro_id>')
+
+
+    #PROMOTION
+    api.add_resource(AdminPromotionService_GetAll, '/admin/promotion/list')
+    api.add_resource(AdminPromotionService_Add, '/admin/promotion/insert')
+    api.add_resource(AdminPromotionService_Update, '/admin/promotion/update')
+

@@ -203,6 +203,10 @@ const Landingpage = Loadable(
 	lazy(() => import("../views/pages/landingpage/Landingpage")),
 );
 
+const ProductList = Loadable(
+	lazy(() => import("../views/pages/admin/product/ProductsTable")),
+);
+
 const Router = [
 	{
 		path: "/auth/reset-password",
@@ -228,6 +232,8 @@ const Router = [
 					{ path: "/admin/persons/create", element: <FormPerson /> },
 
 					{ path: "/admin/roles", element: <Roles /> },
+
+					{ path: "/products", element: <ProductList /> },
 
 					{ path: "/dashboards/modern", element: <ModernDash /> },
 					{ path: "/dashboards/ecommerce", element: <EcommerceDash /> },

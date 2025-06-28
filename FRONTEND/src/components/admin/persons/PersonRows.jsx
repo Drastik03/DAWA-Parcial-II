@@ -10,8 +10,10 @@ import {
 	DialogContent,
 	DialogContentText,
 	DialogActions,
+	IconButton,
 } from "@mui/material";
 import { EditPersonModal } from "./EditPersonModal";
+import { DeleteOutlined, EditOutlined } from "@mui/icons-material";
 
 const PersonRow = ({ person, onEdit, onDelete }) => {
 	const [openDelete, setOpenDelete] = useState(false);
@@ -51,25 +53,21 @@ const PersonRow = ({ person, onEdit, onDelete }) => {
 				<TableCell>
 					{new Date(person.per_birth_date).toLocaleDateString()}
 				</TableCell>
-				<TableCell>
-					<Stack direction="row" spacing={1}>
-						<Button
-							variant="outlined"
-							color="primary"
-							size="small"
-							onClick={handleEditClick}
-						>
-							Editar
-						</Button>
-						<Button
-							variant="outlined"
-							color="error"
-							size="small"
-							onClick={handleDeleteClick}
-						>
-							Desactivar
-						</Button>
-					</Stack>
+				<TableCell align="center">
+					<IconButton
+						color="primary"
+						aria-label="editar"
+						onClick={handleEditClick}
+					>
+						<EditOutlined />
+					</IconButton>
+					<IconButton
+						color="error"
+						aria-label="desactivar"
+						onClick={handleDeleteClick}
+					>
+						<DeleteOutlined />
+					</IconButton>
 				</TableCell>
 			</TableRow>
 

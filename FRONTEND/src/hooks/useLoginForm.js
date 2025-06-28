@@ -35,12 +35,11 @@ export const useLoginForm = () => {
 				navigate("/dashboards/modern");
 			} else {
 				console.error("Respuesta inesperada:", response);
-				setErrorMsg("Error al autenticar, por favor intente nuevamente.");
-				setError("root", { message: "Error al autenticar" });
 			}
 		} catch (err) {
 			console.error("Error al hacer login:", err);
-			setError("root", { message: "Error del servidor" });
+			setErrorMsg(err.response.data.message);
+
 		}
 	};
 

@@ -123,7 +123,7 @@ const Menuitems = [
 				id: uniqueId(),
 				title: "Dashboard de Ventas",
 				icon: IconPoint,
-				href: "/reportes/ventas-dia", 
+				href: "/reportes/ventas-dia",
 			},
 			{
 				id: uniqueId(),
