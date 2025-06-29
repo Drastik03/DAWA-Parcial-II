@@ -53,234 +53,177 @@ class PatientComponent:
             return None
 
     @staticmethod
-    def getPatientById(patient_id):
+    def getPatientById(pat_id: int):
         """
-        Obtiene un paciente por su ID (pat_id) desde la base de datos.
+        Obtiene un paciente por su ID desde la base de datos.
         """
         try:
-            HandleLogs.write_log(f"Obteniendo paciente con ID: {patient_id} desde la DB (PatientComponent).")
-
+            HandleLogs.write_log(f"Obteniendo paciente con ID {pat_id} desde la DB (PatientComponent).")
             sql = """
-                    SELECT
-                        pat_id,
-                        pat_person_id,
-                        pat_client_id,
-                        pat_code,
-                        pat_medical_conditions,
-                        pat_allergies,
-                        pat_blood_type,
-                        pat_emergency_contact_name,
-                        pat_emergency_contact_phone,
-                        pat_state,
-                        COALESCE(to_char(date_created, 'DD/MM/YYYY HH24:MI:SS'), '') AS date_created,
-                        COALESCE(to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS'), '') AS date_modified,
-                        user_created,
-                        user_modified,
-                        user_deleted,
-                        COALESCE(to_char(date_deleted, 'DD/MM/YYYY HH24:MI:SS'), '') AS date_deleted
-                    FROM ceragen.admin_patient
-                    WHERE pat_id = %s AND pat_state = true;
-                    
-    
-                """
-            params = (patient_id,)
-            result_db = DataBaseHandle.getRecords(sql, 1, params)
+                SELECT
+                    pat_id,
+                    pat_person_id,
+                    pat_client_id,
+                    pat_code,
+                    pat_medical_conditions,
+                    pat_allergies,
+                    pat_blood_type,
+                    pat_emergency_contact_name,
+                    pat_emergency_contact_phone,
+                    pat_state,
+                    to_char(date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
+                    to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
+                    user_created,
+                    user_modified,
+                    user_deleted,
+                    date_deleted
+                FROM ceragen.admin_patient
+                WHERE pat_id = %s AND pat_state = TRUE;
+            """
+            result_db = DataBaseHandle.getRecords(sql, 1, (pat_id,))
 
             if result_db and result_db.get('result'):
                 return result_db.get('data')
             else:
                 HandleLogs.write_error(
-                    f"Error o no hay datos al obtener todos los pacientes: {result_db.get('message', 'Desconocido')}")
+                    f"No se encontró el paciente con ID {pat_id}: {result_db.get('message', 'Desconocido')}")
                 return None
 
         except Exception as err:
-            HandleLogs.write_error(f"Error inesperado en PatientComponent.getAllPatients: {str(err)}")
+            HandleLogs.write_error(f"Error inesperado en PatientComponent.getPatientById: {str(err)}")
             return None
 
-
-
-
-
-
-
-
-
     @staticmethod
-    def createPatient(patient_data: dict):
+    def createPatient(data: dict):
         """
         Crea un nuevo paciente en la base de datos.
         """
-        v_message = None
-        v_result = False
-        v_data = None
         try:
-            user_process = patient_data.get('user_process', 'SYSTEM')
-            HandleLogs.write_log(
-                f"Creando paciente en la DB (PatientComponent) por {user_process} con datos: {patient_data}")
+            HandleLogs.write_log(f"Creando paciente en la DB (PatientComponent). Datos: {data}")
 
             sql = """
                 INSERT INTO ceragen.admin_patient (
                     pat_person_id,
-                    pat_client_id,        -- Columna OBLIGATORIA en admin_patient
-                    pat_code,             -- Columna OPCIONAL en admin_patient
+                    pat_client_id,
+                    pat_code,
                     pat_medical_conditions,
-                    pat_allergies,        -- Columna OPCIONAL en admin_patient
+                    pat_allergies,
                     pat_blood_type,
                     pat_emergency_contact_name,
                     pat_emergency_contact_phone,
                     pat_state,
-                    user_created,         -- Columna OBLIGATORIA en admin_patient
+                    user_created,
                     date_created
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, TRUE, %s, NOW())
                 RETURNING pat_id;
             """
-            record = (
-                patient_data.get('patient_person_id'),
-                patient_data.get('pat_client_id', 1),
-
-                patient_data.get('pat_code', ''),
-                patient_data.get('patient_medical_history'),
-                patient_data.get('pat_allergies', ''),
-                patient_data.get('patient_blood_type'),
-                patient_data.get('patient_emergency_contact_name'),
-                patient_data.get('patient_emergency_contact_phone'),
-                user_process
+            params = (
+                data.get('pat_person_id'),
+                data.get('pat_client_id'),
+                data.get('pat_code', ''),
+                data.get('pat_medical_conditions', ''),
+                data.get('pat_allergies', ''),
+                data.get('pat_blood_type'),
+                data.get('pat_emergency_contact_name'),
+                data.get('pat_emergency_contact_phone'),
+                data.get('user_created')
             )
-            result_db = DataBaseHandle.ExecuteNonQuery(sql, record)
 
-            if result_db and result_db.get('result'):
-                v_result = True
-                v_data = result_db.get('data')  # El ID del nuevo paciente
-                v_message = "Paciente creado exitosamente."
+            result_db = DataBaseHandle.ExecuteInsert(sql, params)
+
+            if result_db.get("result"):
+                new_id = result_db["data"][0].get("pat_id") if result_db.get("data") else None
+                return internal_response(True, "Paciente creado exitosamente", {"pat_id": new_id})
             else:
-                v_message = result_db.get('message', "Error al crear paciente: Desconocido")
-                HandleLogs.write_error(v_message)
+                return internal_response(False, result_db.get("message", "Error desconocido"), None)
 
-        except Exception as err:
-            HandleLogs.write_error(f"Error inesperado en PatientComponent.createPatient: {str(err)}")
-            v_message = "Error interno del servidor al crear paciente: " + str(err)
-        finally:
-            return internal_response(v_result, v_message, v_data)
-
+        except Exception as e:
+            HandleLogs.write_error(f"Error inesperado en PatientComponent.createPatient: {str(e)}")
+            return internal_response(False, "Error interno del servidor al crear paciente", None)
 
     @staticmethod
-    def updatePatient(patient_data: dict):
+    def updatePatient(pat_id: int, data: dict):
         """
         Actualiza un paciente existente en la base de datos.
         """
-        v_message = None
-        v_result = False
-        v_data = None
         try:
-            patient_id = patient_data.get('patient_id')
-            user_process = patient_data.get('user_process', 'SYSTEM')
-            HandleLogs.write_log(
-                f"Actualizando paciente en la DB (PatientComponent) por {user_process} con ID {patient_id} con datos: {patient_data}")
+            HandleLogs.write_log(f"Actualizando paciente ID {pat_id} con datos: {data}")
 
-            # Construir la parte SET dinamica
-            set_clauses = []
-            record_values = []
-            if 'patient_person_id' in patient_data:
-                set_clauses.append("pat_person_id = %s")
-                record_values.append(patient_data['patient_person_id'])
-            if 'patient_client_id' in patient_data:
-                set_clauses.append("pat_client_id = %s")
-                record_values.append(patient_data['patient_client_id'])
-            if 'patient_code' in patient_data:
-                set_clauses.append("pat_code = %s")
-                record_values.append(patient_data['patient_code'])
-            if 'patient_medical_conditions' in patient_data:
-                set_clauses.append("pat_medical_conditions = %s")
-                record_values.append(patient_data['patient_medical_conditions'])
-            if 'patient_allergies' in patient_data:
-                set_clauses.append("pat_allergies = %s")
-                record_values.append(patient_data['patient_allergies'])
-            if 'patient_blood_type' in patient_data:
-                set_clauses.append("pat_blood_type = %s")
-                record_values.append(patient_data['patient_blood_type'])
-            if 'patient_emergency_contact_name' in patient_data:
-                set_clauses.append("pat_emergency_contact_name = %s")
-                record_values.append(patient_data['patient_emergency_contact_name'])
-            if 'patient_emergency_contact_phone' in patient_data:
-                set_clauses.append("pat_emergency_contact_phone = %s")
-                record_values.append(patient_data['patient_emergency_contact_phone'])
-            if 'patient_state' in patient_data:
-                set_clauses.append("pat_state = %s")
-                record_values.append(patient_data['patient_state'])
+            # Validar que user_modified esté presente para auditoría
+            if not data.get('user_modified'):
+                return internal_response(False, "El usuario que modifica es requerido", None)
 
-            # Campos de auditoría (user_modified y date_modified)
-            set_clauses.append("user_modified = %s")
-            record_values.append(user_process)
-            set_clauses.append("date_modified = NOW()")
+            # Validar que el paciente exista
+            sql_check = "SELECT 1 FROM ceragen.admin_patient WHERE pat_id = %s AND pat_state = TRUE"
+            exists = DataBaseHandle.getRecords(sql_check, 1, (pat_id,))
+            if not exists or not exists.get('result') or not exists.get('data'):
+                return internal_response(False, f"Paciente con ID {pat_id} no encontrado", None)
 
-            # Si no hay nada que actualizar (aparte del usuario y fecha de modificación)
-            if not set_clauses:
-                v_result = False
-                v_message = "No se proporcionaron datos para actualizar el paciente."
-                return internal_response(v_result, v_message, v_data)
-
-            # Unir las cláusulas SET
-            sql = f"""
-                    UPDATE ceragen.admin_patient
-                    SET {', '.join(set_clauses)}
-                    WHERE pat_id = %s;
-                """
-            record_values.append(patient_id)  # Añadir el ID del paciente al final
-
-            # Ejecutar la consulta
-            result_db = DataBaseHandle.ExecuteNonQuery(sql, tuple(record_values))
-
-            if result_db and result_db.get('result'):
-                if result_db.get('data') > 0:  # data contendrá el número de filas afectadas
-                    v_result = True
-                    v_message = "Paciente actualizado exitosamente."
-                    v_data = {"patient_id": patient_id}  # Retornar el ID del paciente actualizado
-                else:
-                    v_result = False
-                    v_message = "No se encontró el paciente para actualizar o no hubo cambios."
-            else:
-                v_message = result_db.get('message', "Error al actualizar paciente: Desconocido")
-                HandleLogs.write_error(v_message)
-
-        except Exception as err:
-            HandleLogs.write_error(f"Error inesperado en PatientComponent.updatePatient: {str(err)}")
-            v_message = "Error interno del servidor al actualizar paciente: " + str(err)
-        finally:
-            return internal_response(v_result, v_message, v_data)
-
-    @staticmethod
-    def deletePatient(patient_id: int, user_process: str):
-        """
-        Realiza una eliminación lógica (desactivación) de un paciente por su ID.
-        """
-        v_message = None
-        v_result = False
-        v_data = 0  # Usaremos 0 para indicar 0 filas afectadas por defecto
-        try:
-            HandleLogs.write_log(
-                f"Realizando eliminación lógica de paciente con ID: {patient_id} por {user_process} (PatientComponent).")
+            # Construir SQL para update con los campos permitidos (puedes ajustar según necesidades)
             sql = """
                 UPDATE ceragen.admin_patient
-                SET 
-                    patient_state = FALSE, 
-                    patient_update_date = NOW() 
-                WHERE patient_id = %s AND patient_state = TRUE;
+                SET
+                    pat_person_id = %s,
+                    pat_client_id = %s,
+                    pat_code = %s,
+                    pat_medical_conditions = %s,
+                    pat_allergies = %s,
+                    pat_blood_type = %s,
+                    pat_emergency_contact_name = %s,
+                    pat_emergency_contact_phone = %s,
+                    user_modified = %s,
+                    date_modified = NOW()
+                WHERE pat_id = %s
             """
-            result_db = DataBaseHandle.ExecuteNonQuery(sql, (patient_id,))
 
-            if result_db and result_db.get('result'):
-                v_result = True
-                v_data = result_db.get('data', 0)
-                if v_data > 0:
-                    v_message = f"Paciente con ID {patient_id} desactivado exitosamente."
-                else:
-                    v_message = f"Paciente con ID {patient_id} no encontrado o ya inactivo."
+            params = (
+                data.get('pat_person_id'),
+                data.get('pat_client_id'),
+                data.get('pat_code', ''),
+                data.get('pat_medical_conditions', ''),
+                data.get('pat_allergies', ''),
+                data.get('pat_blood_type'),
+                data.get('pat_emergency_contact_name'),
+                data.get('pat_emergency_contact_phone'),
+                data.get('user_modified'),
+                pat_id
+            )
+
+            # Ejecutar update
+            result_db = DataBaseHandle.execute(sql, params)
+
+            if result_db:
+                return internal_response(True, "Paciente actualizado exitosamente", {"pat_id": pat_id})
             else:
-                v_message = result_db.get('message', f"Error al desactivar paciente con ID {patient_id}: Desconocido")
-                HandleLogs.write_error(v_message)
+                return internal_response(False, "Error al actualizar paciente", None)
 
-        except Exception as err:
-            HandleLogs.write_error(f"Error inesperado en PatientComponent.deletePatient: {str(err)}")
-            v_message = "Error interno del servidor al eliminar paciente: " + str(err)
-        finally:
-            return internal_response(v_result, v_message, v_data)
+        except Exception as e:
+            HandleLogs.write_error(f"Error inesperado en PatientComponent.updatePatient: {str(e)}")
+            return internal_response(False, "Error interno del servidor al actualizar paciente", None)
+
+    @staticmethod
+    def deletePatient(pat_id: int, user_modified: str):
+        """
+        Desactiva (soft delete) un paciente en la base de datos.
+
+        NOTA:
+        - No se elimina físicamente.
+        - Se cambia el campo pat_state a FALSE para conservar el historial.
+        """
+        try:
+            sql = """
+                    UPDATE ceragen.admin_patient
+                    SET 
+                        pat_state = FALSE,
+                        user_modified = %s,
+                        date_modified = NOW()
+                    WHERE pat_id = %s;
+                """
+            params = (user_modified, pat_id)
+
+            result = DataBaseHandle.ExecuteNonQuery(sql, params)
+
+            return result
+        except Exception as e:
+            HandleLogs.write_error(f"Error inesperado en PatientComponent.deletePatient: {str(e)}")
+            return internal_response(False, "Error interno al eliminar el paciente", None)

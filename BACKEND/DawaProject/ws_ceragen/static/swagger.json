@@ -25,7 +25,12 @@
     {
       "name": "WS Admin",
       "description": "Módulo de Administración"
+    },
+    {
+      "name": "WS Patients",
+      "description": "Módulo de Pacientes"
     }
+
   ],
   "paths": {
     "/Audit/list": {
@@ -3017,6 +3022,185 @@
               "$ref": "#/definitions/ErrorResponse"
             }
           }
+        }
+      }
+    },
+
+
+
+    "/clinic/patients/list": {
+      "get": {
+        "tags": ["WS Patients"],
+        "summary": "Patient: List All",
+        "description": "List all active patients",
+        "operationId": "patientList",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Operación exitosa", "schema": { "$ref": "#/definitions/Response" } },
+          "500": { "description": "Error", "schema": { "$ref": "#/definitions/ErrorResponse" } },
+          "400": { "description": "Bad Request", "schema": { "$ref": "#/definitions/NotFound" } }
+        }
+      }
+    },
+    "/clinic/patients/list/{patient_id}": {
+      "get": {
+        "tags": ["WS Patients"],
+        "summary": "Patient: Get by ID",
+        "description": "Get a patient by their ID",
+        "operationId": "patientGetById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "patient_id",
+            "description": "ID of the patient to retrieve",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Operación exitosa", "schema": { "$ref": "#/definitions/Response" } },
+          "500": { "description": "Error", "schema": { "$ref": "#/definitions/ErrorResponse" } },
+          "400": { "description": "Bad Request", "schema": { "$ref": "#/definitions/NotFound" } }
+        }
+      }
+    },
+    "/clinic/patients/add": {
+      "post": {
+        "tags": ["WS Patients"],
+        "summary": "Patient: Add new",
+        "description": "Add a new patient record",
+        "operationId": "patientInsert",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Patient data to insert",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patient_insert_request",
+              "example": {
+                "pat_person_id": 101,
+                "pat_client_id": 1,
+                "pat_code": "P123456",
+                "pat_medical_conditions": "Asma y presión alta",
+                "pat_allergies": "Penicilina",
+                "pat_blood_type": "O+",
+                "pat_emergency_contact_name": "Carlos Gómez",
+                "pat_emergency_contact_phone": "0987654321"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Operación exitosa", "schema": { "$ref": "#/definitions/Response" } },
+          "500": { "description": "Error", "schema": { "$ref": "#/definitions/ErrorResponse" } },
+          "400": { "description": "Bad Request", "schema": { "$ref": "#/definitions/ErrorResponse" } }
+        }
+      }
+    },
+    "/clinic/patients/update/{pat_id}":{
+      "patch": {
+        "tags": ["WS Patients"],
+        "summary": "Patient: Update",
+        "description": "Update an existing patient record",
+        "operationId": "patientUpdate",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pat_id",
+            "description": "ID del paciente a actualizar",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del paciente a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patient_update_request",
+              "example": {
+                  "pat_person_id": 7,
+                  "pat_client_id": 201,
+                  "pat_code": "P1677456",
+                  "pat_medical_conditions": "Asma leve controlada",
+                  "pat_allergies": "Ninguna",
+                  "pat_blood_type": "O+",
+                  "pat_emergency_contact_name": "Guaman perez",
+                  "pat_emergency_contact_phone": "0987654321",
+                  "user_modified": "admin"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Operación exitosa", "schema": { "$ref": "#/definitions/Response" } },
+          "500": { "description": "Error", "schema": { "$ref": "#/definitions/ErrorResponse" } },
+          "400": { "description": "Bad Request", "schema": { "$ref": "#/definitions/ErrorResponse" } },
+          "404": { "description": "Not Found", "schema": { "$ref": "#/definitions/NotFound" } }
+        }
+      }
+    },
+    "/clinic/patients/delete/{patient_id}": {
+      "delete": {
+        "tags": ["WS Patients"],
+        "summary": "Patient: Soft Delete",
+        "description": "Deactivate (soft delete) a patient by ID",
+        "operationId": "patientDelete",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "patient_id",
+            "required": true,
+            "type": "integer"
+          }
+
+        ],
+        "responses": {
+          "200": { "description": "Operación exitosa" },
+          "500": { "description": "Error" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" }
         }
       }
     }
