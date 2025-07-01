@@ -44,6 +44,9 @@ from ..Services.Security.UserService import UserListId
 #Gestión de Pacientes
 from ..Services.Patients.PatientService import (PatientListService,PatientGetByIdService,
                                                 PatientInsertService, PatientUpdateService, PatientDeleteService)
+# Historial Médico
+from ..Services.Patients.MedicalHistoryService import (MedicalHistoryListService, MedicalHistoryGetByIdService, MedicalHistoryInsertService, \
+        MedicalHistoryUpdateService, MedicalHistoryDeleteService, MedicalHistoryListByPatientIdService)
 
 
 def load_routes(api):
@@ -129,11 +132,21 @@ def load_routes(api):
     api.add_resource(Deleteurcp, '/urcp/delete')
 
 
-
-# ----------- MÓDULO PACIENTES ----------------------------
+    # ----------- MÓDULO PACIENTES ----------------------------
     # Gestión de Pacientes
     api.add_resource(PatientListService, '/clinic/patients/list')  # Listar todos los pacientes
     api.add_resource(PatientGetByIdService, '/clinic/patients/list/<int:pat_id>')  # Obtener paciente por ID
     api.add_resource(PatientInsertService, '/clinic/patients/add')  # Agregar nuevo paciente
     api.add_resource(PatientUpdateService, '/clinic/patients/update/<int:pat_id>') # Actualizar paciente
-    api.add_resource(PatientDeleteService, '/clinic/patients/delete/<int:pat_id>')# Eliminar paciente (eliminación lógica)
+    # Eliminar paciente (eliminación lógica), siguiendo el patrón de AdminPersonService
+    api.add_resource(PatientDeleteService, '/clinic/patients/delete/<int:pat_id>')
+
+    # Historial Médico
+    api.add_resource(MedicalHistoryListService, '/medical-histories/list') # Listar todas las historias clinicas
+    api.add_resource(MedicalHistoryGetByIdService, '/medical-histories/list/<int:hist_id>') # Obtener Historias por hist_id
+    api.add_resource(MedicalHistoryListByPatientIdService, '/medical-histories/patientHist/<int:hist_patient_id>')
+    api.add_resource(MedicalHistoryInsertService, '/medical-histories/insert') # agregar historia
+    api.add_resource(MedicalHistoryUpdateService, "/medical-histories/update/<int:hist_id>") # actualizar historia
+    api.add_resource(MedicalHistoryDeleteService, '/medical-histories/delete/<int:hist_id>') # Eliminar historia
+
+

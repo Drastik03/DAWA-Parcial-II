@@ -20,24 +20,37 @@ class PatientComponent:
             HandleLogs.write_log("Obteniendo todos los pacientes desde la DB (PatientComponent).")
             sql = """
                 SELECT
-                pat_id,
-                pat_person_id,
-                pat_client_id,
-                pat_code,
-                pat_medical_conditions,
-                pat_allergies,
-                pat_blood_type,
-                pat_emergency_contact_name,
-                pat_emergency_contact_phone,
-                pat_state,
-                to_char(date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
-                to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
-                user_created,
-                user_modified,
-                user_deleted,
-                date_deleted
-                FROM ceragen.admin_patient
-                WHERE pat_state = TRUE;
+                    ap.pat_id,
+                    ap.pat_person_id,
+                    ap.pat_client_id,
+                    ap.pat_code,
+                    ap.pat_medical_conditions,
+                    ap.pat_allergies,
+                    ap.pat_blood_type,
+                    ap.pat_emergency_contact_name,
+                    ap.pat_emergency_contact_phone,
+                    ap.pat_state,
+                    to_char(ap.date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
+                    to_char(ap.date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
+                    ap.user_created,
+                    ap.user_modified,
+                    ap.user_deleted,
+                    ap.date_deleted,
+                    -- Campos de ceragen.admin_person con sus nombres EXACTOS
+                    adp.per_identification,
+                    adp.per_names,
+                    adp.per_surnames,
+                    adp.per_genre_id, -- Nota: Este es el ID del género, si necesitas el nombre, requerirá otro JOIN
+                    adp.per_marital_status_id,
+                    adp.per_country,
+                    adp.per_city,
+                    adp.per_address,
+                    adp.per_phone,
+                    adp.per_mail,
+                    to_char(adp.per_birth_date, 'DD/MM/YYYY') as per_birth_date -- Formato para salida
+                FROM ceragen.admin_patient ap
+                JOIN ceragen.admin_person adp ON ap.pat_person_id = adp.per_id
+                WHERE ap.pat_state = TRUE;
             """
             result_db = DataBaseHandle.getRecords(sql, 0)
 
@@ -61,23 +74,36 @@ class PatientComponent:
             HandleLogs.write_log(f"Obteniendo paciente con ID {pat_id} desde la DB (PatientComponent).")
             sql = """
                 SELECT
-                    pat_id,
-                    pat_person_id,
-                    pat_client_id,
-                    pat_code,
-                    pat_medical_conditions,
-                    pat_allergies,
-                    pat_blood_type,
-                    pat_emergency_contact_name,
-                    pat_emergency_contact_phone,
-                    pat_state,
-                    to_char(date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
-                    to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
-                    user_created,
-                    user_modified,
-                    user_deleted,
-                    date_deleted
-                FROM ceragen.admin_patient
+                    ap.pat_id,
+                    ap.pat_person_id,
+                    ap.pat_client_id,
+                    ap.pat_code,
+                    ap.pat_medical_conditions,
+                    ap.pat_allergies,
+                    ap.pat_blood_type,
+                    ap.pat_emergency_contact_name,
+                    ap.pat_emergency_contact_phone,
+                    ap.pat_state,
+                    to_char(ap.date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
+                    to_char(ap.date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
+                    ap.user_created,
+                    ap.user_modified,
+                    ap.user_deleted,
+                    ap.date_deleted,
+                    -- Campos de ceragen.admin_person con sus nombres EXACTOS
+                    adp.per_identification,
+                    adp.per_names,
+                    adp.per_surnames,
+                    adp.per_genre_id, -- Nota: Este es el ID del género, si necesitas el nombre, requerirá otro JOIN
+                    adp.per_marital_status_id,
+                    adp.per_country,
+                    adp.per_city,
+                    adp.per_address,
+                    adp.per_phone,
+                    adp.per_mail,
+                    to_char(adp.per_birth_date, 'DD/MM/YYYY') as per_birth_date -- Formato para salida
+                FROM ceragen.admin_patient ap
+                JOIN ceragen.admin_person adp ON ap.pat_person_id = adp.per_id
                 WHERE pat_id = %s AND pat_state = TRUE;
             """
             result_db = DataBaseHandle.getRecords(sql, 1, (pat_id,))

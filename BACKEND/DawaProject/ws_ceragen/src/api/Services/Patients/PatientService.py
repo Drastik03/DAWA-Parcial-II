@@ -108,6 +108,7 @@ class PatientInsertService(Resource):
             return response_error("Error interno al crear paciente.")
 
 class PatientUpdateService(Resource):
+    @staticmethod
     def patch(self, pat_id):
         try:
             HandleLogs.write_log(f"Llamada al servicio de actualización de paciente ID {pat_id}.")
@@ -145,7 +146,7 @@ class PatientUpdateService(Resource):
 
 class PatientDeleteService(Resource):
     @staticmethod
-    def delete(pat_id): #
+    def delete(pat_id): # 
         try:
             HandleLogs.write_log(f"Intentando desactivar paciente con ID: {pat_id}")
 
@@ -168,3 +169,5 @@ class PatientDeleteService(Resource):
         except Exception as e:
             HandleLogs.write_error(f"Error inesperado en PatientDeleteService: {str(e)}")
             return response_error("Error interno al desactivar el paciente.")
+
+

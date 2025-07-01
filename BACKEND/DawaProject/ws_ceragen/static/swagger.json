@@ -26,12 +26,14 @@
       "name": "WS Admin",
       "description": "Módulo de Administración"
     },
+
     {
       "name": "WS Patients",
       "description": "Módulo de Pacientes"
     }
 
   ],
+
   "paths": {
     "/Audit/list": {
 
@@ -2697,342 +2699,13 @@
         }
       }
     },
-    "/admin/product/list": {
-      "get": {
-        "tags": [
-          "WS Admin"
-        ],
-        "summary": "Lista de productos",
-        "description": "Obtiene una lista de todos los productos",
-        "operationId": "ListAllProducts",
-        "produces": [
-          "application/json"
-        ],
-
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operación exitosa",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
-          "400": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          }
-        }
-      }
-    },
-    "/admin/product/insert": {
-      "post": {
-        "tags": ["WS Admin"],
-        "summary": "Agregar Producto",
-        "description": "Agregar un producto específico",
-        "operationId": "AddProduct",
-        "parameters": [
-           {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "AdminProductInsert",
-            "description": "Datos para insertar un producto",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminProductInsert"
-            }
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          },
-          "500": {
-            "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/admin/product/update": {
-      "patch": {
-        "tags": ["WS Admin"],
-        "summary": "Actualizar un Producto",
-        "description": "Actualizar un producto específico",
-        "operationId": "UpdateProduct",
-        "parameters": [
-           {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "AdminProductUpdate",
-            "description": "Datos para actualizar un producto",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminProductUpdate"
-            }
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          },
-          "500": {
-            "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/admin/product/delete/{pro_id}": {
-      "delete": {
-        "tags": ["WS Admin"],
-        "summary": "Eliminar un Producto",
-        "description": "Eliminar un producto específico",
-        "operationId": "DeleteProduct",
-        "parameters": [
-           {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "pro_id",
-            "in": "path",
-            "description": "ID del Producto a eliminar",
-            "required": true,
-            "type": "integer",
-            "format": "int64"
-          },
-          {
-            "name": "user_process",
-            "in": "path",
-            "description": "Usuario del proceso",
-            "required": true,
-            "type": "string"
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Producto eliminado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          },
-          "500": {
-            "description": "Error al eliminar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-
-    "/admin/promotion/list": {
-      "get": {
-        "tags": [
-          "WS Admin"
-        ],
-        "summary": "Lista de promociones",
-        "description": "Obtiene una lista de todos las promociones",
-        "operationId": "ListAllPromotions",
-        "produces": [
-          "application/json"
-        ],
-
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operación exitosa",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "500": {
-            "description": "Error",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          },
-          "400": {
-            "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          }
-        }
-      }
-    },
-    "/admin/promotion/insert": {
-      "post": {
-        "tags": ["WS Admin"],
-        "summary": "Crear una promocion",
-        "description": "Crear una promocion para un producto",
-        "operationId": "CreatePromotion",
-        "parameters": [
-           {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "AdminProductCreate",
-            "description": "Datos para crear un producto",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminPromotionCreate"
-            }
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          },
-          "500": {
-            "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-    "/admin/promotion/update": {
-      "patch": {
-        "tags": ["WS Admin"],
-        "summary": "Actualizar una promocion",
-        "description": "Actualizar una promocion específico",
-        "operationId": "UpdatePromotion",
-        "parameters": [
-           {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para aplicación",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "AdminPromotionUpdate",
-            "description": "Datos para actualizar una promocion",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminPromotionUpdate"
-            }
-          }
-        ],
-
-        "responses": {
-          "200": {
-            "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
-          },
-          "500": {
-            "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
-          }
-        }
-      }
-    },
-
 
 
     "/clinic/patients/list": {
       "get": {
         "tags": ["WS Patients"],
-        "summary": "Patient: List All",
-        "description": "List all active patients",
+        "summary": "Lista los pacientes",
+        "description": "LIsta todos los Pacientes Activos",
         "operationId": "patientList",
         "produces": ["application/json"],
         "parameters": [
@@ -3051,11 +2724,11 @@
         }
       }
     },
-    "/clinic/patients/list/{patient_id}": {
+    "/clinic/patients/list/{pat_id}": {
       "get": {
         "tags": ["WS Patients"],
-        "summary": "Patient: Get by ID",
-        "description": "Get a patient by their ID",
+        "summary": "Obetener paciente por id",
+        "description": "Obtiene Paciente especifico por su Id",
         "operationId": "patientGetById",
         "produces": ["application/json"],
         "parameters": [
@@ -3068,8 +2741,8 @@
           },
           {
             "in": "path",
-            "name": "patient_id",
-            "description": "ID of the patient to retrieve",
+            "name": "pat_id",
+            "description": "ID del paciente a revisar (pat_id en la tabla de pacientes)",
             "required": true,
             "type": "integer"
           }
@@ -3084,8 +2757,8 @@
     "/clinic/patients/add": {
       "post": {
         "tags": ["WS Patients"],
-        "summary": "Patient: Add new",
-        "description": "Add a new patient record",
+        "summary": "Crea un nuevo paciente",
+        "description": "Añade un nuevo paciente al registro",
         "operationId": "patientInsert",
         "produces": ["application/json"],
         "parameters": [
@@ -3126,8 +2799,8 @@
     "/clinic/patients/update/{pat_id}":{
       "patch": {
         "tags": ["WS Patients"],
-        "summary": "Patient: Update",
-        "description": "Update an existing patient record",
+        "summary": "Actualizar Paciente",
+        "description": "Actualiza un paciente",
         "operationId": "patientUpdate",
         "produces": ["application/json"],
         "parameters": [
@@ -3178,8 +2851,8 @@
     "/clinic/patients/delete/{patient_id}": {
       "delete": {
         "tags": ["WS Patients"],
-        "summary": "Patient: Soft Delete",
-        "description": "Deactivate (soft delete) a patient by ID",
+        "summary": "Eliminar Paciente (Soft Delete)",
+        "description": "Desactiva un paciente por Id (soft delete)",
         "operationId": "patientDelete",
         "parameters": [
           {
@@ -3190,7 +2863,7 @@
           },
           {
             "in": "path",
-            "name": "patient_id",
+            "name": "pat_id",
             "required": true,
             "type": "integer"
           }
@@ -3203,203 +2876,356 @@
           "404": { "description": "Not Found" }
         }
       }
+    },
+
+    "/medical-histories/list": {
+      "get": {
+        "tags": ["WS Patients"],
+        "summary": "Listar todas las historias clínicas",
+        "description": "Recupera una lista de todos los historiales médicos registrados en el sistema.",
+        "operationId": "getAllMedicalHistoriesList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historias médicas obtenidas exitosamente.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalHistoryResponse"
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "No se encontraron historias médicas.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/list/{hist_id}": {
+      "get": {
+        "tags": ["WS Patients"],
+        "summary": "Obtener historial médico por ID de Historia",
+        "description": "Recupera un historial médico específico utilizando su ID.",
+        "operationId": "getMedicalHistoryByIdInList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a recuperar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico obtenido exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/patientHist/{hist_patient_id}": {
+      "get": {
+        "tags": ["WS Patients"],
+        "summary": "Obtener historial médico por ID de paciente",
+        "description": "Recupera un historial médico específico utilizando ID de paciente.",
+        "operationId": "getMedicalHistoryByIdInList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a recuperar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico obtenido exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/insert": {
+      "post": {
+        "tags": ["WS Patients"],
+        "summary": "Insertar un nuevo historial médico",
+        "description": "Crea un nuevo registro de historial médico.",
+        "operationId": "insertMedicalHistory",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Datos del nuevo historial médico a insertar",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "hist_patient_id": { "type": "integer" },
+              "hist_primary_complaint": { "type": "string" },
+              "hist_onset_date": { "type": "string", "format": "date" },
+              "hist_related_trauma": { "type": "boolean" },
+              "hist_current_treatment": { "type": "string" },
+              "hist_notes": { "type": "string" },
+              "user_created": { "type": "string" },
+              "date_created": { "type": "string", "format": "date-time" }
+            },
+            "example": {
+              "hist_patient_id": 5,
+              "hist_primary_complaint": "Dolor torácico severo",
+              "hist_onset_date": "2025-06-15",
+              "hist_related_trauma": true,
+              "hist_current_treatment": "Analgésicos y reposo",
+              "hist_notes": "Paciente refiere dolor tras accidente automovilístico.",
+              "user_created": "admin_user",
+              "date_created": "2025-06-30 10:00:00"
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Historial médico insertado exitosamente.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": { "type": "boolean", "example": true },
+              "message": { "type": "string", "example": "Historial médico insertado exitosamente" },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "hist_id": { "type": "integer", "example": 1 }
+                  }
+                },
+                "status_code": { "type": "integer", "example": 200 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/update/{hist_id}": {
+      "patch": {
+        "tags": ["WS Patients"],
+        "summary": "Actualizar un historial médico existente",
+        "description": "Actualiza la información de un historial médico existente por su ID.",
+        "operationId": "updateMedicalHistoryFromAdd",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a actualizar."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del historial médico a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico actualizado exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado o sin datos para actualizar.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/delete/{hist_id}": {
+      "delete": {
+        "tags": ["WS Patients"],
+        "summary": "Eliminar un historial médico",
+        "description": "Elimina permanentemente un historial médico por su ID.",
+        "operationId": "deleteMedicalHistorySpecific",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a eliminar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico eliminado exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
+
+
   },
+
   "definitions": {
-    "AdminProductInsert": {
-      "type": "object",
-      "properties": {
-        "pro_code": {
-          "type": "string",
-          "description": "Código del producto"
-        },
-        "pro_name": {
-          "type": "string",
-          "description": "Nombre del producto"
-        },
-        "pro_description": {
-          "type": "string",
-          "description": "Descripción del producto"
-        },
-        "pro_price": {
-          "type": "number",
-          "format": "float",
-          "description": "Precio del producto"
-        },
-        "pro_total_sessions": {
-          "type": "integer",
-          "description": "Número total de sesiones"
-        },
-        "pro_duration_days": {
-          "type": "integer",
-          "description": "Duración en días"
-        },
-        "pro_image_url": {
-          "type": "string",
-          "description": "URL de la imagen"
-        },
-        "pro_therapy_type_id": {
-          "type": "integer",
-          "description": "ID del tipo de terapia"
-        },
-        "user_created": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "pro_code",
-        "pro_name",
-        "pro_price",
-        "pro_total_sessions",
-        "pro_therapy_type_id",
-        "user_created"
-      ]
-    },
-    "AdminProductUpdate": {
-      "type": "object",
-      "properties": {
-        "pro_id": {
-          "type": "integer",
-          "description": "ID del producto"
-        },
-        "pro_code": {
-          "type": "string",
-          "description": "Código del producto"
-        },
-        "pro_name": {
-          "type": "string",
-          "description": "Nombre del producto"
-        },
-        "pro_description": {
-          "type": "string",
-          "description": "Descripción del producto"
-        },
-        "pro_price": {
-          "type": "number",
-          "format": "float",
-          "description": "Precio del producto"
-        },
-        "pro_total_sessions": {
-          "type": "integer",
-          "description": "Número total de sesiones"
-        },
-        "pro_duration_days": {
-          "type": "integer",
-          "description": "Duración en días"
-        },
-        "pro_image_url": {
-          "type": "string",
-          "description": "URL de la imagen"
-        },
-        "pro_therapy_type_id": {
-          "type": "integer",
-          "description": "ID del tipo de terapia"
-        },
-        "user_process": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "pro_id",
-        "user_process"
-      ]
-    },
-
-
-    "AdminPromotionCreate": {
-      "type": "object",
-      "properties": {
-        "ppr_product_id": {
-          "type": "integer",
-          "description": "ID de la promocion"
-        },
-        "ppr_name": {
-          "type": "string",
-          "description": "Nombre de la promocion"
-        },
-        "ppr_description": {
-          "type": "string",
-          "description": "Descripción de la promocion"
-        },
-        "ppr_discount_percent": {
-          "type": "integer",
-          "description": "Precio del producto"
-        },
-        "ppr_extra_sessions": {
-          "type": "integer",
-          "description": "Cantidad de sesiones extras"
-        },
-        "ppr_start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de inicio de la promoción (YYYY-MM-DD)"
-        },
-        "ppr_end_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de fin de la promoción (YYYY-MM-DD)"
-        },
-        "user_created": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "ppr_id",
-        "user_created"
-      ]
-    },
-    "AdminPromotionUpdate": {
-      "type": "object",
-      "properties": {
-        "ppr_id": {
-          "type": "integer",
-          "description": "ID de la promocion"
-        },
-        "ppr_product_id": {
-          "type": "integer",
-          "description": "ID del producto asociado"
-        },
-        "ppr_name": {
-          "type": "string",
-          "description": "Nombre de la promocion"
-        },
-        "ppr_description": {
-          "type": "string",
-          "description": "Descripción de la promocion"
-        },
-        "ppr_discount_percent": {
-          "type": "integer",
-          "description": "Precio del producto"
-        },
-        "ppr_extra_sessions": {
-          "type": "integer",
-          "description": "Cantidad de sesiones extras"
-        },
-        "ppr_start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de inicio de la promoción (YYYY-MM-DD)"
-        },
-        "ppr_end_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de fin de la promoción (YYYY-MM-DD)"
-        },
-        "user_process": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "ppr_id",
-        "user_process"
-      ]
-    },
-
-
     "addQuestion": {
       "type": "object",
       "properties": {
@@ -4678,10 +4504,147 @@
           "example": "200"
         }
       }
+    },
+
+    "MedicalHistoryInsertRequest": {
+      "type": "object",
+      "required": [
+        "hist_patient_id",
+        "hist_primary_complaint",
+        "hist_onset_date"
+      ],
+      "properties": {
+        "hist_patient_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID del paciente asociado a este historial."
+        },
+        "hist_primary_complaint": {
+          "type": "string",
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de inicio de la queja (YYYY-MM-DD)."
+        },
+        "hist_related_trauma": {
+          "type": "string",
+          "description": "Trauma(s) relacionado(s), si aplica."
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "description": "Tratamiento(s) actual(es)."
+        },
+        "hist_notes": {
+          "type": "string",
+          "description": "Notas adicionales sobre el historial."
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que creó el registro."
+        }
+      }
+    },
+    "MedicalHistoryUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "hist_primary_complaint": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de inicio de la condición (YYYY-MM-DD)."
+        },
+        "hist_related_trauma": {
+          "type": "boolean",
+          "description": "¿Está relacionado con un trauma?"
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Tratamiento actual del paciente."
+        },
+        "hist_notes": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Notas adicionales del historial médico."
+        }
+      },
+      "required": [],
+      "example": {
+        "hist_primary_complaint": "Dolor de cabeza crónico con migrañas severas, recurrente semanalmente.",
+        "hist_notes": "Se recomienda MRI cerebral y consulta con neurólogo. Paciente refiere antecedentes familiares de migraña."
+      }
+    },
+    "MedicalHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "hist_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID único del historial médico."
+        },
+        "hist_patient_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID del paciente asociado."
+        },
+        "hist_primary_complaint": {
+          "type": "string",
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "description": "Fecha de inicio de la queja (DD/MM/YYYY)."
+        },
+        "hist_related_trauma": {
+          "type": "string",
+          "description": "Trauma(s) relacionado(s)."
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "description": "Tratamiento(s) actual(es)."
+        },
+        "hist_notes": {
+          "type": "string",
+          "description": "Notas adicionales."
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que creó el registro."
+        },
+        "date_created": {
+          "type": "string",
+          "description": "Fecha de creación del registro (DD/MM/YYYY HH24:MI:SS)."
+        },
+        "user_modified": {
+          "type": "string",
+          "description": "Usuario que modificó el registro."
+        },
+        "date_modified": {
+          "type": "string",
+          "description": "Fecha de última modificación (DD/MM/YYYY HH24:MI:SS)."
+        },
+        "user_deleted": {
+          "type": "string",
+          "description": "Usuario que eliminó el registro (si aplica)."
+        },
+        "date_deleted": {
+          "type": "string",
+          "description": "Fecha de eliminación (si aplica) (DD/MM/YYYY HH24:MI:SS)."
+        }
+      }
     }
   },
   "externalDocs": {
     "description": "Find out more about Swagger",
     "url": "http://swagger.io"
   }
+
+
+
 }
