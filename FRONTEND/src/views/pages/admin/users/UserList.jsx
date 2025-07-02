@@ -1,7 +1,7 @@
 import { useFetch } from "../../../../hooks/useFetch";
 import UserPaginationTable from "../../../tables/UserPaginationTable";
 
-export const UserList = () => {
+const UserList = () => {
 	const { data, loading, error, refetch } = useFetch(
 		"http://localhost:5000/user/list",
 	);
@@ -25,3 +25,4 @@ export const UserList = () => {
 		</main>
 	);
 };
+export default UserList;

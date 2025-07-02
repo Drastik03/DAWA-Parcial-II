@@ -1,4 +1,5 @@
 import { useFetch } from "../../../../hooks/useFetch";
+
 import RolePaginationTable from "../../../tables/RolePaginationTable";
 
 const RoleList = () => {
@@ -9,11 +10,11 @@ const RoleList = () => {
 
 	const headerRow = ["ID", "Nombre", "Descripción"];
 
+
+
 	return (
 		<main>
 			<RolePaginationTable
-				title="Roles"
-				description="Listado de roles registrados"
 				list={data}
 				loading={loading}
 				error={error}

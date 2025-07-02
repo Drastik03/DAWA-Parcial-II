@@ -26,6 +26,7 @@ import PageContainer from "../../../../components/container/PageContainer";
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 function Row({ row }) {
 	const [open, setOpen] = useState(false);
@@ -180,6 +181,7 @@ const BCrumb = [
 
 const ProductsTable = () => {
 	const { data } = useFetch("http://localhost:5000/admin/product/list");
+	const navigate = useNavigate();
 
 	const rows = useMemo(() => {
 		return data?.data || [];
@@ -211,7 +213,7 @@ const ProductsTable = () => {
 					</svg>
 				}
 				onClick={() => {
-					navigate("/admin/users/create");
+					navigate("/admin/products/register");
 				}}
 				sx={{ mb: 2, textTransform: "none", fontWeight: 600 }}
 			>

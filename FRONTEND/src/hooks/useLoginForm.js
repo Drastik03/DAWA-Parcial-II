@@ -12,7 +12,7 @@ export const useLoginForm = () => {
 		formState: { errors },
 	} = useForm();
 	const [errorMsg, setErrorMsg] = useState("");
-	const { setLoginId, login, setUser, setRole } = useAuth();
+	const { setLoginId, login, setUser, setRole, setMenuRole } = useAuth();
 
 	const navigate = useNavigate();
 
@@ -26,12 +26,15 @@ export const useLoginForm = () => {
 
 			const response = await loginAndSetHeader(body);
 
+			console.log("DESDE LOGIN RESPONSE ", response);
+
 			if (response?.data?.Token && response?.data?.Datos) {
 				console.log("Usuario autenticado:", response.data.Datos);
 				login(response.data.Token);
 				setRole(response.data.Datos.rols[0]);
 				setUser(response.data.Datos);
 				setLoginId(response.data.LogId);
+				setMenuRole(response.data.Datos.rols);
 				navigate("/dashboards/modern");
 			} else {
 				console.error("Respuesta inesperada:", response);
@@ -39,7 +42,6 @@ export const useLoginForm = () => {
 		} catch (err) {
 			console.error("Error al hacer login:", err);
 			setErrorMsg(err.response.data.message);
-
 		}
 	};
 

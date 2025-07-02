@@ -21,7 +21,9 @@ export const Protected = ({ isRolUser }) => {
 		);
 	}
 
-	if (!isAuthenticated) return <Navigate to="/auth/login" replace />;
+	if (!isAuthenticated) {
+		return <Navigate to="/auth/login" replace />
+	}
 
 	const rolesDelUsuario = user?.rols?.map((r) => r.rol_name) || [];
 	const tieneRolPermitido = isRolUser.some((rol) =>

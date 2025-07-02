@@ -24,10 +24,6 @@ export const AuthProvider = ({ children }) => {
 	const [menuRole, setMenuRole] = useState([]);
 
 	useEffect(() => {
-		console.log(loginId);
-		console.log(menuRole);
-	});
-	useEffect(() => {
 		async function checkAuth() {
 			setLoading(true);
 			const storedToken = Cookies.get("token");
@@ -45,6 +41,7 @@ export const AuthProvider = ({ children }) => {
 					setRole(response.data.data.rols[0]);
 					setLoginId(response.data.data.user.slo_id);
 					setMenuRole(response.data.data.rols);
+					console.log(response.data.data.rols);
 				} catch (error) {
 					console.error("Error al validar el token:", error);
 					setIsAuthenticated(false);
@@ -77,6 +74,7 @@ export const AuthProvider = ({ children }) => {
 		setToken(null);
 		setUser(null);
 		setIsAuthenticated(false);
+		setMenuRole(null);
 	};
 
 	return (

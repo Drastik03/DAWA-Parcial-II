@@ -23,6 +23,20 @@ export const Profile = () => {
 	const hideMenu = lgUp
 		? customizer.isCollapse && !customizer.isSidebarHover
 		: "";
+	const handleLogout = async () => {
+		try {
+			const res = await axios.patch("http://localhost:5000/security/logout", {
+				logId: loginId,
+			});
+			if (!res.data.result) {
+				return;
+			}
+			logout();
+			navigate("auth/login");
+		} catch (error) {
+			console.error("Error during logout:", error);
+		}
+	};
 	return (
 		<Box
 			display={"flex"}
@@ -52,8 +66,9 @@ export const Profile = () => {
 							<Tooltip title="Logout" placement="top">
 								<IconButton
 									color="primary"
-									component={Link}
-									to="/auth/login"
+									// component={Link}
+									// to="/auth/login"
+									onClick={handleLogout}
 									aria-label="logout"
 									size="small"
 								>
