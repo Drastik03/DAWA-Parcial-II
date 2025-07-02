@@ -8,3 +8,17 @@ def convert_decimal_to_float(data):
     elif isinstance(data, Decimal):
         return float(data)
     return data
+
+
+
+def convert_decimals(data_list):
+    new_list = []
+    for row in data_list:
+        new_row = {}
+        for key, value in row.items():
+            if isinstance(value, Decimal):
+                new_row[key] = float(value)
+            else:
+                new_row[key] = value
+        new_list.append(new_row)
+    return new_list

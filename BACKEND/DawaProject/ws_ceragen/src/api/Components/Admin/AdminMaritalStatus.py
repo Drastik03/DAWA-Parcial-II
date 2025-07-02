@@ -89,10 +89,10 @@ class MaritalStatuscomponent:
             query = "UPDATE ceragen.admin_marital_status " \
                      "SET state = false, user_deleted = %s, date_deleted = %s WHERE id = %s"
             record = (p_user, datetime.now(), id)
-            rows_affected = DataBaseHandle.ExecuteNonQuery(query, record)
-            HandleLogs.write_log("Filas afectadas: " + str(rows_affected))
+            res = DataBaseHandle.ExecuteNonQuery(query, record)
+            HandleLogs.write_log("Resultado de ExecuteNonQuery: " + str(res))
 
-            if rows_affected > 0:
+            if res.get("result") and res.get("data", 0) > 0:
                 return True, f"Registro con ID {id} eliminado exitosamente."
             else:
                 return False, f"No se encontró ningún registro con ID {id}."

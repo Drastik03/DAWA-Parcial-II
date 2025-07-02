@@ -107,7 +107,7 @@ class UserRolComponent:
 
             }
     @staticmethod
-    def UserRolInsert( rol_id, user_id,id_career_period, user):
+    def UserRolInsert( rol_id, user_id, user):
         try:
             record = (user_id, rol_id, user, user_id,rol_id)
             result = False
@@ -132,7 +132,6 @@ class UserRolComponent:
                 data = list(value.values())[0]
                 HandleLogs.write_log('ID_user_rol:'+str(data))
                 HandleLogs.write_log(type(data))
-                respuesta = urcpComponent.Userol_CarrerPeriodInsert(id_career_period,data,user)
         except Exception as err:
             HandleLogs.write_error(err)
             message = err.__str__()

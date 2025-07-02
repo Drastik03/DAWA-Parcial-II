@@ -3019,6 +3019,625 @@
           }
         }
       }
+    },
+
+
+    "/admin/payment_method/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Metodos de pago",
+        "description": "Obtiene una lista de todos los metodos de pago disponible",
+        "operationId": "ListAllPaymentMethod",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/payment_method/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Crear un metodo de pago",
+        "description": "Crear un nuevo metodo de pago",
+        "operationId": "CreatePaymentMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminPaymentMethodCreate",
+            "description": "Datos para crear un metodo de pago",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminPaymentMethodCreate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Metodo de pago agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el metodo de pago",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/payment_method/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un metodo de pago",
+        "description": "Actualizar un metodo de pago",
+        "operationId": "UpdatePaymentMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminPaymentMethodUpdate",
+            "description": "Datos para actualizar un metodo de pago",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminPaymentMethodUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Producto agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el producto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/payment_method/delete/{pme_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un metodo de pago",
+        "description": "Eliminar un metodo de pago específico",
+        "operationId": "DeletePaymentMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pme_id",
+            "in": "path",
+            "description": "ID del metodo de pago a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Metodo de pago eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el metodo de pago",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
+    "/admin/dashboard/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Dashboard de aplicacion",
+        "description": "Obtiene el contenido y lo muestra de manera grafica",
+        "operationId": "ListAllDashboard",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+
+    "/admin/therapy-type/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de tipos de terapia",
+        "description": "Obtiene el listado de tipo de terapias",
+        "operationId": "ListAllTherapyType",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/therapy-type/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Crear un tipo de terapia",
+        "description": "Crear un tipo de terapia",
+        "operationId": "CreateTherapyTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminTherapyTypeMethodCreate",
+            "description": "Datos para crear un nuevo tipo de terapia",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminTherapyTypeMethodCreate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de terapia agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el tipo de terapia",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/therapy-type/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un tipo de terapia",
+        "description": "Actualizar un tipo de terapia",
+        "operationId": "UpdateTherapyTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminTherapyTypeMethodUpdate",
+            "description": "Datos para actualizar un tipo de terapia",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminTherapyTypeMethodUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de terapia agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el tipo de terapia",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/therapy-type/delete/{tht_id}": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un tipo de terapia",
+        "description": "Eliminar un tipo de terapia específico",
+        "operationId": "DeleteTherapyTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tht_id",
+            "in": "path",
+            "description": "ID del tipo de terapia",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de terapia eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de terapia",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
+
+    "/admin/medicalPersonType/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de tipos de medicos",
+        "description": "Obtiene el listado de tipo de medicos",
+        "operationId": "ListAllMedicPersonType",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/medicalPersonType/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Crear un tipos de medico",
+        "description": "Crear un tipos de medico",
+        "operationId": "CreateMedicalPersonTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminMedicalPersonTypeCreate",
+            "description": "Datos para crear un nuevo tipo de medico",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminMedicalPersonTypeCreate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de medicos agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el tipo de medico",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/medicalPersonType/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un tipo de medico",
+        "description": "Actualizar un tipo de medico",
+        "operationId": "UpdateMedicalPersonTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminMedicalPersonTypeUpdate",
+            "description": "Datos para actualizar un nuevo tipo de medico",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminMedicalPersonTypeUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de medicos actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el tipo de medico",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/medicalPersonType/delete/{mpt_id}": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un tipo de medico",
+        "description": "Eliminar un tipo de medico específico",
+        "operationId": "DeleteMedicalPersonTypeMethod",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "mpt_id",
+            "in": "path",
+            "description": "ID del tipo de medico",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de medico eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de medico",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3215,6 +3834,176 @@
       ]
     },
 
+    "AdminPaymentMethodCreate": {
+      "type": "object",
+      "properties": {
+        "pme_name": {
+          "type": "string",
+          "description": "Nombre del metodo de pago"
+        },
+        "pme_description": {
+          "type": "string",
+          "description": "Descripción del metodo de pago"
+        },
+        "pme_require_references": {
+          "type": "boolean",
+          "description": "Indica si la referencia es necesaria"
+        },
+        "pme_require_picture_proff": {
+          "type": "boolean",
+          "description": "Indica si la prueba es necesaria"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el producto"
+        }
+      },
+      "required": [
+        "pme_name",
+        "pme_description",
+        "pme_require_references",
+        "pme_require_picture_proff",
+        "user_created"
+      ]
+    },
+    "AdminPaymentMethodUpdate": {
+      "type": "object",
+      "properties": {
+        "pme_id": {
+          "type": "integer",
+          "description": "ID del metodo de pago"
+        },
+        "pme_name": {
+          "type": "string",
+          "description": "Nombre del metodo de pago"
+        },
+        "pme_description": {
+          "type": "string",
+          "description": "Descripción del metodo de pago"
+        },
+        "pme_require_references": {
+          "type": "boolean",
+          "description": "Indica si la referencia es necesaria"
+        },
+        "pme_require_picture_proff": {
+          "type": "boolean",
+          "description": "Indica si la prueba es necesaria"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el producto"
+        }
+      },
+      "required": [
+        "pme_id",
+        "user_created"
+      ]
+    },
+
+
+    "AdminTherapyTypeMethodUpdate": {
+      "type": "object",
+      "properties": {
+        "tht_id": {
+          "type": "integer",
+          "description": "ID del tipo de terapia"
+        },
+        "tht_name": {
+          "type": "string",
+          "description": "Nombre del tipo de terapia"
+        },
+        "tht_description": {
+          "type": "string",
+          "description": "Descripción del tipo de terapia"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de terapia"
+        }
+      },
+      "required": [
+        "tht_id",
+        "user_created"
+      ]
+    },
+    "AdminTherapyTypeMethodCreate": {
+      "type": "object",
+      "properties": {
+        "tht_name": {
+          "type": "string",
+          "description": "Nombre del tipo de terapia"
+        },
+        "tht_description": {
+          "type": "string",
+          "description": "Descripción del tipo de terapia"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de terapia"
+        }
+      },
+      "required": [
+        "tht_name",
+        "tht_description",
+        "user_created"
+      ]
+    },
+
+
+    "AdminMedicalPersonTypeCreate": {
+      "type": "object",
+      "properties": {
+         "mpt_name": {
+          "type": "string",
+          "description": "Nombre del tipo de medico"
+        },
+        "mpt_description": {
+          "type": "string",
+          "description": "Descripción del tipo de medico"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de medico"
+        }
+      },
+      "required": [
+        "mpt_name",
+        "mpt_description",
+        "user_created"
+      ]
+    },
+    "AdminMedicalPersonTypeUpdate": {
+      "type": "object",
+      "properties": {
+        "mpt_id": {
+          "type": "integer",
+          "description": "ID del tipo de medico"
+        },
+         "mpt_name": {
+          "type": "string",
+          "description": "Nombre del tipo de medico"
+        },
+        "mpt_description": {
+          "type": "string",
+          "description": "Descripción del tipo de medico"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que actuliza el tipo de medico"
+        }
+      },
+      "required": [
+        "mpt_Id",
+        "mpt_name",
+        "mpt_description",
+        "user_created"
+      ]
+    },
+
+
+
+
+
 
     "addQuestion": {
       "type": "object",
@@ -3367,9 +4156,6 @@
         "id_user": {
           "type": "integer",
             "example": 57
-        },
-        "id_career_period": {
-          "type": "integer"
         }
       }
     },

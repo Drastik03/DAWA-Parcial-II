@@ -1,7 +1,6 @@
 from ....utils.general.logs import HandleLogs
 from ....utils.database.connection_db import DataBaseHandle
 from datetime import datetime
-from flask import Flask, jsonify, request
 from ....utils.general.response import internal_response
 
 class TherapyTypeComponent:

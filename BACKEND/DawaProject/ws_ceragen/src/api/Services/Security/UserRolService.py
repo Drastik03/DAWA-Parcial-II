@@ -91,7 +91,6 @@ class InsertUserRol(Resource):
 
                 answer = UserRolComponent.UserRolInsert(rq_json['id_rol'],
                                                   rq_json['id_user'],
-                                                  rq_json['id_career_period'],
                                                   user_name)
 
                 if answer['result'] is True:

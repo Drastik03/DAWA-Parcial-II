@@ -27,8 +27,15 @@ from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_servi
                                                         admin_Person_Genre_service_Delete)
 from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
     AdminProductService_Update, AdminProductService_Delete
+from ..Services.Admin.DashboardService import DashboardService_GetAll
+from ..Services.Admin.MedicalPersonTypeService import MedicPersonTypeService_GetAll, MedicPersonTypeService_Add, \
+    MedicPersonTypeService_Update, MedicPersonTypeService_Delete
+from ..Services.Admin.PaymentMethodService import AdminPaymentMethodService_GetAll, AdminPaymentMethodService_Update, \
+    AdminPaymentMethodService_Add, AdminPaymentMethodService_Delete
 from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetAll, AdminPromotionService_Add, \
     AdminPromotionService_Update
+from ..Services.Admin.TherapyTypeService import TherapyTypeService_GetAll, TherapyTypeService_Add, \
+    TherapyTypeService_Delete, TherapyTypeService_Update
 
 from ..Services.Security.LoginService import LoginService
 from ..Services.Security.LogoutService import LogoutService
@@ -144,4 +151,30 @@ def load_routes(api):
     api.add_resource(AdminPromotionService_GetAll, '/admin/promotion/list')
     api.add_resource(AdminPromotionService_Add, '/admin/promotion/insert')
     api.add_resource(AdminPromotionService_Update, '/admin/promotion/update')
+
+    #METODOS DE PAGO
+    api.add_resource(AdminPaymentMethodService_GetAll, '/admin/payment_method/list')
+    api.add_resource(AdminPaymentMethodService_Add, '/admin/payment_method/insert')
+    api.add_resource(AdminPaymentMethodService_Update, '/admin/payment_method/update')
+    api.add_resource(AdminPaymentMethodService_Delete, '/admin/payment_method/delete/<int:pme_id>')
+
+    #DASHBOARD
+    api.add_resource(DashboardService_GetAll, '/admin/dashboard/list')
+
+    #TIPO DE TERAPIA
+    api.add_resource(TherapyTypeService_GetAll, '/admin/therapy-type/list')
+    api.add_resource(TherapyTypeService_Add, '/admin/therapy-type/insert')
+    api.add_resource(TherapyTypeService_Delete, '/admin/therapy-type/delete/<int:tht_id>')
+    api.add_resource(TherapyTypeService_Update, '/admin/therapy-type/update')
+
+
+    api.add_resource(MedicPersonTypeService_GetAll, '/admin/medicalPersonType/list')
+    api.add_resource(MedicPersonTypeService_Add, '/admin/medicalPersonType/insert')
+    api.add_resource(MedicPersonTypeService_Update, '/admin/medicalPersonType/update')
+    api.add_resource(MedicPersonTypeService_Delete, '/admin/medicalPersonType/delete/<int:mpt_id>')
+
+
+
+
+
 
