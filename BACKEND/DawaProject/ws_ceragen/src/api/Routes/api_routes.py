@@ -48,6 +48,31 @@ from ..Services.Patients.PatientService import (PatientListService,PatientGetByI
 from ..Services.Patients.MedicalHistoryService import (MedicalHistoryListService, MedicalHistoryGetByIdService, MedicalHistoryInsertService, \
         MedicalHistoryUpdateService, MedicalHistoryDeleteService, MedicalHistoryListByPatientIdService)
 
+# Alergia Pacientes
+from ..Services.Patients.PatientAllergyService import (
+    PatientAllergyInsertService,
+    PatientAllergyUpdateService
+)
+
+#Disease Servicios
+from ..Services.Patients.PatientDiseaseService import (
+    PatientDiseaseInsertService,
+    PatientDiseaseUpdateService
+)
+#clinica sesiones
+from ..Services.Patients.ClinicSessionService import (
+    ClinicSessionService_GetAll, ClinicSessionService_GetById,
+    ClinicSessionService_Add, ClinicSessionService_Update,
+    ClinicSessionService_Delete)
+
+from ..Services.Patients.TherapySessionControlService import (
+    TherapySessionControlListService,
+    TherapySessionControlGetByIdService,
+    TherapySessionControlAddService,
+    TherapySessionControlUpdateService,
+    TherapySessionControlDeleteService
+)
+
 
 def load_routes(api):
 
@@ -149,4 +174,24 @@ def load_routes(api):
     api.add_resource(MedicalHistoryUpdateService, "/medical-histories/update/<int:hist_id>") # actualizar historia
     api.add_resource(MedicalHistoryDeleteService, '/medical-histories/delete/<int:hist_id>') # Eliminar historia
 
+  # Alergias del paciente
+    api.add_resource(PatientAllergyInsertService, '/clinic/patient-allergy/add')
+    api.add_resource(PatientAllergyUpdateService, '/clinic/patient-allergy/update/<int:pa_id>')
 
+    # Enfermedades del paciente
+    api.add_resource(PatientDiseaseInsertService, '/clinic/patient-disease/add')
+    api.add_resource(PatientDiseaseUpdateService, '/clinic/patient-disease/update/<int:pd_id>')
+
+    # ----------- MÓDULO CLINIC SESSION ----------------------------
+    api.add_resource(ClinicSessionService_GetAll, '/clinic/sessions/list')
+    api.add_resource(ClinicSessionService_GetById, '/clinic/sessions/list/<int:cli_id>')
+    api.add_resource(ClinicSessionService_Add, '/clinic/sessions/add')
+    api.add_resource(ClinicSessionService_Update, '/clinic/sessions/update/<int:cli_id>')
+    api.add_resource(ClinicSessionService_Delete, '/clinic/sessions/delete/<int:cli_id>')
+
+    # Sesiones de Terapia
+    api.add_resource(TherapySessionControlListService, '/clinic/TherapySession/list')
+    api.add_resource(TherapySessionControlGetByIdService, '/clinic/TherapySession/list/<int:sec_id>') # ¡Parámetro en URL actualizado a sec_id!
+    api.add_resource(TherapySessionControlAddService, '/clinic/TherapySession/add')
+    api.add_resource(TherapySessionControlUpdateService, '/clinic/TherapySession/update/<int:sec_id>') # ¡Parámetro en URL actualizado a sec_id!
+    api.add_resource(TherapySessionControlDeleteService, '/clinic/TherapySession/delete/<int:sec_id>') # ¡Parámetro en URL actualizado a sec_id!
