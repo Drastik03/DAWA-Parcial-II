@@ -1,5 +1,5 @@
-
-
+from ..Services.Admin.AdminClientService import AdminClientService_GetAll, AdminClientServiceAdd, \
+    AdminClientServiceUpdate, AdminClientServiceDelete
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
 from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
@@ -173,7 +173,11 @@ def load_routes(api):
     api.add_resource(MedicPersonTypeService_Update, '/admin/medicalPersonType/update')
     api.add_resource(MedicPersonTypeService_Delete, '/admin/medicalPersonType/delete/<int:mpt_id>')
 
-
+    #CLIENTES
+    api.add_resource(AdminClientService_GetAll, '/admin/client/list')
+    api.add_resource(AdminClientServiceAdd, '/admin/client/insert')
+    api.add_resource(AdminClientServiceUpdate, '/admin/client/update')
+    api.add_resource(AdminClientServiceDelete, '/admin/client/delete/<int:cli_id>')
 
 
 

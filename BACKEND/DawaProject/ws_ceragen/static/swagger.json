@@ -3638,6 +3638,199 @@
           }
         }
       }
+    },
+
+
+
+    "/admin/client/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de clientes",
+        "description": "Obtiene el listado de clientes",
+        "operationId": "ListAllClients",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/client/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Crear un cliente",
+        "description": "Crear un cliente",
+        "operationId": "CreateClientInsert",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminClientCreate",
+            "description": "Datos para crear un nuevo cliente",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminClientCreate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Cliente agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el cliente",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/client/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un cliente",
+        "description": "Actualizar un cliente especifico",
+        "operationId": "CreateClientUpdate",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminClientUpdate",
+            "description": "Datos para actualizar un nuevo cliente",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminClientUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Cliente actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el cliente",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/client/delete/{cli_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un cliente",
+        "description": "Eliminar un cliente en específico",
+        "operationId": "DeleteClient",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "cli_id",
+            "in": "path",
+            "description": "ID del cliente",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Cliente eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el cliente",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -3999,6 +4192,88 @@
         "user_created"
       ]
     },
+
+
+    "AdminClientCreate": {
+      "type": "object",
+      "properties": {
+        "cli_person_id": {
+          "type": "integer",
+          "description": "Id de la persona asociada"
+        },
+         "cli_identification": {
+          "type": "string",
+          "description": "Identificacion del cliente"
+        },
+        "cli_name": {
+          "type": "string",
+          "description": "Nombre del cliente"
+        },
+        "cli_address_bill": {
+          "type": "string",
+          "description": "Direccion de envio de la factura"
+        },
+        "cli_mail_bill": {
+          "type": "string",
+          "description": "Correo donde se enviara la factura"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de medico"
+        }
+      },
+      "required": [
+        "cli_person_id",
+        "cli_identification",
+        "cli_name",
+        "cli_address_bill",
+        "cli_mail_bill",
+        "user_created"
+      ]
+    },
+    "AdminClientUpdate": {
+      "type": "object",
+      "properties": {
+        "cli_id": {
+          "type": "integer",
+          "description": "Id del cliente a actualizar"
+        },
+        "cli_person_id": {
+          "type": "integer",
+          "description": "Id de la persona asociada"
+        },
+         "cli_identification": {
+          "type": "string",
+          "description": "Identificacion del cliente"
+        },
+        "cli_name": {
+          "type": "string",
+          "description": "Nombre del cliente"
+        },
+        "cli_address_bill": {
+          "type": "string",
+          "description": "Direccion de envio de la factura"
+        },
+        "cli_mail_bill": {
+          "type": "string",
+          "description": "Correo donde se enviara la factura"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de medico"
+        }
+      },
+      "required": [
+        "cli_id",
+        "cli_person_id",
+        "cli_identification",
+        "cli_name",
+        "cli_address_bill",
+        "cli_mail_bill",
+        "user_created"
+      ]
+    },
+
 
 
 
@@ -4411,7 +4686,7 @@
          "login_password": {
            "type": "string",
            "format": "string",
-           "example": "21232f297a57a5a743894a0e4a801fc3"
+           "example": "123456"
          },
          "host_name": {
            "type": "string",
