@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="JetClientState">
+    <option name="draftsState">
+      <draftsState>
+        <option name="preRequestScript" value="{&#10;  GET http://127.0.0.1:5000/clinic/patients/list/5&#10;  Accept: application/json&#10;  tokenapp: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NTEwNjkzOTUsImV4cCI6MTc1MTA3NjU5NSwidXNlcm5hbWUiOiJhZG1pbiJ9.0HQjGErKPHqrgI0_yPCEoKevu07WRDpvCYmo9yCWeJc&#10;}" />
+      </draftsState>
+    </option>
+    <option name="id" value="11e1bbb1-2b0c-4b1c-8b2d-8abcaa58ec4d" />
+    <option name="version" value="6" />
+  </component>
+</project>
