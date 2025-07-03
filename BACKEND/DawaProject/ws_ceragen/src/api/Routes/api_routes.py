@@ -1,5 +1,7 @@
 from ..Services.Admin.AdminClientService import AdminClientService_GetAll, AdminClientServiceAdd, \
     AdminClientServiceUpdate, AdminClientServiceDelete
+from ..Services.Admin.AdminExpenseService import AdminExpenseService_GetAll, AdminExpenseService_Delete, \
+    AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
 from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
@@ -181,14 +183,16 @@ def load_routes(api):
     api.add_resource(AdminClientServiceUpdate, '/admin/client/update')
     api.add_resource(AdminClientServiceDelete, '/admin/client/delete/<int:cli_id>')
 
-    #EXPENSES
+    #EXPENSES_TYPE
     api.add_resource(ExpenseTypeService_GetAll, '/admin/ExpenseType/list')
     api.add_resource(ExpenseTypeServiceAdd, '/admin/ExpenseType/insert')
     api.add_resource(AdminExpenseTypeServiceUpdate, '/admin/ExpenseType/update')
     api.add_resource(AdminExpenseTypeServiceDelete, '/admin/ExpenseType/delete/<int:ext_id>')
     api.add_resource(ExpenseTypeServiceGetById, '/admin/ExpenseType/<int:ext_id>')
 
-
-
-
-
+    #expense
+    api.add_resource(AdminExpenseService_GetAll, '/admin/expense/list')
+    api.add_resource(AdminExpenseService_GetById, '/admin/expense/<int:exp_id>')
+    api.add_resource(AdminExpenseService_Add, '/admin/expense/insert')
+    api.add_resource(AdminExpenseService_Update, '/admin/expense/update')
+    api.add_resource(AdminExpenseService_Delete, '/admin/expense/delete/<int:exp_id>')
