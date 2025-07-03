@@ -29,7 +29,6 @@
   ],
   "paths": {
     "/Audit/list": {
-
       "get": {
         "tags": [
           "WS Security"
@@ -113,7 +112,7 @@
         }
       }
     },
-    "/Notification/list":{
+    "/Notification/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -182,8 +181,6 @@
             "schema": {
               "$ref": "#/definitions/notification_update"
             }
-
-
           }
         ],
         "responses": {
@@ -279,8 +276,6 @@
             "schema": {
               "$ref": "#/definitions/logoutUserDef"
             }
-
-
           }
         ],
         "responses": {
@@ -416,8 +411,6 @@
             "schema": {
               "$ref": "#/definitions/update_password"
             }
-
-
           }
         ],
         "responses": {
@@ -443,7 +436,6 @@
       }
     },
     "/security/recover-password": {
-
       "patch": {
         "tags": [
           "WS Security"
@@ -455,8 +447,6 @@
           "application/json"
         ],
         "parameters": [
-
-
           {
             "in": "body",
             "name": "User_id",
@@ -489,7 +479,7 @@
         }
       }
     },
-    "/security/change-password":{
+    "/security/change-password": {
       "patch": {
         "tags": [
           "WS Security"
@@ -501,8 +491,6 @@
           "application/json"
         ],
         "parameters": [
-
-
           {
             "in": "body",
             "name": "User_id",
@@ -511,8 +499,6 @@
             "schema": {
               "$ref": "#/definitions/update_email_password"
             }
-
-
           }
         ],
         "responses": {
@@ -615,8 +601,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -668,8 +652,6 @@
             "schema": {
               "$ref": "#/definitions/update_id"
             }
-
-
           }
         ],
         "responses": {
@@ -713,7 +695,6 @@
             "required": true,
             "type": "string"
           }
-
         ],
         "responses": {
           "200": {
@@ -737,7 +718,7 @@
         }
       }
     },
-    "/RolSistem/insert":{
+    "/RolSistem/insert": {
       "post": {
         "tags": [
           "WS Security"
@@ -788,7 +769,7 @@
         }
       }
     },
-    "/RolSistem/list":{
+    "/RolSistem/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -857,8 +838,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -910,8 +889,6 @@
             "schema": {
               "$ref": "#/definitions/up_rolsistem"
             }
-
-
           }
         ],
         "responses": {
@@ -987,7 +964,7 @@
         }
       }
     },
-    "/UserRol/list":{
+    "/UserRol/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -1056,8 +1033,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -1109,8 +1084,6 @@
             "schema": {
               "$ref": "#/definitions/up_useRol"
             }
-
-
           }
         ],
         "responses": {
@@ -1186,7 +1159,7 @@
         }
       }
     },
-    "/Module/list":{
+    "/Module/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -1255,8 +1228,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -1308,8 +1279,6 @@
             "schema": {
               "$ref": "#/definitions/up_modulo"
             }
-
-
           }
         ],
         "responses": {
@@ -1385,7 +1354,7 @@
         }
       }
     },
-    "/Menu/list":{
+    "/Menu/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -1454,8 +1423,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -1507,8 +1474,6 @@
             "schema": {
               "$ref": "#/definitions/up_menu"
             }
-
-
           }
         ],
         "responses": {
@@ -1584,7 +1549,7 @@
         }
       }
     },
-    "/MenuRol/list":{
+    "/MenuRol/list": {
       "get": {
         "tags": [
           "WS Security"
@@ -1653,8 +1618,6 @@
             "schema": {
               "$ref": "#/definitions/delete_id"
             }
-
-
           }
         ],
         "responses": {
@@ -1706,8 +1669,6 @@
             "schema": {
               "$ref": "#/definitions/up_menurol"
             }
-
-
           }
         ],
         "responses": {
@@ -1750,7 +1711,6 @@
             "description": "Token para aplicación",
             "required": true,
             "type": "string"
-
           }
         ],
         "responses": {
@@ -1789,14 +1749,14 @@
           "application/json"
         ],
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
             "required": true,
             "type": "string"
           },
-        {
+          {
             "in": "body",
             "name": "Person_insert",
             "description": "Datos insertados de la Persona",
@@ -1988,7 +1948,6 @@
             "description": "Token para aplicación",
             "required": true,
             "type": "string"
-
           },
           {
             "name": "id",
@@ -2039,7 +1998,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -2073,11 +2031,15 @@
     },
     "/admin/Marital_status/list/{id}": {
       "get": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Obtener Estado Marital por ID",
         "description": "Obtiene un Estado Marital específico por su ID",
         "operationId": "GetMaritalStatusById",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -2112,11 +2074,15 @@
     },
     "/admin/Marital_status/add": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Agregar Estado Civil",
         "description": "Agregar los datos de un Estado Civil específico",
         "operationId": "AddMaritalStatus",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2162,11 +2128,15 @@
     },
     "/admin/Marital_status/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar Estado Civil",
         "description": "Actualiza un estado civil específico",
         "operationId": "UpdateMaritalStatus",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2216,7 +2186,9 @@
     },
     "/admin/Marital_status/delete/{id}/{user}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar estado Civil por ID",
         "description": "Elimina un estado civil específico por su ID",
         "operationId": "DeleteMaritalStatus",
@@ -2270,8 +2242,6 @@
         "produces": [
           "application/json"
         ],
-
-
         "responses": {
           "200": {
             "description": "Operación exitosa",
@@ -2296,11 +2266,15 @@
     },
     "/admin/Parameter_list/add": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Agregar Lista de Parametros",
         "description": "Agregar los datos de un parametro específico",
         "operationId": "AddParameterList",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2354,11 +2328,15 @@
     },
     "/admin/Parameter_list/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar Lista de Parametros",
         "description": "Actualiza los datos de un Parametro específico",
         "operationId": "UpdateParameterList",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2423,7 +2401,9 @@
     },
     "/admin/Parameter_list/delete/{id}/{user}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar lista de parametros por ID",
         "description": "Elimina una lista de parametros específica por su ID",
         "operationId": "DeleteParamaterList",
@@ -2468,11 +2448,15 @@
     },
     "/admin/Person_genre/list": {
       "get": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Lista de Personas",
         "description": "Obtiene una lista de los géneros de las personas",
         "operationId": "ListAllPersonGenre",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -2506,11 +2490,15 @@
     },
     "/admin/Person_genre/list/{id}": {
       "get": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Obtener Género por ID",
         "description": "Obtiene un género específico por su ID",
         "operationId": "GetPersonGenreById",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -2545,11 +2533,15 @@
     },
     "/admin/Person_genre/add": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Agregar Género",
         "description": "Agregar un género específico",
         "operationId": "AddAPersonGenre",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2595,11 +2587,15 @@
     },
     "/admin/Person_genre/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar Género",
         "description": "Actualiza un Género específico",
         "operationId": "UpdatePersonGenre",
-        "produces": ["application/json"],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "body",
@@ -2649,7 +2645,9 @@
     },
     "/admin/Person_genre/delete/{id}/{user}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar Género de Persona por ID",
         "description": "Elimina un Género de Persona específico por su ID",
         "operationId": "DeletePersonGenre",
@@ -2703,7 +2701,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -2737,12 +2734,14 @@
     },
     "/admin/product/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Agregar Producto",
         "description": "Agregar un producto específico",
         "operationId": "AddProduct",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -2759,7 +2758,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
@@ -2784,12 +2782,14 @@
     },
     "/admin/product/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un Producto",
         "description": "Actualizar un producto específico",
         "operationId": "UpdateProduct",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -2806,7 +2806,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
@@ -2831,12 +2830,14 @@
     },
     "/admin/product/delete/{pro_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un Producto",
         "description": "Eliminar un producto específico",
         "operationId": "DeleteProduct",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -2859,7 +2860,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto eliminado exitosamente",
@@ -2882,7 +2882,6 @@
         }
       }
     },
-
     "/admin/promotion/list": {
       "get": {
         "tags": [
@@ -2894,7 +2893,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -2928,12 +2926,14 @@
     },
     "/admin/promotion/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear una promocion",
         "description": "Crear una promocion para un producto",
         "operationId": "CreatePromotion",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -2950,7 +2950,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
@@ -2975,12 +2974,14 @@
     },
     "/admin/promotion/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar una promocion",
         "description": "Actualizar una promocion específico",
         "operationId": "UpdatePromotion",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -2997,7 +2998,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
@@ -3020,8 +3020,6 @@
         }
       }
     },
-
-
     "/admin/payment_method/list": {
       "get": {
         "tags": [
@@ -3033,7 +3031,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3067,12 +3064,14 @@
     },
     "/admin/payment_method/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear un metodo de pago",
         "description": "Crear un nuevo metodo de pago",
         "operationId": "CreatePaymentMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3089,7 +3088,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Metodo de pago agregado exitosamente",
@@ -3114,12 +3112,14 @@
     },
     "/admin/payment_method/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un metodo de pago",
         "description": "Actualizar un metodo de pago",
         "operationId": "UpdatePaymentMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3136,7 +3136,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
@@ -3161,12 +3160,14 @@
     },
     "/admin/payment_method/delete/{pme_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un metodo de pago",
         "description": "Eliminar un metodo de pago específico",
         "operationId": "DeletePaymentMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3189,7 +3190,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Metodo de pago eliminado exitosamente",
@@ -3212,7 +3212,6 @@
         }
       }
     },
-
     "/admin/dashboard/list": {
       "get": {
         "tags": [
@@ -3224,7 +3223,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3256,7 +3254,6 @@
         }
       }
     },
-
     "/admin/therapy-type/list": {
       "get": {
         "tags": [
@@ -3268,7 +3265,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3302,12 +3298,14 @@
     },
     "/admin/therapy-type/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear un tipo de terapia",
         "description": "Crear un tipo de terapia",
         "operationId": "CreateTherapyTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3324,7 +3322,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de terapia agregado exitosamente",
@@ -3349,12 +3346,14 @@
     },
     "/admin/therapy-type/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un tipo de terapia",
         "description": "Actualizar un tipo de terapia",
         "operationId": "UpdateTherapyTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3371,7 +3370,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de terapia agregado exitosamente",
@@ -3396,12 +3394,14 @@
     },
     "/admin/therapy-type/delete/{tht_id}": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un tipo de terapia",
         "description": "Eliminar un tipo de terapia específico",
         "operationId": "DeleteTherapyTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3424,7 +3424,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de terapia eliminado exitosamente",
@@ -3447,8 +3446,6 @@
         }
       }
     },
-
-
     "/admin/medicalPersonType/list": {
       "get": {
         "tags": [
@@ -3460,7 +3457,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3494,12 +3490,14 @@
     },
     "/admin/medicalPersonType/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear un tipos de medico",
         "description": "Crear un tipos de medico",
         "operationId": "CreateMedicalPersonTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3516,7 +3514,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de medicos agregado exitosamente",
@@ -3541,12 +3538,14 @@
     },
     "/admin/medicalPersonType/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un tipo de medico",
         "description": "Actualizar un tipo de medico",
         "operationId": "UpdateMedicalPersonTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3563,7 +3562,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de medicos actualizado exitosamente",
@@ -3588,12 +3586,14 @@
     },
     "/admin/medicalPersonType/delete/{mpt_id}": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un tipo de medico",
         "description": "Eliminar un tipo de medico específico",
         "operationId": "DeleteMedicalPersonTypeMethod",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3616,7 +3616,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de medico eliminado exitosamente",
@@ -3639,9 +3638,6 @@
         }
       }
     },
-
-
-
     "/admin/client/list": {
       "get": {
         "tags": [
@@ -3653,7 +3649,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3687,12 +3682,14 @@
     },
     "/admin/client/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear un cliente",
         "description": "Crear un cliente",
         "operationId": "CreateClientInsert",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3709,7 +3706,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Cliente agregado exitosamente",
@@ -3734,12 +3730,14 @@
     },
     "/admin/client/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un cliente",
         "description": "Actualizar un cliente especifico",
         "operationId": "CreateClientUpdate",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3756,7 +3754,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Cliente actualizado exitosamente",
@@ -3781,12 +3778,14 @@
     },
     "/admin/client/delete/{cli_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un cliente",
         "description": "Eliminar un cliente en específico",
         "operationId": "DeleteClient",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3809,7 +3808,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Cliente eliminado exitosamente",
@@ -3832,20 +3830,17 @@
         }
       }
     },
-
-
     "/admin/ExpenseType/list": {
       "get": {
         "tags": [
           "WS Admin"
         ],
-        "summary": "Listado de gastos (expense)",
-        "description": "Obtiene el listado de gasto",
-        "operationId": "ListAllExpense",
+        "summary": "Listado de tipo gastos (expense)",
+        "description": "Obtiene el listado de tipo de gasto",
+        "operationId": "ListAllExpenseType",
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3882,13 +3877,12 @@
         "tags": [
           "WS Admin"
         ],
-        "summary": "Obtener gastos (expense) por id",
-        "description": "Obtiene un gasto en especifico",
-        "operationId": "ByIdExpense",
+        "summary": "Obtener un tipo de gastos por id",
+        "description": "Obtiene un tipo gasto en especifico",
+        "operationId": "ByIdExpenseType",
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -3930,12 +3924,14 @@
     },
     "/admin/ExpenseType/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Crear un nuevo gasto",
         "description": "Crear un gasto",
         "operationId": "CreateExpenseTypeInsert",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3952,7 +3948,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Gasto agregado exitosamente",
@@ -3977,12 +3972,14 @@
     },
     "/admin/ExpenseType/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un tipo de gasto",
         "description": "Actualizar un tipo de gasto especifico",
-        "operationId": "CreateExpenseTypeUpdate",
+        "operationId": "UpdateExpenseTypeUpdate",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -3999,7 +3996,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de gasto actualizado exitosamente",
@@ -4024,12 +4020,14 @@
     },
     "/admin/ExpenseType/delete/{ext_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un tipo de gasto",
         "description": "Eliminar un tipo de gasto en específico",
         "operationId": "DeleteExpenseType",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -4040,6 +4038,245 @@
             "name": "ext_id",
             "in": "path",
             "description": "ID del tipo de pago",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo de gasto eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/expense/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de gastos",
+        "description": "Obtiene el listado de gastos",
+        "operationId": "ListAllExpense",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/expense/{exp_id}": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Obtener gastos por id",
+        "description": "Obtiene un gasto en especifico",
+        "operationId": "ByIdExpense",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "exp_id",
+            "in": "path",
+            "description": "ID del gasto",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/expense/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Re un gasto",
+        "description": "Registrar un gasto especifico",
+        "operationId": "CreateExpenseInsert",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminExpenseInsert",
+            "description": "Datos para registrer un gasto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminExpenseInsert"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Gasto registrado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al registrar el gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/expense/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un  gasto",
+        "description": "Actualizar un gasto especifico",
+        "operationId": "CreateExpenseUpdate",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminExpenseUpdate",
+            "description": "Datos para actualizar un gasto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminExpenseUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Gasto actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/expense/delete/{exp_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un gasto",
+        "description": "Eliminar un gasto en específico",
+        "operationId": "DeleteExpense",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "exp_id",
+            "in": "path",
+            "description": "ID del gasto",
             "required": true,
             "type": "integer",
             "format": "int64"
@@ -4568,10 +4805,100 @@
       ]
     },
 
-
-
-
-
+,
+    "AdminExpenseInsert": {
+      "type": "object",
+      "properties": {
+        "exp_type_id": {
+          "type": "integer",
+          "description": "Id deL tipo de gasto a registrar"
+        },
+        "exp_payment_method_id": {
+          "type": "integer",
+          "description": "Id deL metodo de pago a registrar"
+        },
+        "exp_description": {
+          "type": "string",
+          "description": "Descripcion del gasto"
+        },
+        "exp_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora del gasto en formato ISO 8601 (e.g., 2025-07-03T14:30:00Z)"
+        },
+        "exp_amount": {
+          "type": "number",
+          "format": "float",
+          "description": "Monto del gasto (ej. 125.50)"
+        },
+        "exp_receipt_number": {
+          "type": "string",
+          "description": "Número de comprobante o factura asociado al gasto"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que registro el gasto"
+        }
+      },
+      "required": [
+        "exp_type_id",
+        "exp_payment_method_id",
+        "exp_description",
+        "exp_date",
+        "exp_amount",
+        "exp_receipt_number",
+        "user_process"
+      ]
+    },
+    "AdminExpenseUpdate": {
+      "type": "object",
+      "properties": {
+        "exp_id": {
+          "type": "integer",
+          "description": "Id deL gasto a actualizar"
+        },
+        "exp_type_id": {
+          "type": "integer",
+          "description": "Id deL tipo de gasto a actualizar"
+        },
+        "exp_payment_method_id": {
+          "type": "integer",
+          "description": "Id deL metodo de pago a actualizar"
+        },
+        "exp_description": {
+          "type": "string",
+          "description": "Descripcion del gasto"
+        },
+        "exp_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora del gasto en formato ISO 8601 (e.g., 2025-07-03T14:30:00Z)"
+        },
+        "exp_amount": {
+          "type": "number",
+          "format": "float",
+          "description": "Monto del gasto (ej. 125.50)"
+        },
+        "exp_receipt_number": {
+          "type": "string",
+          "description": "Número de comprobante o factura asociado al gasto"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que actualiza el gasto"
+        }
+      },
+      "required": [
+        "exp_id",
+        "exp_type_id",
+        "exp_payment_method_id",
+        "exp_description",
+        "exp_date",
+        "exp_amount",
+        "exp_receipt_number",
+        "user_process"
+      ]
+    },
 
 
     "addQuestion": {
