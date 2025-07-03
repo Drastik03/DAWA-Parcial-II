@@ -3831,6 +3831,249 @@
           }
         }
       }
+    },
+
+
+    "/admin/ExpenseType/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de gastos (expense)",
+        "description": "Obtiene el listado de gasto",
+        "operationId": "ListAllExpense",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/ExpenseType/{ext_id}": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Obtener gastos (expense) por id",
+        "description": "Obtiene un gasto en especifico",
+        "operationId": "ByIdExpense",
+        "produces": [
+          "application/json"
+        ],
+
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ext_id",
+            "in": "path",
+            "description": "ID del tipo de gasto",
+            "required": true,
+            "type": "string",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/ExpenseType/insert": {
+      "post": {
+        "tags": ["WS Admin"],
+        "summary": "Crear un nuevo gasto",
+        "description": "Crear un gasto",
+        "operationId": "CreateExpenseTypeInsert",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminExpenseTypeCreate",
+            "description": "Datos para crear un nuevo gasto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminExpenseTypeCreate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Gasto agregado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al agregar el gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/ExpenseType/update": {
+      "patch": {
+        "tags": ["WS Admin"],
+        "summary": "Actualizar un tipo de gasto",
+        "description": "Actualizar un tipo de gasto especifico",
+        "operationId": "CreateExpenseTypeUpdate",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminExpenseTypeUpdate",
+            "description": "Datos para actualizar un tipo de gasto",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminExpenseTypeUpdate"
+            }
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de gasto actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el tipo de gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/ExpenseType/delete/{ext_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Eliminar un tipo de gasto",
+        "description": "Eliminar un tipo de gasto en específico",
+        "operationId": "DeleteExpenseType",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ext_id",
+            "in": "path",
+            "description": "ID del tipo de pago",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de gasto eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -4270,6 +4513,57 @@
         "cli_name",
         "cli_address_bill",
         "cli_mail_bill",
+        "user_created"
+      ]
+    },
+
+
+    "AdminExpenseTypeCreate": {
+      "type": "object",
+      "properties": {
+        "ext_name": {
+          "type": "string",
+          "description": "Nombre del nuevo gasto"
+        },
+        "ext_description": {
+          "type": "string",
+          "description": "Descripcion del nuevc gasto"
+        },
+        "user_process": {
+          "type": "string",
+          "description": "Usuario que crea el tipo de gasto"
+        }
+      },
+      "required": [
+        "ext_name",
+        "ext_description",
+        "user_process"
+      ]
+    },
+    "AdminExpenseTypeUpdate": {
+      "type": "object",
+      "properties": {
+        "ext_id": {
+          "type": "integer",
+          "description": "Id del tipo de gasto a actualizar"
+        },
+        "ext_name": {
+          "type": "string",
+          "description": "Nombre del tipo de gasto"
+        },
+         "ext_description": {
+          "type": "string",
+          "description": "Descripcion del tipo de gasto"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que actualiza el tipo de gasto"
+        }
+      },
+      "required": [
+        "ext_id",
+        "ext_name",
+        "ext_description",
         "user_created"
       ]
     },

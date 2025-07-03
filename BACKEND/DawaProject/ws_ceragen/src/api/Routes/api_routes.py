@@ -28,6 +28,8 @@ from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_servi
 from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
     AdminProductService_Update, AdminProductService_Delete
 from ..Services.Admin.DashboardService import DashboardService_GetAll
+from ..Services.Admin.ExpenseTypeService import ExpenseTypeService_GetAll, ExpenseTypeServiceAdd, \
+    AdminExpenseTypeServiceUpdate, AdminExpenseTypeServiceDelete, ExpenseTypeServiceGetById
 from ..Services.Admin.MedicalPersonTypeService import MedicPersonTypeService_GetAll, MedicPersonTypeService_Add, \
     MedicPersonTypeService_Update, MedicPersonTypeService_Delete
 from ..Services.Admin.PaymentMethodService import AdminPaymentMethodService_GetAll, AdminPaymentMethodService_Update, \
@@ -178,6 +180,14 @@ def load_routes(api):
     api.add_resource(AdminClientServiceAdd, '/admin/client/insert')
     api.add_resource(AdminClientServiceUpdate, '/admin/client/update')
     api.add_resource(AdminClientServiceDelete, '/admin/client/delete/<int:cli_id>')
+
+    #EXPENSES
+    api.add_resource(ExpenseTypeService_GetAll, '/admin/ExpenseType/list')
+    api.add_resource(ExpenseTypeServiceAdd, '/admin/ExpenseType/insert')
+    api.add_resource(AdminExpenseTypeServiceUpdate, '/admin/ExpenseType/update')
+    api.add_resource(AdminExpenseTypeServiceDelete, '/admin/ExpenseType/delete/<int:ext_id>')
+    api.add_resource(ExpenseTypeServiceGetById, '/admin/ExpenseType/<int:ext_id>')
+
 
 
 
