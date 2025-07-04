@@ -3,7 +3,7 @@ from ....utils.general.logs import HandleLogs
 from ...Model.Response.Security.NotificationResponse import NotificationResponse
 from ....utils.general.response import internal_response
 
-
+#MODULO DE NOTICICAION
 class NotificationComponent:
     @staticmethod
     def NotificationSend(data):
