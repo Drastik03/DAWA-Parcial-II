@@ -4311,9 +4311,1396 @@
           }
         }
       }
+    },
+
+
+    "/clinic/patients/list": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Lista los pacientes",
+        "description": "LIsta todos los Pacientes Activos",
+        "operationId": "patientList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/patients/list/{pat_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obetener paciente por id",
+        "description": "Obtiene Paciente especifico por su Id",
+        "operationId": "patientGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pat_id",
+            "description": "ID del paciente a revisar (pat_id en la tabla de pacientes)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/patients/add": {
+      "post": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Crea un nuevo paciente",
+        "description": "Añade un nuevo paciente al registro",
+        "operationId": "patientInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Patient data to insert",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patient_insert_request",
+              "example": {
+                "pat_person_id": 101,
+                "pat_client_id": 1,
+                "pat_code": "P123456",
+                "pat_medical_conditions": "Asma y presión alta",
+                "pat_allergies": "Penicilina",
+                "pat_blood_type": "O+",
+                "pat_emergency_contact_name": "Carlos Gómez",
+                "pat_emergency_contact_phone": "0987654321"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/patients/update/{pat_id}": {
+      "patch": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Actualizar Paciente",
+        "description": "Actualiza un paciente",
+        "operationId": "patientUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pat_id",
+            "description": "ID del paciente a actualizar",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del paciente a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/patient_update_request",
+              "example": {
+                "pat_person_id": 7,
+                "pat_client_id": 201,
+                "pat_code": "P1677456",
+                "pat_medical_conditions": "Asma leve controlada",
+                "pat_allergies": "Ninguna",
+                "pat_blood_type": "O+",
+                "pat_emergency_contact_name": "Guaman perez",
+                "pat_emergency_contact_phone": "0987654321",
+                "user_modified": "admin"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/patients/delete/{pat_id}": {
+      "delete": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Eliminar Paciente (Soft Delete)",
+        "description": "Desactiva un paciente por Id (soft delete)",
+        "operationId": "patientDelete",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pat_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa"
+          },
+          "500": {
+            "description": "Error"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        }
+      }
+    },
+
+
+    "/medical-histories/list": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Listar todas las historias clínicas",
+        "description": "Recupera una lista de todos los historiales médicos registrados en el sistema.",
+        "operationId": "getAllMedicalHistoriesList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historias médicas obtenidas exitosamente.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalHistoryResponse"
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "No se encontraron historias médicas.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/list/{hist_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obtener historial médico por ID de Historia",
+        "description": "Recupera un historial médico específico utilizando su ID.",
+        "operationId": "getMedicalHistoryByIdInList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a recuperar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico obtenido exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/patientHist/{hist_patient_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obtener historial médico por ID de paciente",
+        "description": "Recupera un historial médico específico utilizando ID de paciente.",
+        "operationId": "getMedicalHistoryByIdInList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a recuperar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico obtenido exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/insert": {
+      "post": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Insertar un nuevo historial médico",
+        "description": "Crea un nuevo registro de historial médico.",
+        "operationId": "insertMedicalHistory",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del nuevo historial médico a insertar",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hist_patient_id": {
+                  "type": "integer"
+                },
+                "hist_primary_complaint": {
+                  "type": "string"
+                },
+                "hist_onset_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "hist_related_trauma": {
+                  "type": "boolean"
+                },
+                "hist_current_treatment": {
+                  "type": "string"
+                },
+                "hist_notes": {
+                  "type": "string"
+                },
+                "user_created": {
+                  "type": "string"
+                },
+                "date_created": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              },
+              "example": {
+                "hist_patient_id": 5,
+                "hist_primary_complaint": "Dolor torácico severo",
+                "hist_onset_date": "2025-06-15",
+                "hist_related_trauma": true,
+                "hist_current_treatment": "Analgésicos y reposo",
+                "hist_notes": "Paciente refiere dolor tras accidente automovilístico.",
+                "user_created": "admin_user",
+                "date_created": "2025-06-30 10:00:00"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico insertado exitosamente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Historial médico insertado exitosamente"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "hist_id": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  }
+                },
+                "status_code": {
+                  "type": "integer",
+                  "example": 200
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/update/{hist_id}": {
+      "patch": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Actualizar un historial médico existente",
+        "description": "Actualiza la información de un historial médico existente por su ID.",
+        "operationId": "updateMedicalHistoryFromAdd",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a actualizar."
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del historial médico a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalHistoryUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico actualizado exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos de entrada inválidos.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado o sin datos para actualizar.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/medical-histories/delete/{hist_id}": {
+      "delete": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Eliminar un historial médico",
+        "description": "Elimina permanentemente un historial médico por su ID.",
+        "operationId": "deleteMedicalHistorySpecific",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "hist_id",
+            "type": "integer",
+            "required": true,
+            "description": "ID del historial médico a eliminar."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Historial médico eliminado exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "401": {
+            "description": "No autorizado, token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Historial médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/patient-allergy/add": {
+      "post": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Agregar alergia al paciente",
+        "description": "Crea un nuevo registro de alergia para un paciente.",
+        "operationId": "addPatientAllergy",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos de la alergia",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatientAllergyInsert"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alergia registrada exitosamente."
+          },
+          "400": {
+            "description": "Solicitud inválida."
+          },
+          "401": {
+            "description": "No autorizado."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/patient-allergy/update/{pa_id}": {
+      "patch": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Actualizar alergia del paciente",
+        "description": "Actualiza los datos de una alergia existente del paciente.",
+        "operationId": "updatePatientAllergy",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pa_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatientAllergyUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alergia actualizada correctamente."
+          },
+          "400": {
+            "description": "Datos inválidos."
+          },
+          "404": {
+            "description": "Alergia no encontrada."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/patient-disease/add": {
+      "post": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Agregar enfermedad al paciente",
+        "description": "Crea un nuevo registro de enfermedad para un paciente.",
+        "operationId": "addPatientDisease",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatientDiseaseInsert"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enfermedad registrada exitosamente."
+          },
+          "400": {
+            "description": "Solicitud inválida."
+          },
+          "401": {
+            "description": "No autorizado."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/patient-disease/update/{pd_id}": {
+      "patch": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Actualizar enfermedad del paciente",
+        "description": "Actualiza los datos de una enfermedad registrada para un paciente.",
+        "operationId": "updatePatientDisease",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pd_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PatientDiseaseUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enfermedad actualizada correctamente."
+          },
+          "400": {
+            "description": "Datos inválidos."
+          },
+          "404": {
+            "description": "Enfermedad no encontrada."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/sessions/list": {
+    "get": {
+      "tags": [
+        "WS Clinic Sessions"
+      ],
+      "summary": "Listar sesiones clínicas",
+      "description": "Devuelve todas las sesiones clínicas registradas.",
+      "operationId": "clinicSessionList",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para autenticación",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "401": {
+          "description": "No autorizado"
+        },
+        "500": {
+          "description": "Error interno"
+        }
+      }
     }
   },
-  "definitions": {
+    "/clinic/sessions/insert": {
+      "post": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Agregar sesión clínica",
+        "description": "Registra una nueva sesión clínica.",
+        "operationId": "clinicSessionAdd",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clinic_session_insert_request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión creada correctamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos"
+          }
+        }
+      }
+    },
+    "/clinic/sessions/{cli_id}": {
+      "get": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Obtener sesión clínica por ID",
+        "description": "Devuelve la información de una sesión clínica específica.",
+        "operationId": "clinicSessionById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "cli_id",
+            "description": "ID de la sesión clínica",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión encontrada",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Sesión no encontrada"
+          },
+          "500": {
+            "description": "Error interno"
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Actualizar sesión clínica",
+        "description": "Modifica los datos de una sesión clínica.",
+        "operationId": "clinicSessionUpdate",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "cli_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/clinic_session_update_request"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actualizado correctamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Eliminar sesión clínica",
+        "description": "Elimina lógicamente una sesión clínica.",
+        "operationId": "clinicSessionDelete",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "cli_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión eliminada correctamente"
+          },
+          "404": {
+            "description": "No encontrado"
+          }
+        }
+      }
+    },
+
+    "/clinic/TherapySession/list": {
+      "get": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Listar todas las sesiones de control de terapia",
+        "description": "Devuelve una lista de todas las sesiones de control de terapia activas.",
+        "operationId": "therapySessionControlList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa. Lista de sesiones de control de terapia.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TherapySessionControlResponse"
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "No se encontraron sesiones de control de terapia.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/TherapySession/list/{sec_id}": {
+      "get": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Obtener sesión de control de terapia por ID",
+        "description": "Devuelve la información de una sesión de control de terapia específica por su `sec_id`.",
+        "operationId": "therapySessionControlGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "sec_id",
+            "description": "ID de la sesión de control de terapia a recuperar.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión de control de terapia encontrada.",
+            "schema": {
+              "$ref": "#/definitions/TherapySessionControlResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Sesión de control de terapia no encontrada.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/TherapySession/add": {
+      "post": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Agregar nueva sesión de control de terapia",
+        "description": "Registra una nueva sesión de control de terapia en el sistema.",
+        "operationId": "therapySessionControlAdd",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos para crear una nueva sesión de control de terapia.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TherapySessionControlInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Sesión de control de terapia creada exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o datos de entrada incorrectos.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/TherapySession/update/{sec_id}": {
+      "patch": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Actualizar sesión de control de terapia",
+        "description": "Modifica los datos de una sesión de control de terapia existente por su `sec_id`.",
+        "operationId": "therapySessionControlUpdate",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "sec_id",
+            "description": "ID de la sesión de control de terapia a actualizar.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos de la sesión de control de terapia a actualizar (actualización parcial).",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/TherapySessionControlUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión de control de terapia actualizada exitosamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida o datos de entrada incorrectos.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Sesión de control de terapia no encontrada.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/TherapySession/delete/{sec_id}": {
+    "delete": {
+      "tags": [
+        "WS Clinic Sessions"
+      ],
+      "summary": "Eliminar lógicamente sesión de control de terapia",
+      "description": "Marca una sesión de control de terapia como inactiva por su `sec_id`.",
+      "operationId": "therapySessionControlDelete",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "sec_id",
+          "description": "ID de la sesión de control de terapia a eliminar lógicamente.",
+          "required": true,
+          "type": "integer",
+          "format": "int32"
+       },
+        {
+         "in": "path",
+          "name": "user_process",
+          "description": "Usuario que realiza la eliminación lógica.",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "user_deleted": {
+                "type": "string",
+               "description": "Usuario que realiza la eliminación lógica.",
+                "example": "admin_user"
+              }
+            }
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Sesión de control de terapia inactivada exitosamente.",
+          "schema": {
+            "type": "object",
+            "properties": {
+             "result": { "type": "boolean", "example": true },
+              "message": { "type": "string", "example": "Sesión eliminada lógicamente exitosamente." },
+              "" : { "type": "object", "example": {} }
+            }
+          }
+        },
+        "400": {
+          "description": "Solicitud inválida (ej. 'user_deleted' no proporcionado).",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": { "type": "boolean", "example": false },
+              "message": { "type": "string", "example": "Se requiere 'user_deleted' en el cuerpo de la solicitud para la eliminación." }
+            }
+          }
+        },
+        "404": {
+          "description": "Sesión de control de terapia no encontrada o ya estaba inactiva.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": { "type": "boolean", "example": false },
+              "message": { "type": "string", "example": "Sesión de control de terapia no encontrada o ya estaba inactiva." }
+            }
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+           "type": "object",
+            "properties": {
+              "result": { "type": "boolean", "example": false },
+              "message": { "type": "string", "example": "Error interno del servidor al procesar la solicitud." }
+            }
+          }
+        }
+      }
+    }
+  }
+  },
+  "definitions":
+  {
+    "UnauthorizeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "example": false,
+          "description": "Indica si la operación fue exitosa"
+        },
+        "message": {
+          "type": "string",
+          "example": "No autorizado",
+          "description": "Mensaje de error o advertencia"
+        },
+        "data": {
+          "type": "null",
+          "example": null,
+          "description": "No se devuelve data cuando no está autorizado"
+        }
+      }
+    },
+
     "AdminProductInsert": {
       "type": "object",
       "properties": {
@@ -4805,7 +6192,6 @@
       ]
     },
 
-,
     "AdminExpenseInsert": {
       "type": "object",
       "properties": {
@@ -4900,6 +6286,532 @@
       ]
     },
 
+    "MedicalHistoryInsertRequest": {
+      "type": "object",
+      "required": [
+        "hist_patient_id",
+        "hist_primary_complaint",
+        "hist_onset_date"
+      ],
+      "properties": {
+        "hist_patient_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID del paciente asociado a este historial."
+        },
+        "hist_primary_complaint": {
+          "type": "string",
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de inicio de la queja (YYYY-MM-DD)."
+        },
+        "hist_related_trauma": {
+          "type": "string",
+          "description": "Trauma(s) relacionado(s), si aplica."
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "description": "Tratamiento(s) actual(es)."
+        },
+        "hist_notes": {
+          "type": "string",
+          "description": "Notas adicionales sobre el historial."
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que creó el registro."
+        }
+      }
+    },
+    "MedicalHistoryUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "hist_primary_complaint": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "format": "date",
+          "description": "Fecha de inicio de la condición (YYYY-MM-DD)."
+        },
+        "hist_related_trauma": {
+          "type": "boolean",
+          "description": "¿Está relacionado con un trauma?"
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Tratamiento actual del paciente."
+        },
+        "hist_notes": {
+          "type": "string",
+          "maxLength": 1000,
+          "description": "Notas adicionales del historial médico."
+        }
+      },
+      "required": [],
+      "example": {
+        "hist_primary_complaint": "Dolor de cabeza crónico con migrañas severas, recurrente semanalmente.",
+        "hist_notes": "Se recomienda MRI cerebral y consulta con neurólogo. Paciente refiere antecedentes familiares de migraña."
+      }
+    },
+    "MedicalHistoryResponse": {
+      "type": "object",
+      "properties": {
+        "hist_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID único del historial médico."
+        },
+        "hist_patient_id": {
+          "type": "integer",
+          "format": "int32",
+          "description": "ID del paciente asociado."
+        },
+        "hist_primary_complaint": {
+          "type": "string",
+          "description": "Queja principal del paciente."
+        },
+        "hist_onset_date": {
+          "type": "string",
+          "description": "Fecha de inicio de la queja (DD/MM/YYYY)."
+        },
+        "hist_related_trauma": {
+          "type": "string",
+          "description": "Trauma(s) relacionado(s)."
+        },
+        "hist_current_treatment": {
+          "type": "string",
+          "description": "Tratamiento(s) actual(es)."
+        },
+        "hist_notes": {
+          "type": "string",
+          "description": "Notas adicionales."
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que creó el registro."
+        },
+        "date_created": {
+          "type": "string",
+          "description": "Fecha de creación del registro (DD/MM/YYYY HH24:MI:SS)."
+        },
+        "user_modified": {
+          "type": "string",
+          "description": "Usuario que modificó el registro."
+        },
+        "date_modified": {
+          "type": "string",
+          "description": "Fecha de última modificación (DD/MM/YYYY HH24:MI:SS)."
+        },
+        "user_deleted": {
+          "type": "string",
+          "description": "Usuario que eliminó el registro (si aplica)."
+        },
+        "date_deleted": {
+          "type": "string",
+          "description": "Fecha de eliminación (si aplica) (DD/MM/YYYY HH24:MI:SS)."
+        }
+      }
+    },
+    "PatientAllergyInsert": {
+      "type": "object",
+      "required": [
+        "pa_patient_id",
+        "pa_allergy_id",
+        "user_created"
+      ],
+      "properties": {
+        "pa_patient_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "pa_allergy_id": {
+          "type": "integer",
+          "example": 5
+        },
+        "pa_reaction_description": {
+          "type": "string",
+          "example": "Reacción alérgica leve"
+        },
+        "user_created": {
+          "type": "string",
+          "example": "admin"
+        }
+      }
+    },
+    "PatientAllergyUpdate": {
+      "type": "object",
+      "required": [
+        "pa_patient_id",
+        "pa_allergy_id",
+        "user_modified"
+      ],
+      "properties": {
+        "pa_patient_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "pa_allergy_id": {
+          "type": "integer",
+          "example": 5
+        },
+        "pa_reaction_description": {
+          "type": "string",
+          "example": "Reacción moderada"
+        },
+        "user_modified": {
+          "type": "string",
+          "example": "usuario_editor"
+        }
+      }
+    },
+    "PatientDiseaseInsert": {
+      "type": "object",
+      "required": [
+        "pd_patient_id",
+        "pd_disease_id",
+        "user_created"
+      ],
+      "properties": {
+        "pd_patient_id": {
+          "type": "integer",
+          "example": 2
+        },
+        "pd_disease_id": {
+          "type": "integer",
+          "example": 3
+        },
+        "pd_notes": {
+          "type": "string",
+          "example": "Paciente en observación"
+        },
+        "user_created": {
+          "type": "string",
+          "example": "doctor1"
+        }
+      }
+    },
+    "PatientDiseaseUpdate": {
+      "type": "object",
+      "required": [
+        "pd_disease_id",
+        "pd_is_current",
+        "user_modified"
+      ],
+      "properties": {
+        "pd_disease_id": {
+          "type": "integer",
+          "example": 3
+        },
+        "pd_notes": {
+          "type": "string",
+          "example": "Enfermedad controlada"
+        },
+        "pd_is_current": {
+          "type": "boolean",
+          "example": false
+        },
+        "user_modified": {
+          "type": "string",
+          "example": "doctor2"
+        }
+      }
+    },
+    "clinic_session_insert_request": {
+      "type": "object",
+      "required": [
+        "cli_person_id",
+        "cli_identification",
+        "cli_name"
+      ],
+      "properties": {
+        "cli_person_id": {
+          "type": "integer"
+        },
+        "cli_identification": {
+          "type": "string",
+          "maxLength": 13
+        },
+        "cli_name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "cli_address_bill": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "cli_mail_bill": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "user_created": {
+          "type": "string"
+        }
+      }
+    },
+    "clinic_session_update_request": {
+      "type": "object",
+      "required": [
+        "cli_person_id",
+        "cli_identification",
+        "cli_name",
+        "user_modified"
+      ],
+      "properties": {
+        "cli_person_id": {
+          "type": "integer"
+        },
+        "cli_identification": {
+          "type": "string",
+          "maxLength": 13
+        },
+        "cli_name": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "cli_address_bill": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "cli_mail_bill": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "user_modified": {
+          "type": "string"
+        }
+      }
+    },
+
+    "TherapySessionControlInsertRequest": {
+      "type": "object",
+      "properties": {
+        "sec_inv_id": {
+          "type": "integer",
+          "description": "ID del inventario/paquete asociado a la sesión."
+        },
+        "sec_pro_id": {
+          "type": "integer",
+          "description": "ID del profesional (terapeuta/médico) asociado a la sesión."
+        },
+        "sec_ses_number": {
+          "type": "integer",
+          "description": "Número de la sesión (ej. 1 de 10)."
+        },
+        "sec_ses_agend_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora agendada de la sesión (YYYY-MM-DD HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_ses_exec_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de ejecución real de la sesión (YYYY-MM-DD HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_typ_id": {
+          "type": "integer",
+          "description": "ID del tipo de sesión (ej. Terapia Física, Quiropráctica)."
+        },
+        "sec_med_staff_id": {
+          "type": "integer",
+          "description": "ID del personal médico/staff que realiza la sesión."
+        },
+        "ses_consumed": {
+          "type": "boolean",
+          "description": "Indica si la sesión ha sido consumida.",
+          "default": false
+        },
+        "ses_state": {
+          "type": "boolean",
+          "description": "Estado activo/inactivo de la sesión.",
+          "default": true
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea el registro."
+        }
+      },
+      "required": [
+        "sec_inv_id",
+        "sec_pro_id",
+        "sec_ses_number",
+        "sec_typ_id",
+        "sec_med_staff_id",
+        "user_created"
+      ],
+      "example": {
+        "sec_inv_id": 2,
+        "sec_pro_id": 5,
+        "sec_ses_number": 1,
+        "sec_ses_agend_date": "2025-07-05 10:30:00",
+        "sec_ses_exec_date": null,
+        "sec_typ_id": 1,
+        "sec_med_staff_id": 15,
+        "ses_consumed": false,
+        "ses_state": true,
+        "user_created": "admin"
+      }
+    },
+    "TherapySessionControlUpdateRequest": {
+      "type": "object",
+      "properties": {
+        "sec_inv_id": {
+          "type": "integer",
+          "description": "ID del inventario/paquete asociado a la sesión."
+        },
+        "sec_pro_id": {
+          "type": "integer",
+          "description": "ID del profesional (terapeuta/médico) asociado a la sesión."
+        },
+        "sec_ses_number": {
+          "type": "integer",
+          "description": "Número de la sesión (ej. 1 de 10)."
+        },
+        "sec_ses_agend_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora agendada de la sesión (YYYY-MM-DD HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_ses_exec_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de ejecución real de la sesión (YYYY-MM-DD HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_typ_id": {
+          "type": "integer",
+          "description": "ID del tipo de sesión (ej. Terapia Física, Quiropráctica)."
+        },
+        "sec_med_staff_id": {
+          "type": "integer",
+          "description": "ID del personal médico/staff que realiza la sesión."
+        },
+        "ses_consumed": {
+          "type": "boolean",
+          "description": "Indica si la sesión ha sido consumida."
+        },
+        "ses_state": {
+          "type": "boolean",
+          "description": "Estado activo/inactivo de la sesión."
+        },
+        "user_modified": {
+          "type": "string",
+          "description": "Usuario que modifica el registro."
+        }
+      },
+      "example": {
+        "sec_ses_exec_date": "2025-07-05 10:45:00",
+        "ses_consumed": true,
+        "user_modified": "therapist_user"
+      }
+    },
+    "TherapySessionControlResponse": {
+      "type": "object",
+      "properties": {
+        "sec_id": {
+          "type": "integer",
+          "description": "ID único de la sesión de control."
+        },
+        "sec_inv_id": {
+          "type": "integer",
+          "description": "ID del inventario/paquete asociado."
+        },
+        "sec_pro_id": {
+          "type": "integer",
+          "description": "ID del profesional asociado."
+        },
+        "sec_ses_number": {
+          "type": "integer",
+          "description": "Número de la sesión."
+        },
+        "sec_ses_agend_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora agendada de la sesión (DD/MM/YYYY HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_ses_exec_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha y hora de ejecución real de la sesión (DD/MM/YYYY HH:MM:SS).",
+          "nullable": true
+        },
+        "sec_typ_id": {
+          "type": "integer",
+          "description": "ID del tipo de sesión."
+        },
+        "sec_med_staff_id": {
+          "type": "integer",
+          "description": "ID del personal médico/staff."
+        },
+        "ses_consumed": {
+          "type": "boolean",
+          "description": "Estado de consumo de la sesión."
+        },
+        "ses_state": {
+          "type": "boolean",
+          "description": "Estado activo/inactivo del registro de sesión."
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que creó el registro."
+        },
+        "date_created": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha de creación del registro (DD/MM/YYYY HH:MM:SS)."
+        },
+        "user_modified": {
+          "type": "string",
+          "nullable": true,
+          "description": "Usuario que modificó el registro."
+        },
+        "date_modified": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Fecha de última modificación (DD/MM/YYYY HH:MM:SS)."
+        },
+        "user_deleted": {
+          "type": "string",
+          "nullable": true,
+          "description": "Usuario que eliminó lógicamente el registro."
+        },
+        "date_deleted": {
+          "type": "string",
+          "format": "date-time",
+          "nullable": true,
+          "description": "Fecha de eliminación lógica (DD/MM/YYYY HH:MM:SS)."
+        }
+      },
+      "example": {
+        "sec_id": 1,
+        "sec_inv_id": 101,
+        "sec_pro_id": 5,
+        "sec_ses_number": 1,
+        "sec_ses_agend_date": "05/07/2025 10:30:00",
+        "sec_ses_exec_date": "05/07/2025 10:45:00",
+        "sec_typ_id": 1,
+        "sec_med_staff_id": 15,
+        "ses_consumed": true,
+        "ses_state": true,
+        "user_created": "scheduler",
+        "date_created": "04/07/2025 09:00:00",
+        "user_modified": "therapist_user",
+        "date_modified": "05/07/2025 10:45:00",
+        "user_deleted": null,
+        "date_deleted": null
+      }
+    },
 
     "addQuestion": {
       "type": "object",

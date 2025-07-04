@@ -1,8 +1,57 @@
 from ....utils.database.connection_db import DataBaseHandle
 from ....utils.general.logs import HandleLogs
 from ...Model.Response.Security.NotificationResponse import NotificationResponse
+from ....utils.general.response import internal_response
 
+#MODULO DE NOTICICAION
 class NotificationComponent:
+    @staticmethod
+    def NotificationSend(data):
+        try:
+            HandleLogs.write_log(f"Enviando notificación con datos: {data}")
+            sql = """
+                        INSERT INTO ceragen.segu_user_notification (
+                            sun_user_source_id,
+                            sun_user_destination_id,
+                            sun_title_notification,
+                            sun_text_notification,
+                            sun_date_notification,
+                            sun_state_notification,
+                            sun_isread_notification,
+                            user_created,
+                            date_created
+                        ) VALUES (%s, %s, %s, %s, CURRENT_TIMESTAMP, %s, %s, %s, CURRENT_TIMESTAMP)
+                        RETURNING sun_id;
+                    """
+            params = (
+                data.get("sun_user_source_id"),
+                data.get("sun_user_destination_id"),
+                data.get("sun_title_notification"),
+                data.get("sun_text_notification"),
+                data.get("sun_state_notification", True),
+                data.get("sun_isread_notification", False),
+                data.get("user_created")
+            )
+
+            result = DataBaseHandle.ExecuteInsert(sql, params)
+
+            if result.get("result"):
+                return internal_response(
+                    True,
+                    "Notificación enviada exitosamente.",
+                    {"sun_id": result["data"][0]["sun_id"]}
+                )
+            else:
+                return internal_response(
+                    False,
+                    result.get("message", "Error al enviar la notificación."),
+                    None
+                )
+
+        except Exception as e:
+            HandleLogs.write_error(f"Error en NotificationSend: {str(e)}")
+            return internal_response(False, "Error interno al enviar la notificación.", None)
+
     @staticmethod
     def NotificationsList(user_name):
         try:
