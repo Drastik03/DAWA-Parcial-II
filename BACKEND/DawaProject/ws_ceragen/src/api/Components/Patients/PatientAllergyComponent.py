@@ -140,6 +140,8 @@ class PatientAllergyComponent:
                 LEFT JOIN ceragen.clinic_allergy_catalog al ON pa.pa_allergy_id = al.al_id AND al.date_deleted IS NULL
                 WHERE pa.pa_id = %s AND pa.date_deleted IS NULL
             """
+
+
             result = DataBaseHandle.getRecords(sql, 1, (pa_id,))
             HandleLogs.write_log(f"[getPatientAllergyById] Resultado: {result}")
             if result.get("result"):
