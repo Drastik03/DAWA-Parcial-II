@@ -4125,7 +4125,6 @@
         "produces": [
           "application/json"
         ],
-
         "parameters": [
           {
             "in": "header",
@@ -4167,12 +4166,14 @@
     },
     "/admin/expense/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Re un gasto",
         "description": "Registrar un gasto especifico",
         "operationId": "CreateExpenseInsert",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -4189,7 +4190,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Gasto registrado exitosamente",
@@ -4214,12 +4214,14 @@
     },
     "/admin/expense/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un  gasto",
         "description": "Actualizar un gasto especifico",
         "operationId": "CreateExpenseUpdate",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -4236,7 +4238,6 @@
             }
           }
         ],
-
         "responses": {
           "200": {
             "description": "Gasto actualizado exitosamente",
@@ -4261,12 +4262,14 @@
     },
     "/admin/expense/delete/{exp_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Eliminar un gasto",
         "description": "Eliminar un gasto en específico",
         "operationId": "DeleteExpense",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -4289,7 +4292,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de gasto eliminado exitosamente",
@@ -4312,8 +4314,6 @@
         }
       }
     },
-
-
     "/clinic/patients/list": {
       "get": {
         "tags": [
@@ -4580,8 +4580,6 @@
         }
       }
     },
-
-
     "/medical-histories/list": {
       "get": {
         "tags": [
@@ -5065,10 +5063,309 @@
         }
       }
     },
+    "/clinic/patient-allergy/list": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Listar alergias de pacientes",
+        "description": "Devuelve todas las alergias registradas de los pacientes.",
+        "operationId": "listPatientAllergies",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado exitoso de alergias.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "401": {
+            "description": "No autorizado."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/patient-allergy/delete/{pa_id}": {
+      "delete": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Eliminar alergia del paciente",
+        "description": "Marca como eliminada una alergia del paciente por su ID.",
+        "operationId": "deletePatientAllergy",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pa_id",
+            "description": "ID de la alergia del paciente",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alergia eliminada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Alergia no encontrada."
+          },
+          "401": {
+            "description": "No autorizado."
+          },
+          "500": {
+            "description": "Error del servidor."
+          }
+        }
+      }
+    },
+    "/clinic/patient-allergy/get/{pa_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obtener alergia del paciente por ID",
+        "description": "Devuelve los datos de una alergia específica del paciente identificada por su ID.",
+        "operationId": "getPatientAllergyById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pa_id",
+            "description": "ID de la alergia del paciente",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alergia encontrada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Alergia no encontrada."
+          },
+          "401": {
+            "description": "No autorizado - Token inválido o faltante."
+          },
+          "500": {
+            "description": "Error interno del servidor."
+          }
+        }
+      }
+    },
+
+    "/clinic/bloodtype/list" :{
+      "get" :{
+        "tags" :[
+          "WS Clinic Blood Type"
+        ],
+        "summary" :"Listar tipos de sangre",
+        "description" :"Devuelve todos los tipos de sangre registrados y activos.",
+        "operationId" :"ListarTiposSangre",
+        "produces" :[
+          "application/json"
+        ],
+        "parameters" :[
+          {
+            "in" :"header",
+            "name" :"tokenapp",
+            "description" :"Token para aplicación",
+            "required" :true,
+            "type" :"string"
+          }
+        ],
+        "responses" :{
+          "200" :{
+            "description" :"Listado exitoso",
+            "schema" :{
+              "$ref" :"#/definitions/Response"
+            }
+          },
+          "500" :{
+            "description" :"Error interno",
+            "schema" :{
+              "$ref" :"#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/bloodtype/add": {
+      "post": {
+        "tags": [
+          "WS Clinic Blood Type"
+        ],
+        "summary": "Agregar tipo de sangre",
+        "description": "Agrega un nuevo tipo de sangre al catálogo.",
+        "operationId": "addBloodType",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación del usuario"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos del tipo de sangre",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BloodTypeInsert"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo de sangre agregado exitosamente"
+          },
+          "400": {
+            "description": "Parámetros inválidos"
+          },
+          "401": {
+            "description": "Token inválido o no enviado"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+    "/clinic/bloodtype/update": {
+      "patch": {
+        "tags": ["WS Clinic Blood Type"],
+        "summary": "Actualizar tipo de sangre",
+        "description": "Actualiza la información de un tipo de sangre existente.",
+        "operationId": "ActualizarTipoSangre",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación del usuario"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/BloodTypeUpdate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo de sangre actualizado exitosamente"
+          },
+          "404": {
+            "description": "Tipo de sangre no encontrado"
+          },
+          "400": {
+            "description": "Parámetros inválidos"
+          },
+          "500": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/clinic/bloodtype/delete/{btp_id}" :{
+      "delete" :{
+        "tags" :[
+          "WS Clinic Blood Type"
+        ],
+        "summary" :"Eliminar tipo de sangre",
+        "description" :"Elimina lógicamente un tipo de sangre del catálogo.",
+        "operationId" :"EliminarTipoSangre",
+        "parameters" :[
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación del usuario"
+          },
+          {
+            "name" :"btp_id",
+            "in" :"path",
+            "required" :true,
+            "type" :"integer"
+          },
+          {
+            "name" :"user_proccess",
+            "in" :"path",
+            "required" :true,
+            "type" :"string"
+          },
+
+        ],
+        "responses" :{
+          "200" :{
+            "description" :"Tipo de sangre eliminado correctamente"
+          },
+          "404" :{
+            "description" :"No se encontró el tipo de sangre"
+          }
+        }
+      }
+    },
+
+
+
     "/clinic/patient-disease/add": {
       "post": {
         "tags": [
-          "WS Patients"
+          "WS Clinic Disease"
         ],
         "summary": "Agregar enfermedad al paciente",
         "description": "Crea un nuevo registro de enfermedad para un paciente.",
@@ -5111,10 +5408,10 @@
     "/clinic/patient-disease/update/{pd_id}": {
       "patch": {
         "tags": [
-          "WS Patients"
+          "WS Clinic Disease"
         ],
         "summary": "Actualizar enfermedad del paciente",
-        "description": "Actualiza los datos de una enfermedad registrada para un paciente.",
+        "description": "Actualiza los datos de una enfermedad registrada para un paciente. Requiere token de autenticación válido.",
         "operationId": "updatePatientDisease",
         "produces": [
           "application/json"
@@ -5123,18 +5420,22 @@
           {
             "in": "header",
             "name": "tokenapp",
+            "description": "Token para autenticación",
             "required": true,
             "type": "string"
           },
           {
             "in": "path",
             "name": "pd_id",
+            "description": "ID de la enfermedad del paciente a actualizar",
             "required": true,
-            "type": "integer"
+            "type": "integer",
+            "format": "int64"
           },
           {
             "in": "body",
             "name": "body",
+            "description": "Datos de la enfermedad a actualizar",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PatientDiseaseUpdate"
@@ -5143,28 +5444,118 @@
         ],
         "responses": {
           "200": {
-            "description": "Enfermedad actualizada correctamente."
+            "description": "Enfermedad actualizada correctamente.",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
           },
           "400": {
-            "description": "Datos inválidos."
+            "description": "Datos inválidos. Verifique los campos requeridos o con errores."
+          },
+          "401": {
+            "description": "No autorizado - Token inválido o faltante"
           },
           "404": {
-            "description": "Enfermedad no encontrada."
+            "description": "Enfermedad no encontrada o ya eliminada."
           },
           "500": {
-            "description": "Error del servidor."
+            "description": "Error interno del servidor."
           }
         }
       }
     },
-    "/clinic/sessions/list": {
-    "get": {
+
+    "/clinic/patient-disease/list": {
+      "get": {
+        "tags": [
+          "WS Clinic Disease"
+        ],
+        "summary": "Listar enfermedades del paciente",
+        "description": "Devuelve todas las enfermedades registradas de los pacientes en el sistema.",
+        "operationId": "patientDiseaseList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado exitoso",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "401": {
+            "description": "No autorizado - Token inválido o faltante"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/clinic/patient-disease/get/{pd_id}": {
+      "get": {
+        "tags": [
+          "WS Clinic Disease"
+        ],
+        "summary": "Obtener enfermedad del paciente por ID",
+        "description": "Devuelve los datos de una enfermedad registrada del paciente, identificada por su ID.",
+        "operationId": "getPatientDiseaseById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pd_id",
+            "description": "ID de la enfermedad del paciente",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Enfermedad encontrada",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "No se encontró la enfermedad"
+          },
+          "401": {
+            "description": "No autorizado - Token inválido o faltante"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
+        }
+      }
+    },
+    "/clinic/patient-disease/delete/{pd_id}": {
+      "delete": {
       "tags": [
-        "WS Clinic Sessions"
+        "WS Clinic Disease"
       ],
-      "summary": "Listar sesiones clínicas",
-      "description": "Devuelve todas las sesiones clínicas registradas.",
-      "operationId": "clinicSessionList",
+      "summary": "Eliminar enfermedad del paciente",
+      "description": "Elimina (o marca como eliminada) una enfermedad registrada del paciente, usando su ID.",
+      "operationId": "deletePatientDiseaseById",
       "produces": [
         "application/json"
       ],
@@ -5175,177 +5566,36 @@
           "description": "Token para autenticación",
           "required": true,
           "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "pd_id",
+          "description": "ID de la enfermedad del paciente a eliminar",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
         }
       ],
       "responses": {
         "200": {
-          "description": "Operación exitosa",
+          "description": "Enfermedad eliminada correctamente",
           "schema": {
             "$ref": "#/definitions/Response"
           }
         },
+        "404": {
+          "description": "Enfermedad no encontrada"
+        },
         "401": {
-          "description": "No autorizado"
+          "description": "No autorizado - Token inválido o faltante"
         },
         "500": {
-          "description": "Error interno"
+          "description": "Error interno del servidor"
         }
       }
     }
-  },
-    "/clinic/sessions/insert": {
-      "post": {
-        "tags": [
-          "WS Clinic Sessions"
-        ],
-        "summary": "Agregar sesión clínica",
-        "description": "Registra una nueva sesión clínica.",
-        "operationId": "clinicSessionAdd",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/clinic_session_insert_request"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sesión creada correctamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Datos inválidos"
-          }
-        }
-      }
     },
-    "/clinic/sessions/{cli_id}": {
-      "get": {
-        "tags": [
-          "WS Clinic Sessions"
-        ],
-        "summary": "Obtener sesión clínica por ID",
-        "description": "Devuelve la información de una sesión clínica específica.",
-        "operationId": "clinicSessionById",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "cli_id",
-            "description": "ID de la sesión clínica",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sesión encontrada",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "404": {
-            "description": "Sesión no encontrada"
-          },
-          "500": {
-            "description": "Error interno"
-          }
-        }
-      },
-      "patch": {
-        "tags": [
-          "WS Clinic Sessions"
-        ],
-        "summary": "Actualizar sesión clínica",
-        "description": "Modifica los datos de una sesión clínica.",
-        "operationId": "clinicSessionUpdate",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "cli_id",
-            "required": true,
-            "type": "integer"
-          },
-          {
-            "in": "body",
-            "name": "body",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/clinic_session_update_request"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Actualizado correctamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "400": {
-            "description": "Solicitud inválida"
-          },
-          "404": {
-            "description": "No encontrado"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "WS Clinic Sessions"
-        ],
-        "summary": "Eliminar sesión clínica",
-        "description": "Elimina lógicamente una sesión clínica.",
-        "operationId": "clinicSessionDelete",
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "in": "path",
-            "name": "cli_id",
-            "required": true,
-            "type": "integer"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Sesión eliminada correctamente"
-          },
-          "404": {
-            "description": "No encontrado"
-          }
-        }
-      }
-    },
+
 
     "/clinic/TherapySession/list": {
       "get": {
@@ -5676,7 +5926,589 @@
         }
       }
     }
-  }
+  },
+
+    "/admin/invoice/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de facturas",
+        "description": "Obtiene una lista de todos las facturas",
+        "operationId": "ListAllInvoice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/{inv_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obtener factura por id",
+        "description": "Obtiene una factura en especifico por su Id",
+        "operationId": "InvoiceGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "inv_id",
+            "description": "ID de la factura a revisar (inv_id)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/insert": {
+      "post": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Registrar una factura",
+        "description": "Crear una nueva factura",
+        "operationId": "CreateInvoiceMethod",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminInvoiceCreate",
+            "description": "Datos para crear una nueva factura",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminInvoiceCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Factura registrada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al registrar la factura",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/delete/{inv_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Dar de baja una factura",
+        "description": "Dar de baja una factura en específico",
+        "operationId": "DeleteInvoice",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "inv_id",
+            "in": "path",
+            "description": "ID de la factura",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de gasto eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
+
+
+
+    "/catalog/allergy/add": {
+      "post": {
+        "tags": ["Allergy Catalog"],
+        "summary": "Registrar alergia en el catálogo",
+        "description": "Agrega una nueva alergia al catálogo general.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AllergyCatalogInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Alergia registrada correctamente" },
+          "400": { "description": "Error de validación" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/allergy/update/{al_id}": {
+      "patch": {
+        "tags": ["Allergy Catalog"],
+        "summary": "Actualizar alergia del catálogo",
+        "description": "Modifica los datos de una alergia existente en el catálogo.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "al_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AllergyCatalogUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Actualización exitosa" },
+          "400": { "description": "Error de validación" },
+          "404": { "description": "Registro no encontrado" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/allergy/delete/{al_id}": {
+      "delete": {
+        "tags": ["Allergy Catalog"],
+        "summary": "Eliminar alergia del catálogo",
+        "description": "Elimina (lógicamente) una alergia del catálogo por ID.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "al_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Alergia eliminada correctamente" },
+          "404": { "description": "Registro no encontrado" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/allergy/list": {
+      "get": {
+        "tags": ["Allergy Catalog"],
+        "summary": "Listar alergias activas",
+        "description": "Devuelve el listado de todas las alergias activas del catálogo.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado exitoso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/AllergyCatalogResponse"
+              }
+            }
+          },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+
+
+    "/catalog/disease/add": {
+      "post": {
+        "tags": ["Disease Catalog"],
+        "summary": "Registrar enfermedad en el catálogo",
+        "description": "Agrega una nueva enfermedad al catálogo general.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiseaseCatalogInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Enfermedad registrada correctamente" },
+          "400": { "description": "Error de validación" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/disease/update/{dis_id}": {
+      "patch": {
+        "tags": ["Disease Catalog"],
+        "summary": "Actualizar enfermedad del catálogo",
+        "description": "Actualiza los datos de una enfermedad existente en el catálogo.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "dis_id",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiseaseCatalogUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Enfermedad actualizada correctamente" },
+          "400": { "description": "Error de validación" },
+          "404": { "description": "No encontrado" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/disease/delete/{dis_id}": {
+      "delete": {
+        "tags": ["Disease Catalog"],
+        "summary": "Eliminar enfermedad del catálogo",
+        "description": "Elimina (lógicamente) una enfermedad del catálogo por ID.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "dis_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Eliminado correctamente" },
+          "404": { "description": "Registro no encontrado" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/disease/list": {
+      "get": {
+        "tags": ["Disease Catalog"],
+        "summary": "Listar enfermedades activas",
+        "description": "Obtiene todas las enfermedades activas registradas en el catálogo.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado exitoso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DiseaseCatalogResponse"
+              }
+            }
+          },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+
+    "/catalog/disease-type/add": {
+      "post": {
+        "tags": ["Disease Type"],
+        "summary": "Registrar tipo de enfermedad",
+        "description": "Crea un nuevo tipo de enfermedad.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiseaseTypeInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": { "description": "Tipo de enfermedad registrado correctamente" },
+          "400": { "description": "Validación fallida" },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error interno del servidor" }
+        }
+      }
+    },
+    "/catalog/disease-type/update/{dst_id}": {
+      "patch": {
+        "tags": ["Disease Type"],
+        "summary": "Actualizar tipo de enfermedad",
+        "description": "Actualiza un tipo de enfermedad existente por su ID.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string",
+            "description": "Token de autenticación"
+          },
+          {
+            "in": "path",
+            "name": "dst_id",
+            "required": true,
+            "type": "integer",
+            "description": "ID del tipo de enfermedad a actualizar"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/DiseaseTypeUpdateRequest",
+              "example": {
+                "dst_name": "Crónica",
+                "dst_description": "Enfermedades que persisten durante largo tiempo",
+                "dst_state": true
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Tipo de enfermedad actualizado correctamente"
+          },
+          "400": {
+            "description": "Validación fallida"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+    "/catalog/disease-type/delete/{dst_id}": {
+      "delete": {
+        "tags": ["Disease Type"],
+        "summary": "Eliminar tipo de enfermedad",
+        "description": "Elimina lógicamente un tipo de enfermedad.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "dst_id",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Tipo de enfermedad eliminado correctamente" },
+          "401": { "description": "Token inválido" },
+          "404": { "description": "Registro no encontrado" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    },
+    "/catalog/disease-type/list": {
+      "get": {
+        "tags": ["Disease Type"],
+        "summary": "Listar tipos de enfermedades",
+        "description": "Obtiene una lista de tipos de enfermedades activas.",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Listado exitoso",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/DiseaseTypeResponse"
+              }
+            }
+          },
+          "401": { "description": "Token inválido" },
+          "500": { "description": "Error del servidor" }
+        }
+      }
+    }
+
+
+
   },
   "definitions":
   {
@@ -5700,6 +6532,199 @@
         }
       }
     },
+    "AllergyCatalogInsertRequest": {
+          "type": "object",
+          "required": ["al_name", "user_created"],
+          "properties": {
+            "al_name": { "type": "string" },
+            "al_description": { "type": "string" },
+            "al_state": { "type": "boolean" },
+            "user_created": { "type": "string" }
+          }
+        },
+    "AllergyCatalogUpdateRequest": {
+          "type": "object",
+          "required": ["al_name", "al_state", "user_modified"],
+          "properties": {
+            "al_name": { "type": "string" },
+            "al_description": { "type": "string" },
+            "al_state": { "type": "boolean" },
+            "user_modified": { "type": "string" }
+          }
+        },
+    "AllergyCatalogResponse": {
+          "type": "object",
+          "properties": {
+            "al_id": { "type": "integer" },
+            "al_name": { "type": "string" },
+            "al_description": { "type": "string" },
+            "al_state": { "type": "boolean" },
+            "date_created": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+
+
+    "BloodTypeInsert": {
+      "type": "object",
+      "properties": {
+        "btp_type": {
+          "type": "string",
+          "maxLength": 3,
+          "example": "AB+"
+        },
+        "btp_description": {
+          "type": "string",
+          "example": "Grupo sanguíneo AB positivo, donante universal de plasma."
+        },
+        "user_created": {
+          "type": "string",
+          "example": "admin"
+        }
+      },
+      "required": ["btp_type","btp_description", "user_created"]
+    },
+    "BloodTypeUpdate": {
+      "type": "object",
+      "properties": {
+        "btp_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "btp_type": {
+          "type": "string",
+          "maxLength": 3,
+          "example": "A+"
+        },
+        "btp_description": {
+          "type": "string",
+          "example": "Grupo A positivo"
+        },
+        "user_modified": {
+          "type": "string",
+          "example": "admin"
+        }
+      },
+      "required": ["btp_id", "btp_type","btp_description", "user_modified"]
+    },
+
+
+    "DiseaseCatalogInsertRequest": {
+      "type": "object",
+      "required": ["dis_name", "dis_type_id", "user_created"],
+      "properties": {
+        "dis_name": { "type": "string" },
+        "dis_description": { "type": "string" },
+        "dis_type_id": { "type": "integer" },
+        "dis_state": { "type": "boolean" },
+        "user_created": { "type": "string" }
+      }
+    },
+    "DiseaseCatalogUpdateRequest": {
+      "type": "object",
+      "required": ["dis_name", "dis_type_id", "user_modified"],
+      "properties": {
+        "dis_name": { "type": "string" },
+        "dis_description": { "type": "string" },
+        "dis_type_id": { "type": "integer" },
+        "dis_state": { "type": "boolean" },
+        "user_modified": { "type": "string" }
+      }
+    },
+    "DiseaseCatalogResponse": {
+      "type": "object",
+      "properties": {
+        "dis_id": { "type": "integer" },
+        "dis_name": { "type": "string" },
+        "dis_description": { "type": "string" },
+        "dis_type_id": { "type": "integer" },
+        "dis_state": { "type": "boolean" },
+        "date_created": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+
+    "definitions": {
+    "DiseaseTypeUpdateRequest": {
+      "type": "object",
+      "required": [
+        "dst_name",
+        "dst_description",
+        "dst_state"
+      ],
+      "properties": {
+        "dst_name": {
+          "type": "string",
+          "example": "Infecciosa",
+          "description": "Nombre del tipo de enfermedad"
+        },
+        "dst_description": {
+          "type": "string",
+          "example": "Enfermedades causadas por microorganismos patógenos",
+          "description": "Descripción del tipo de enfermedad"
+        },
+        "dst_state": {
+          "type": "boolean",
+          "example": true,
+          "description": "Estado del tipo de enfermedad (activo/inactivo)"
+        }
+      }
+      }
+    },
+
+
+    "AdminInvoiceCreate": {
+      "type": "object",
+      "properties": {
+        "inv_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha de la factura"
+        },
+        "inv_client_id": {
+          "type": "integer",
+          "description": "ID del cliente"
+        },
+        "inv_patient_id": {
+          "type": "integer",
+          "description": "ID del paciente"
+        },
+        "inv_subtotal": {
+          "type": "number",
+          "format": "float",
+          "description": "Subtotal de la factura"
+        },
+        "inv_discount": {
+          "type": "number",
+          "format": "float",
+          "description": "Descuento aplicado"
+        },
+        "inv_tax": {
+          "type": "number",
+          "format": "float",
+          "description": "Impuesto aplicado"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea la factura"
+        }
+      },
+      "required": [
+        "inv_date",
+        "inv_client_id",
+        "inv_patient_id",
+        "inv_subtotal",
+        "inv_discount",
+        "inv_tax",
+        "user_created"
+      ]
+    },
+
+
 
     "AdminProductInsert": {
       "type": "object",

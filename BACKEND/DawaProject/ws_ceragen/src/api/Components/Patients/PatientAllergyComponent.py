@@ -62,3 +62,89 @@ class PatientAllergyComponent:
         except Exception as e:
             HandleLogs.write_error(f"[updatePatientAllergy] Error: {str(e)}")
             return internal_response(False, "Error al actualizar alergia", None)
+
+    @staticmethod
+    def deletePatientAllergy(pa_id: int, user: str):
+        try:
+            sql_check = """
+                SELECT 1 
+                FROM ceragen.clinic_patient_allergy 
+                WHERE pa_id = %s AND date_deleted IS NULL
+            """
+            exists = DataBaseHandle.getRecords(sql_check, 1, (pa_id,))
+            if not exists or not exists.get("result"):
+                return internal_response(False, "Registro no encontrado o ya eliminado", None)
+            HandleLogs.write_log(f"[deletePatientAllergy] Eliminando pa_id={pa_id} por user={user}")
+            sql_delete = """
+                UPDATE ceragen.clinic_patient_allergy
+                SET date_deleted = NOW(),
+                    user_deleted = %s
+                WHERE pa_id = %s
+            """
+            params = (user, pa_id)
+            result = DataBaseHandle.ExecuteNonQuery(sql_delete, params)
+
+            HandleLogs.write_log(f"[deletePatientAllergy] Resultado ejecución SQL: {result}")
+
+            if result.get("result"):
+                return internal_response(True, "Alergia eliminada correctamente", {"pa_id": pa_id})
+            return internal_response(False, "No se eliminó", None)
+        except Exception as e:
+            HandleLogs.write_error(f"[deletePatientAllergy] Error: {str(e)}")
+            return internal_response(False, "Error al eliminar alergia", None)
+
+    @staticmethod
+    def getAllPatientAllergies():
+        try:
+            sql = """
+               SELECT
+                pa.pa_id,
+                pa.pa_patient_id,
+                pat.pat_code AS patient_code,
+                pa.pa_allergy_id,
+                al.al_name AS allergy_name,
+                pa.pa_reaction_description,
+                TO_CHAR(pa.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created
+            FROM ceragen.clinic_patient_allergy pa
+            JOIN ceragen.admin_patient pat ON pa.pa_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+            JOIN ceragen.clinic_allergy_catalog al ON pa.pa_allergy_id = al.al_id AND al.date_deleted IS NULL
+            WHERE pa.date_deleted IS NULL
+            ORDER BY pa.date_created DESC
+            """
+            result = DataBaseHandle.getRecords(sql, 0)
+            if result.get("result"):
+                return internal_response(True, "Listado de alergias obtenido", result.get("data"))
+            return internal_response(False, "No hay registros", None)
+        except Exception as e:
+            HandleLogs.write_error(f"[getAllPatientAllergies] Error: {str(e)}")
+            return internal_response(False, "Error al listar alergias", None)
+
+    @staticmethod
+    def getPatientAllergyById(pa_id: int):
+        try:
+            HandleLogs.write_log(f"[getPatientAllergyById] Buscando pa_id={pa_id}")
+            sql = """
+                SELECT 
+                    pa.pa_id, 
+                    pa.pa_patient_id, 
+                    pat.pat_code AS patient_code,
+                    pa.pa_allergy_id, 
+                    al.al_name AS allergy_name,
+                    pa.pa_reaction_description,
+                    TO_CHAR(pa.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                    pa.user_created, 
+                    TO_CHAR(pa.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                    pa.user_modified
+                FROM ceragen.clinic_patient_allergy pa
+                JOIN ceragen.admin_patient pat ON pa.pa_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                LEFT JOIN ceragen.clinic_allergy_catalog al ON pa.pa_allergy_id = al.al_id AND al.date_deleted IS NULL
+                WHERE pa.pa_id = %s AND pa.date_deleted IS NULL
+            """
+            result = DataBaseHandle.getRecords(sql, 1, (pa_id,))
+            HandleLogs.write_log(f"[getPatientAllergyById] Resultado: {result}")
+            if result.get("result"):
+                return internal_response(True, "Alergia encontrada", result.get("data"))
+            return internal_response(False, "Alergia no encontrada", None)
+        except Exception as e:
+            HandleLogs.write_error(f"[getPatientAllergyById] Error: {str(e)}")
+            return internal_response(False, "Error al obtener alergia", None)

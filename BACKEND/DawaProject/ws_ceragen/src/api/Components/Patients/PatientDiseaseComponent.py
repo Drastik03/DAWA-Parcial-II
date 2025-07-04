@@ -61,3 +61,88 @@ class PatientDiseaseComponent:
         except Exception as e:
             HandleLogs.write_error(f"[updatePatientDisease] Error: {str(e)}")
             return internal_response(False, "Error al actualizar enfermedad", None)
+
+
+    @staticmethod
+    def deletePatientDisease(pd_id: int, user: str):
+        try:
+            sql_check = "SELECT 1 FROM ceragen.clinic_patient_disease WHERE pd_id = %s AND date_deleted IS NULL"
+            exists = DataBaseHandle.getRecords(sql_check, 1, (pd_id,))
+            if not exists or not exists.get("result"):
+                return internal_response(False, "Enfermedad no encontrada o ya eliminada", None)
+
+            sql = """
+                UPDATE ceragen.clinic_patient_disease
+                SET date_deleted = NOW(),
+                    user_deleted = %s
+                WHERE pd_id = %s
+            """
+            DataBaseHandle.ExecuteNonQuery(sql, (user, pd_id))
+            return internal_response(True, "Enfermedad eliminada correctamente", {"pd_id": pd_id})
+        except Exception as e:
+            HandleLogs.write_error(f"[deletePatientDisease] Error: {str(e)}")
+            return internal_response(False, "Error al eliminar enfermedad", None)
+
+    @staticmethod
+    def listAllPatientDiseases():
+        try:
+            sql = """
+                SELECT 
+                    pd.pd_id,
+                    pd.pd_patient_id,
+                    pat.pat_code AS patient_code,
+                    pd.pd_disease_id,
+                    dis.dis_name AS disease_name,
+                    dt.dst_name AS disease_type,
+                    pd.pd_notes,
+                    pd.pd_is_current,
+                    pd.user_created,
+                    TO_CHAR(pd.date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
+                    pd.user_modified,
+                    TO_CHAR(pd.date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified
+                FROM ceragen.clinic_patient_disease pd
+                JOIN ceragen.clinic_disease_catalog dis ON pd.pd_disease_id = dis.dis_id AND dis.date_deleted IS NULL
+                LEFT JOIN ceragen.clinic_disease_type dt ON dis.dis_type_id = dt.dst_id AND dt.date_deleted IS NULL
+                JOIN ceragen.admin_patient pat ON pd.pd_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                WHERE pd.date_deleted IS NULL
+                ORDER BY pd.date_created DESC;
+            """
+            result = DataBaseHandle.getRecords(sql, 0)
+            if result and result.get("result"):
+                return internal_response(True, "Listado exitoso", result.get("data"))
+            return internal_response(False, "No hay nada por mostrar", None)
+        except Exception as e:
+            HandleLogs.write_error(f"[listAllPatientDiseases] Error: {str(e)}")
+            return internal_response(False, "Error al listar enfermedades", None)
+
+    @staticmethod
+    def getPatientDiseaseById(pd_id: int):
+        try:
+            sql = """
+                SELECT 
+                    pd.pd_id,
+                    pd.pd_patient_id,
+                    pat.pat_code AS patient_code,
+                    pd.pd_disease_id,
+                    dis.dis_name AS disease_name,
+                    dt.dst_name AS disease_type,
+                    pd.pd_notes,
+                    pd.pd_is_current,
+                    pd.user_created,
+                    TO_CHAR(pd.date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
+                    pd.user_modified,
+                    TO_CHAR(pd.date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified
+                FROM ceragen.clinic_patient_disease pd
+                JOIN ceragen.clinic_disease_catalog dis ON pd.pd_disease_id = dis.dis_id AND dis.date_deleted IS NULL
+                LEFT JOIN ceragen.clinic_disease_type dt ON dis.dis_type_id = dt.dst_id AND dt.date_deleted IS NULL
+                JOIN ceragen.admin_patient pat ON pd.pd_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                WHERE pd.pd_id = %s AND pd.date_deleted IS NULL
+            """
+            result = DataBaseHandle.getRecords(sql, 1, (pd_id,))
+            if not result or not result.get("result"):
+                return internal_response(False, "Enfermedad no encontrada", None)
+
+            return internal_response(True, "Enfermedad obtenida correctamente", result.get("data"))
+        except Exception as e:
+            HandleLogs.write_error(f"[getPatientDiseaseById] Error: {str(e)}")
+            return internal_response(False, "Error al obtener enfermedad", None)

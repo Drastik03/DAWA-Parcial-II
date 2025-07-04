@@ -1,7 +1,9 @@
+from dis import RETURN_CONST
+
 from flask_restful import Resource
 from flask import request
 from ...Components.Patients.PatientDiseaseComponent import PatientDiseaseComponent
-from ....utils.general.response import response_success, response_error, response_unauthorize
+from ....utils.general.response import response_success, response_error, response_unauthorize, response_not_found
 from ....utils.general.logs import HandleLogs
 from ...Components.Security.TokenComponent import TokenComponent
 from ...Model.Request.Patients.PatientDiseaseRequest import (
@@ -51,3 +53,56 @@ class PatientDiseaseUpdateService(Resource):
         except Exception as e:
             HandleLogs.write_error(f"[UpdateDiseaseService] {str(e)}")
             return response_error("Error al actualizar enfermedad")
+
+
+class PatientDiseaseDeleteService(Resource):
+    @staticmethod
+    def delete(pd_id):
+        try:
+            token = request.headers.get("tokenapp")
+            if not token or not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+            user = TokenComponent.User(token)
+
+            result = PatientDiseaseComponent.deletePatientDisease(pd_id, user)
+            if result["result"]:
+                return response_success(result)
+            return response_error(result["message"])
+        except Exception as e:
+            HandleLogs.write_error(f"[DeleteDiseaseService] {str(e)}")
+            return response_error("Error al eliminar enfermedad del paciente")
+
+
+class PatientDiseaseListService(Resource):
+    @staticmethod
+    def get():
+        try:
+            token = request.headers.get("tokenapp")
+            if not token or not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            result = PatientDiseaseComponent.listAllPatientDiseases()
+            if result["result"]:
+                return response_success(result)
+            else:
+                return response_error(result["message"])
+        except Exception as e:
+            HandleLogs.write_error(f"[ListDiseaseService] {str(e)}")
+            return response_error("Error al listar enfermedades del paciente")
+
+
+class PatientDiseaseGetByIdService(Resource):
+    @staticmethod
+    def get(pd_id):
+        try:
+            token = request.headers.get("tokenapp")
+            if not token or not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            result = PatientDiseaseComponent.getPatientDiseaseById(pd_id)
+            if result["result"]:
+                return response_success(result)
+            return response_error(result["message"])
+        except Exception as e:
+            HandleLogs.write_error(f"[GetByIdDiseaseService] {str(e)}")
+            return response_error("Error al obtener la enfermedad")
