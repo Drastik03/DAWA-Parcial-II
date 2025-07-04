@@ -5158,40 +5158,42 @@
       }
     },
     "/clinic/sessions/list": {
-      "get": {
-        "tags": [
-          "WS Clinic Sessions"
-        ],
-        "summary": "Listar sesiones clínicas",
-        "description": "Devuelve todas las sesiones clínicas registradas.",
-        "operationId": "clinicSessionList",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "tokenapp",
-            "description": "Token para autenticación",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Operación exitosa",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
-          },
-          "401": {
-            "description": "No autorizado"
-          },
-          "500": {
-            "description": "Error interno"
-          }
+    "get": {
+      "tags": [
+        "WS Clinic Sessions"
+      ],
+      "summary": "Listar sesiones clínicas",
+      "description": "Devuelve todas las sesiones clínicas registradas.",
+      "operationId": "clinicSessionList",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para autenticación",
+          "required": true,
+          "type": "string"
         }
-      },
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "401": {
+          "description": "No autorizado"
+        },
+        "500": {
+          "description": "Error interno"
+        }
+      }
+    }
+  },
+    "/clinic/sessions/insert": {
       "post": {
         "tags": [
           "WS Clinic Sessions"

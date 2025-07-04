@@ -1,6 +1,7 @@
 
 from flask_restful import Resource
 from ...Components.Patients.ClinicSessionComponent import ClinicSessionComponent
+from ...Components.Security.NotificationComponent import NotificationComponent
 from ....utils.general.logs import HandleLogs
 from flask import request
 from ....utils.general.response import (
@@ -12,6 +13,7 @@ from ....utils.general.response import (
 from ...Model.Request.Patients.ClinicSessionRequest import ClinicSessionInsertRequest, ClinicSessionUpdateRequest
 from ...Components.Security.TokenComponent import TokenComponent
 
+#ESTE METODO SE REPITA - ESTA FUERA DEL PROYECTO
 class ClinicSessionService_GetAll(Resource):
     @staticmethod
     def get():
@@ -75,7 +77,19 @@ class ClinicSessionService_Add(Resource):
                 return response_error("Error al validar el request -> " + str(errors))
 
             result = ClinicSessionComponent.createSession(data)
-            if result['result']:
+            if result["result"]:
+                sec_id = result['data']['sec_id']
+                NotificationComponent.NotificationSend(
+                    {
+                        "sun_user_source_id": user,
+                        "sun_user_destination_id": data.get("sec_med_staff_id"),
+                        "sun_title_notification": "Nueva sesión de control registrada",
+                        "sun_text_notification": f"Sesión #{data.get('sec_ses_number')} programada para el {data.get('sec_ses_agend_date')}.",
+                        "sun_state_notification": True,
+                        "sun_isread_notification": False,
+                        "user_created": data.get("user_created")
+                    }
+                )
                 return response_success("Id de Registro -> " + str(result['data']['cli_id']))
             return response_error(result['message'])
 
