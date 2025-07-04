@@ -1,0 +1,203 @@
+from flask import Blueprint
+from flask_restful import Api
+
+# Crear blueprint y API
+api_blueprint = Blueprint("api", __name__)
+api = Api(api_blueprint)
+
+# -------------------- IMPORTACIÓN DE SERVICIOS --------------------
+
+#----------- MÓDULO ADMINISTRADOR ----------------------------
+from ..Services.Admin.AdminPersonService import (AdminPersonService_get, AdminPersonService_getbyid,
+                                                 admin_Person_service_add, admin_Person_service_Update,
+                                                 admin_person_service_Delete)
+
+from ..Services.Admin.AdminMaritalStatusservice import (MaritalStatus_get, admin_Marital_Status_getbyid,
+                                                        admin_Marital_Satus_service_add, admin_Marital_Satus_service_Update,
+                                                        admin_Marital_Status_Delete)
+
+from ..Services.Admin.AdminParameterListservice import (admin_Parameter_List_service_get, admin_Parameter_List_add,
+                                                        admin_Parameter_List_Update, admin_Parameter_list_Delete)
+
+from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_service_get, admin_Person_Genre_getbyid,
+                                                        admin_Person_Genre_service_add, admin_Person_Genre_service_Update,
+                                                        admin_Person_Genre_service_Delete)
+
+from ..Services.Security.LoginService import LoginService
+from ..Services.Security.LogoutService import LogoutService
+from ..Services.Security.UserService import (UserService, UserInsert, UserDelete, UserUpdate,UserpasswordUpdate,
+                                             RecoveringPassword,EmailPasswordUpdate)
+
+from ..Services.Security.MenuService import MenuService, DeleteMenu, UpdateMenu, InsertMenu
+from ..Services.Security.RolSistemService import RolSistemService, DeleteRolSistem, UpdateRolSistem, InsertRolSistem
+from ..Services.Security.ModuloService import ModuleService, DeleteModulo, UpdateModulo, InsertModulo
+from ..Services.Security.UserRolService import UserRolService, DeleteUserRol,InsertUserRol,UpdateUserRol
+from ..Services.Security.GetPersonService import GetPersonService
+from ..Services.Security.NotificationService import NotificationDelete
+from ..Services.Security.MenuRolServices import MenuRolService,InsertMenuRol,DeleteMenuRol, UpdateMenuRol
+from ..Services.Security.NotificationService import NotificationService, NotificationRead
+from ..Services.Audit.AuditService import AuditService
+from ..Services.Audit.ErrorService import ErrorService
+from ..Services.Security.URCPService import urcpList,Updateurcp,Deleteurcp,Inserturcp
+from ..Services.Security.UserService import UserListId
+
+#----------- MÓDULO PACIENTES ----------------------------
+from ..Services.Patients.PatientService import (PatientListService,PatientGetByIdService,
+                                                PatientInsertService, PatientUpdateService, PatientDeleteService)
+
+from ..Services.Patients.MedicalHistoryService import (MedicalHistoryListService, MedicalHistoryGetByIdService,
+                                                       MedicalHistoryInsertService, MedicalHistoryUpdateService,
+                                                       MedicalHistoryDeleteService, MedicalHistoryListByPatientIdService)
+
+from ..Services.Patients.PatientAllergyService import (
+    PatientAllergyInsertService,
+    PatientAllergyUpdateService,
+    PatientAllergyDeleteService,
+    PatientAllergyListService
+)
+
+
+from ..Services.Patients.PatientDiseaseService import PatientDiseaseService
+
+# ----------- Catálogo de Alergias ----------------------------
+from ..Services.Patients.PatientAllergyCatalogService import (
+    AllergyCatalogInsertService,
+    AllergyCatalogUpdateService,
+    AllergyCatalogDeleteService,
+    AllergyCatalogListService
+)
+
+from ..Services.Patients.DiseaseCatalogService import (
+    DiseaseCatalogInsertService,
+    DiseaseCatalogUpdateService,
+    DiseaseCatalogDeleteService,
+    DiseaseCatalogListService
+)
+
+from ..Services.Patients.DiseaseTypeService import (
+    DiseaseTypeInsertService,
+    DiseaseTypeUpdateService,
+    DiseaseTypeDeleteService,
+    DiseaseTypeListService
+)
+# -------------------- REGISTRO DE RUTAS --------------------
+
+def load_routes(api):
+    #----------- ADMINISTRACIÓN ----------------------------
+    api.add_resource(AdminPersonService_get, '/admin/persons/list')
+    api.add_resource(AdminPersonService_getbyid, '/admin/persons/list/<int:id>')
+    api.add_resource(admin_Person_service_add, '/admin/persons/add')
+    api.add_resource(admin_Person_service_Update, '/admin/persons/update')
+    api.add_resource(admin_person_service_Delete, '/admin/persons/delete/<int:per_id>/<string:user>')
+
+    api.add_resource(MaritalStatus_get, '/admin/Marital_status/list')
+    api.add_resource(admin_Marital_Status_getbyid, '/admin/Marital_status/list/<int:id>')
+    api.add_resource(admin_Marital_Satus_service_add, '/admin/Marital_status/add')
+    api.add_resource(admin_Marital_Satus_service_Update, '/admin/Marital_status/update')
+    api.add_resource(admin_Marital_Status_Delete, '/admin/Marital_status/delete/<int:id>/<string:user>')
+
+    api.add_resource(admin_Parameter_List_service_get, '/admin/Parameter_list/list')
+    api.add_resource(admin_Parameter_List_add, '/admin/Parameter_list/add')
+    api.add_resource(admin_Parameter_List_Update, '/admin/Parameter_list/update')
+    api.add_resource(admin_Parameter_list_Delete, '/admin/Parameter_list/delete/<int:id>/<string:user>')
+
+    api.add_resource(admin_Person_genre_service_get, '/admin/Person_genre/list')
+    api.add_resource(admin_Person_Genre_getbyid, '/admin/Person_genre/list/<int:id>')
+    api.add_resource(admin_Person_Genre_service_add, '/admin/Person_genre/add')
+    api.add_resource(admin_Person_Genre_service_Update, '/admin/Person_genre/update')
+    api.add_resource(admin_Person_Genre_service_Delete, '/admin/Person_genre/delete/<int:id>/<string:user>')
+
+    #----------- SEGURIDAD ----------------------------
+    api.add_resource(LoginService, '/security/login')
+    api.add_resource(LogoutService, '/security/logout')
+    api.add_resource(UserListId, '/user/actulization/data')
+    api.add_resource(UserService, '/user/list')
+    api.add_resource(UserInsert, '/user/insert')
+    api.add_resource(UserDelete, '/user/delete')
+    api.add_resource(UserUpdate, '/user/update')
+    api.add_resource(UserpasswordUpdate, '/user/change-password')
+    api.add_resource(RecoveringPassword, '/security/recover-password')
+    api.add_resource(EmailPasswordUpdate, '/security/change-password')
+    api.add_resource(GetPersonService, '/person/get')
+
+    api.add_resource(InsertRolSistem, '/RolSistem/insert')
+    api.add_resource(RolSistemService, '/RolSistem/list')
+    api.add_resource(DeleteRolSistem, '/RolSistem/delete')
+    api.add_resource(UpdateRolSistem, '/RolSistem/update')
+
+    api.add_resource(UserRolService, '/UserRol/list')
+    api.add_resource(DeleteUserRol, '/UserRol/delete')
+    api.add_resource(InsertUserRol, '/UserRol/insert')
+    api.add_resource(UpdateUserRol, '/UserRol/update')
+
+    api.add_resource(InsertModulo, '/Module/insert')
+    api.add_resource(ModuleService, '/Module/list')
+    api.add_resource(DeleteModulo, '/Module/delete')
+    api.add_resource(UpdateModulo, '/Module/update')
+
+    api.add_resource(InsertMenu, '/Menu/insert')
+    api.add_resource(MenuService, '/Menu/list')
+    api.add_resource(DeleteMenu, '/Menu/delete')
+    api.add_resource(UpdateMenu, '/Menu/update')
+
+    api.add_resource(MenuRolService, '/MenuRol/list')
+    api.add_resource(DeleteMenuRol, '/MenuRol/delete')
+    api.add_resource(UpdateMenuRol, '/MenuRol/update')
+    api.add_resource(InsertMenuRol, '/MenuRol/insert')
+
+    api.add_resource(AuditService, '/Audit/list')
+    api.add_resource(ErrorService, '/Error/list')
+
+    api.add_resource(NotificationService, '/Notification/list')
+    api.add_resource(NotificationRead, '/Notification/read')
+    api.add_resource(NotificationDelete, '/Notification/delete')
+
+    api.add_resource(urcpList, '/urcp/list')
+    api.add_resource(Inserturcp, '/urcp/insert')
+    api.add_resource(Updateurcp, '/urcp/update')
+    api.add_resource(Deleteurcp, '/urcp/delete')
+
+    # ----------- PACIENTES ----------------------------
+    api.add_resource(PatientListService, '/clinic/patients/list')
+    api.add_resource(PatientGetByIdService, '/clinic/patients/list/<int:pat_id>')
+    api.add_resource(PatientInsertService, '/clinic/patients/add')
+    api.add_resource(PatientUpdateService, '/clinic/patients/update/<int:pat_id>')
+    api.add_resource(PatientDeleteService, '/clinic/patients/delete/<int:pat_id>')
+
+    api.add_resource(MedicalHistoryListService, '/medical-histories/list')
+    api.add_resource(MedicalHistoryGetByIdService, '/medical-histories/list/<int:hist_id>')
+    api.add_resource(MedicalHistoryListByPatientIdService, '/medical-histories/patientHist/<int:hist_patient_id>')
+    api.add_resource(MedicalHistoryInsertService, '/medical-histories/insert')
+    api.add_resource(MedicalHistoryUpdateService, "/medical-histories/update/<int:hist_id>")
+    api.add_resource(MedicalHistoryDeleteService, '/medical-histories/delete/<int:hist_id>')
+
+    # ----------- CRUD Alergias del Paciente ----------------------------
+    # CRUD completo para PatientAllergy
+    api.add_resource(PatientAllergyInsertService, '/patient-allergy')
+    api.add_resource(PatientAllergyUpdateService, '/patient-allergy/<int:pa_id>')
+    api.add_resource(PatientAllergyDeleteService, '/patient-allergy/<int:pa_id>')
+    api.add_resource(PatientAllergyListService, '/patient-allergy')
+
+    # ENFERMEDADES DE PACIENTES
+    api.add_resource(PatientDiseaseService, '/clinic/patient-disease', endpoint='patient_disease_list_create',
+                     methods=['GET', 'POST'])
+    api.add_resource(PatientDiseaseService, '/clinic/patient-disease/<int:pd_id>',
+                     endpoint='patient_disease_update_delete', methods=['PATCH', 'DELETE'])
+
+    # CATALOGO DE Alergia
+    api.add_resource(AllergyCatalogInsertService, '/catalog/allergy/add')
+    api.add_resource(AllergyCatalogUpdateService, '/catalog/allergy/update/<int:al_id>')
+    api.add_resource(AllergyCatalogDeleteService, '/catalog/allergy/delete/<int:al_id>')
+    api.add_resource(AllergyCatalogListService, '/catalog/allergy/list')
+
+    # Catalogo de Enfermedades
+    api.add_resource(DiseaseCatalogInsertService, '/catalog/disease/add')
+    api.add_resource(DiseaseCatalogUpdateService, '/catalog/disease/update/<int:dis_id>')
+    api.add_resource(DiseaseCatalogDeleteService, '/catalog/disease/delete/<int:dis_id>')
+    api.add_resource(DiseaseCatalogListService, '/catalog/disease/list')
+
+    # Enfermedad type
+    api.add_resource(DiseaseTypeInsertService, '/catalog/disease-type/add')
+    api.add_resource(DiseaseTypeUpdateService, '/catalog/disease-type/update/<int:dst_id>')
+    api.add_resource(DiseaseTypeDeleteService, '/catalog/disease-type/delete/<int:dst_id>')
+    api.add_resource(DiseaseTypeListService, '/catalog/disease-type/list')
