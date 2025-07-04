@@ -109,7 +109,7 @@ class PatientInsertService(Resource):
 
 class PatientUpdateService(Resource):
     @staticmethod
-    def patch(self, pat_id):
+    def patch(pat_id):
         try:
             HandleLogs.write_log(f"Llamada al servicio de actualización de paciente ID {pat_id}.")
 
@@ -137,7 +137,7 @@ class PatientUpdateService(Resource):
             else:
                 # Si el paciente no existe o falla update, responder not_found o error
                 if "no encontrado" in result.get('message', '').lower():
-                    return response_not_found(result.get('message'))
+                    return response_not_found()
                 return response_error(result.get('message'))
 
         except Exception as e:

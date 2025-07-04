@@ -237,7 +237,7 @@ def load_routes(api):
 
     # ----------- MÓDULO CLINIC SESSION ----------------------------
     api.add_resource(ClinicSessionService_GetAll, '/clinic/sessions/list')
-    api.add_resource(ClinicSessionService_GetById, '/clinic/sessions/list/<int:cli_id>')
+    api.add_resource(ClinicSessionService_GetById, '/clinic/sessions/<int:cli_id>')
     api.add_resource(ClinicSessionService_Add, '/clinic/sessions/add')
     api.add_resource(ClinicSessionService_Update, '/clinic/sessions/update/<int:cli_id>')
     api.add_resource(ClinicSessionService_Delete, '/clinic/sessions/delete/<int:cli_id>')

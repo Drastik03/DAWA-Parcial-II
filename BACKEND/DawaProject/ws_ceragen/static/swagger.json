@@ -4542,7 +4542,7 @@
         }
       }
     },
-    "/clinic/patients/delete/{patient_id}": {
+    "/clinic/patients/delete/{pat_id}": {
       "delete": {
         "tags": [
           "WS Patients"
@@ -5157,7 +5157,7 @@
         }
       }
     },
-    "/clinic/sessions": {
+    "/clinic/sessions/list": {
       "get": {
         "tags": [
           "WS Clinic Sessions"
@@ -5614,8 +5614,8 @@
           "format": "int32"
        },
         {
-         "in": "body",
-          "name": "body",
+         "in": "path",
+          "name": "user_process",
           "description": "Usuario que realiza la eliminación lógica.",
           "required": true,
           "schema": {
@@ -5676,7 +5676,29 @@
     }
   }
   },
-  "definitions": {
+  "definitions":
+  {
+    "UnauthorizeResponse": {
+      "type": "object",
+      "properties": {
+        "result": {
+          "type": "boolean",
+          "example": false,
+          "description": "Indica si la operación fue exitosa"
+        },
+        "message": {
+          "type": "string",
+          "example": "No autorizado",
+          "description": "Mensaje de error o advertencia"
+        },
+        "data": {
+          "type": "null",
+          "example": null,
+          "description": "No se devuelve data cuando no está autorizado"
+        }
+      }
+    },
+
     "AdminProductInsert": {
       "type": "object",
       "properties": {
