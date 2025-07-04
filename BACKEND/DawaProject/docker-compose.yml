@@ -8,3 +8,27 @@ services:
       - '5000:5000'
     volumes:
       - c:/soft/data/LOGS/dawa_ws:/app/dawa/src/utils/general/LOGS
+
+  nginx:
+    image: 'nginx:latest'
+    container_name: ceragen-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - dawa-ceragen
+
+
+  db:
+    image: "postgres:latest"
+    restart: always
+    container_name: ceragen-db
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 12345
+    depends_on:
+      - dawa-ceragen
