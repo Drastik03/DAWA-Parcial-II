@@ -2,6 +2,8 @@ from ..Services.Admin.AdminClientService import AdminClientService_GetAll, Admin
     AdminClientServiceUpdate, AdminClientServiceDelete
 from ..Services.Admin.AdminExpenseService import AdminExpenseService_GetAll, AdminExpenseService_Delete, \
     AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById
+from ..Services.Admin.AdminInvoiceService import AdminInvoiceService_GetAll, AdminInvoiceService_Add, \
+    AdminInvoiceService_GetById, AdminInvoiceService_Update, AdminInvoiceService_Delete
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
 from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
@@ -251,3 +253,11 @@ def load_routes(api):
                      '/clinic/TherapySession/update/<int:sec_id>')  # ¡Parámetro en URL actualizado a sec_id!
     api.add_resource(TherapySessionControlDeleteService,
                      '/clinic/TherapySession/delete/<int:sec_id>')  # ¡Parámetro en URL actualizado a sec_id!
+
+
+    #FACTURAS
+    api.add_resource(AdminInvoiceService_GetAll,'/admin/invoice/list')
+    api.add_resource(AdminInvoiceService_GetById,'/admin/invoice/<int:inv_id>')
+    api.add_resource(AdminInvoiceService_Add,'/admin/invoice/insert')
+    api.add_resource(AdminInvoiceService_Delete,'/admin/invoice/delete/<int:inv_id>')
+

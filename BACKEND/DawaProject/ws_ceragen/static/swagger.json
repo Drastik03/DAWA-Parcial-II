@@ -5676,7 +5676,200 @@
         }
       }
     }
-  }
+  },
+
+    "/admin/invoice/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de facturas",
+        "description": "Obtiene una lista de todos las facturas",
+        "operationId": "ListAllInvoice",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/{inv_id}": {
+      "get": {
+        "tags": [
+          "WS Patients"
+        ],
+        "summary": "Obtener factura por id",
+        "description": "Obtiene una factura en especifico por su Id",
+        "operationId": "InvoiceGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "inv_id",
+            "description": "ID de la factura a revisar (inv_id)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/insert": {
+      "post": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Registrar una factura",
+        "description": "Crear una nueva factura",
+        "operationId": "CreateInvoiceMethod",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "AdminInvoiceCreate",
+            "description": "Datos para crear una nueva factura",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/AdminInvoiceCreate"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Factura registrada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al registrar la factura",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice/delete/{inv_id}": {
+      "delete": {
+        "tags": ["WS Admin"],
+        "summary": "Dar de baja una factura",
+        "description": "Dar de baja una factura en específico",
+        "operationId": "DeleteInvoice",
+        "parameters": [
+           {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "inv_id",
+            "in": "path",
+            "description": "ID de la factura",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso de eliminacion",
+            "required": true,
+            "type": "string"
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "description": "Tipo de gasto eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el tipo de gasto",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    }
   },
   "definitions":
   {
@@ -5700,6 +5893,54 @@
         }
       }
     },
+    "AdminInvoiceCreate": {
+      "type": "object",
+      "properties": {
+        "inv_date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Fecha de la factura"
+        },
+        "inv_client_id": {
+          "type": "integer",
+          "description": "ID del cliente"
+        },
+        "inv_patient_id": {
+          "type": "integer",
+          "description": "ID del paciente"
+        },
+        "inv_subtotal": {
+          "type": "number",
+          "format": "float",
+          "description": "Subtotal de la factura"
+        },
+        "inv_discount": {
+          "type": "number",
+          "format": "float",
+          "description": "Descuento aplicado"
+        },
+        "inv_tax": {
+          "type": "number",
+          "format": "float",
+          "description": "Impuesto aplicado"
+        },
+        "user_created": {
+          "type": "string",
+          "description": "Usuario que crea la factura"
+        }
+      },
+      "required": [
+        "inv_date",
+        "inv_client_id",
+        "inv_patient_id",
+        "inv_subtotal",
+        "inv_discount",
+        "inv_tax",
+        "user_created"
+      ]
+    },
+
+
 
     "AdminProductInsert": {
       "type": "object",
