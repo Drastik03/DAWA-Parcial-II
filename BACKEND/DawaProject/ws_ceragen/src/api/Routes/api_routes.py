@@ -42,13 +42,23 @@ from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetA
     AdminPromotionService_Update
 from ..Services.Admin.TherapyTypeService import TherapyTypeService_GetAll, TherapyTypeService_Add, \
     TherapyTypeService_Delete, TherapyTypeService_Update
+from ..Services.Patients.ClinicBloodService import ClinicBloodService_GetAll, ClinicBloodService_Add, \
+    ClinicBloodService_Delete, ClinicBloodService_Update
 from ..Services.Patients.ClinicSessionService import ClinicSessionService_GetAll, ClinicSessionService_GetById, \
     ClinicSessionService_Add, ClinicSessionService_Update, ClinicSessionService_Delete
+from ..Services.Patients.DiseaseCatalogService import DiseaseCatalogInsertService, DiseaseCatalogUpdateService, \
+    DiseaseCatalogListService, DiseaseCatalogDeleteService
+from ..Services.Patients.DiseaseTypeService import DiseaseTypeInsertService, DiseaseTypeUpdateService, \
+    DiseaseTypeDeleteService, DiseaseTypeListService
 from ..Services.Patients.MedicalHistoryService import MedicalHistoryListService, MedicalHistoryGetByIdService, \
     MedicalHistoryListByPatientIdService, MedicalHistoryInsertService, MedicalHistoryUpdateService, \
     MedicalHistoryDeleteService
-from ..Services.Patients.PatientAllergyService import PatientAllergyInsertService, PatientAllergyUpdateService
-from ..Services.Patients.PatientDiseaseService import PatientDiseaseInsertService, PatientDiseaseUpdateService
+from ..Services.Patients.PatientAllergyCatalogService import AllergyCatalogInsertService, AllergyCatalogUpdateService, \
+    AllergyCatalogListService, AllergyCatalogDeleteService
+from ..Services.Patients.PatientAllergyService import PatientAllergyInsertService, PatientAllergyUpdateService, \
+    PatientAllergyListService, PatientAllergyDeleteService, PatientAllergyGetByIdService
+from ..Services.Patients.PatientDiseaseService import PatientDiseaseInsertService, PatientDiseaseUpdateService, \
+    PatientDiseaseListService, PatientDiseaseGetByIdService
 from ..Services.Patients.PatientService import PatientListService, PatientGetByIdService, PatientInsertService, \
     PatientUpdateService, PatientDeleteService
 from ..Services.Patients.TherapySessionControlService import TherapySessionControlListService, \
@@ -232,10 +242,16 @@ def load_routes(api):
     # Alergias del paciente
     api.add_resource(PatientAllergyInsertService, '/clinic/patient-allergy/add')
     api.add_resource(PatientAllergyUpdateService, '/clinic/patient-allergy/update/<int:pa_id>')
+    api.add_resource(PatientAllergyDeleteService, '/clinic/patient-allergy/delete/<int:pa_id>')
+    api.add_resource(PatientAllergyListService, '/clinic/patient-allergy/list')
+    api.add_resource(PatientAllergyGetByIdService, "/clinic/patient-allergy/get/<int:pa_id>")
 
     # Enfermedades del paciente
+    api.add_resource(PatientDiseaseListService, '/clinic/patient-disease/list')
+    api.add_resource(PatientDiseaseGetByIdService, '/clinic/patient-disease/get/<int:pd_id>')
     api.add_resource(PatientDiseaseInsertService, '/clinic/patient-disease/add')
     api.add_resource(PatientDiseaseUpdateService, '/clinic/patient-disease/update/<int:pd_id>')
+
 
     # ----------- MÓDULO CLINIC SESSION ----------------------------
     api.add_resource(ClinicSessionService_GetAll, '/clinic/sessions/list')
@@ -260,4 +276,29 @@ def load_routes(api):
     api.add_resource(AdminInvoiceService_GetById,'/admin/invoice/<int:inv_id>')
     api.add_resource(AdminInvoiceService_Add,'/admin/invoice/insert')
     api.add_resource(AdminInvoiceService_Delete,'/admin/invoice/delete/<int:inv_id>')
+
+    # CATALOGO DE Alergia
+    api.add_resource(AllergyCatalogInsertService, '/catalog/allergy/add')
+    api.add_resource(AllergyCatalogUpdateService, '/catalog/allergy/update/<int:al_id>')
+    api.add_resource(AllergyCatalogDeleteService, '/catalog/allergy/delete/<int:al_id>')
+    api.add_resource(AllergyCatalogListService, '/catalog/allergy/list')
+
+    # Catalogo de Enfermedades
+    api.add_resource(DiseaseCatalogInsertService, '/catalog/disease/add')
+    api.add_resource(DiseaseCatalogUpdateService, '/catalog/disease/update/<int:dis_id>')
+    api.add_resource(DiseaseCatalogDeleteService, '/catalog/disease/delete/<int:dis_id>')
+    api.add_resource(DiseaseCatalogListService, '/catalog/disease/list')
+
+    # Enfermedad type
+    api.add_resource(DiseaseTypeInsertService, '/catalog/disease-type/add')
+    api.add_resource(DiseaseTypeUpdateService, '/catalog/disease-type/update/<int:dst_id>')
+    api.add_resource(DiseaseTypeDeleteService, '/catalog/disease-type/delete/<int:dst_id>')
+    api.add_resource(DiseaseTypeListService, '/catalog/disease-type/list')
+
+    # WS Clinic Blood Type - Rutas Flask
+    api.add_resource(ClinicBloodService_Add, '/clinic/bloodtype/add')
+    api.add_resource(ClinicBloodService_Update, '/clinic/bloodtype/update')
+    api.add_resource(ClinicBloodService_Delete, '/clinic/bloodtype/delete/<int:btp_id>')
+    api.add_resource(ClinicBloodService_GetAll, '/clinic/bloodtype/list')
+    #api.add_resource(BloodTypeService_GetById, '/clinic/bloodtype/get/<int:btp_id>')
 

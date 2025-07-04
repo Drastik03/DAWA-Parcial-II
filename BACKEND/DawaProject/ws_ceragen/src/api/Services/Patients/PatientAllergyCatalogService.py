@@ -1,7 +1,7 @@
 from flask_restful import Resource
 from flask import request
-from ...Components.Patients.PatientAllergyCatalogComponent import PatientAllergyCatalogComponent
-from ....utils.general.response import response_success, response_error, response_unauthorize
+from ...Components.Patients.AllergyCatalogComponent import PatientAllergyCatalogComponent
+from ....utils.general.response import response_success, response_error, response_unauthorize, response_not_found
 from ...Model.Request.Patients.PatientAllergyCatalogRequest import (
     AllergyCatalogInsertRequest,
     AllergyCatalogUpdateRequest
@@ -65,3 +65,21 @@ class AllergyCatalogListService(Resource):
         except Exception as e:
             HandleLogs.write_error(f"[AllergyCatalogListService] {str(e)}")
             return response_error("Error al listar alergias")
+
+class AllergyCatalogDeleteService(Resource):
+    @staticmethod
+    def delete(al_id):
+        try:
+            token = request.headers.get("tokenapp")
+            if not token or not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            user = TokenComponent.User(token)
+            result = PatientAllergyCatalogComponent.deleteAllergy(al_id, user)
+
+            if result["result"]:
+                return response_success(result)
+            return response_not_found()
+        except Exception as e:
+            HandleLogs.write_error(f"[AllergyCatalogDeleteService] {str(e)}")
+            return response_error("Error al eliminar alergia del catálogo")

@@ -119,7 +119,7 @@ class ClinicBloodService_Delete(Resource):
             if not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            user = TokenComponent.User(token)
+            user = TokenComponent.User(token)  # obtiene el usuario que elimina
             result = ClinicBloodTypeComponent.deleteBloodType(btp_id, user)
             return result
         except Exception as err:

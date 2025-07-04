@@ -1,16 +1,18 @@
 from flask_restful import Resource
 from flask import request
-from ...Components.Patients.DiseaseCatalogComponent import DiseaseCatalogComponent
-from ....utils.general.response import response_success, response_error, response_unauthorize
-from ...Model.Request.Patients.DiseaseCatalogRequest import (
-    DiseaseCatalogInsertRequest,
-    DiseaseCatalogUpdateRequest
-)
+
+from ....utils.general.logs import HandleLogs
+from ....utils.general.response import internal_response,response_error,response_unauthorize,response_not_found,response_success
+
+
+from ...Components.Patients.DiseaseTypeComponent import DiseaseTypeComponent
 from ...Components.Security.TokenComponent import TokenComponent
 from marshmallow import ValidationError
-from ....utils.general.logs import HandleLogs
 
-class DiseaseCatalogInsertService(Resource):
+from ...Model.Request.Patients.DiseaseTypeRequest import DiseaseTypeUpdateRequest, DiseaseTypeInsertRequest
+
+
+class DiseaseTypeInsertService(Resource):
     @staticmethod
     def post():
         try:
@@ -21,20 +23,19 @@ class DiseaseCatalogInsertService(Resource):
 
             data = request.get_json()
             data["user_created"] = user
-            schema = DiseaseCatalogInsertRequest()
-            validated = schema.load(data)
+            validated = DiseaseTypeInsertRequest().load(data)
 
-            result = DiseaseCatalogComponent.createDiseaseCatalog(validated)
+            result = DiseaseTypeComponent.createDiseaseType(validated)
             return response_success(result)
         except ValidationError as err:
             return response_error(f"Validación fallida: {err.messages}")
         except Exception as e:
-            HandleLogs.write_error(f"[InsertDiseaseCatalog] {str(e)}")
+            HandleLogs.write_error(f"[InsertDiseaseType][POST] {str(e)}")
             return response_error("Error en el servicio")
 
-class DiseaseCatalogUpdateService(Resource):
+class DiseaseTypeUpdateService(Resource):
     @staticmethod
-    def patch(dis_id):
+    def patch(dst_id):
         try:
             token = request.headers.get("tokenapp")
             if not token or not TokenComponent.Token_Validate(token):
@@ -43,18 +44,32 @@ class DiseaseCatalogUpdateService(Resource):
 
             data = request.get_json()
             data["user_modified"] = user
-            schema = DiseaseCatalogUpdateRequest()
-            validated = schema.load(data)
+            validated = DiseaseTypeUpdateRequest().load(data)
 
-            result = DiseaseCatalogComponent.updateDiseaseCatalog(dis_id, validated)
+            result = DiseaseTypeComponent.updateDiseaseType(dst_id, validated)
             return response_success(result)
         except ValidationError as err:
             return response_error(f"Validación fallida: {err.messages}")
         except Exception as e:
-            HandleLogs.write_error(f"[UpdateDiseaseCatalog] {str(e)}")
+            HandleLogs.write_error(f"[UpdateDiseaseType][PATCH] {str(e)}")
             return response_error("Error en el servicio")
 
-class DiseaseCatalogListService(Resource):
+class DiseaseTypeDeleteService(Resource):
+    @staticmethod
+    def delete(dst_id):
+        try:
+            token = request.headers.get("tokenapp")
+            if not token or not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+            user = TokenComponent.User(token)
+            result = DiseaseTypeComponent.deleteDiseaseType(dst_id, user)
+            return response_success(result)
+        except Exception as e:
+            HandleLogs.write_error(f"[DeleteDiseaseType][DELETE] {str(e)}")
+            return response_error("Error al eliminar tipo de enfermedad")
+
+
+class DiseaseTypeListService(Resource):
     @staticmethod
     def get():
         try:
@@ -62,27 +77,11 @@ class DiseaseCatalogListService(Resource):
             if not token or not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            result = DiseaseCatalogComponent.listDiseaseCatalog()
+            result = DiseaseTypeComponent.listDiseaseType()
             return response_success(result)
         except Exception as e:
-            HandleLogs.write_error(f"[ListDiseaseCatalog] {str(e)}")
+            HandleLogs.write_error(f"[ListDiseaseType][GET] {str(e)}")
             return response_error("Error en el servicio")
 
 
-class DiseaseCatalogDeleteService(Resource):
-    @staticmethod
-    def delete(dis_id):
-        try:
-            token = request.headers.get("tokenapp")
-            if not token or not TokenComponent.Token_Validate(token):
-                return response_unauthorize()
 
-            user = TokenComponent.User(token)
-            result = DiseaseCatalogComponent.deleteDiseaseCatalog(dis_id, user)
-
-            if result["result"]:
-                return response_success(result)
-            return response_error(result["message"])
-        except Exception as e:
-            HandleLogs.write_error(f"[DeleteDiseaseCatalog] {str(e)}")
-            return response_error("Error al eliminar enfermedad")

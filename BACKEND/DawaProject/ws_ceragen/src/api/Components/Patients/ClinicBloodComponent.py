@@ -21,7 +21,7 @@ class ClinicBloodTypeComponent:
                     to_char(date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
                     user_deleted,
                     to_char(date_deleted, 'DD/MM/YYYY HH24:MI:SS') as date_deleted
-                FROM public.clinic_blood_type
+                FROM ceragen.clinic_blood_type
                 WHERE btp_state = TRUE;
             """
             result = DataBaseHandle.getRecords(sql, 0)
@@ -35,7 +35,7 @@ class ClinicBloodTypeComponent:
         try:
             HandleLogs.write_log(f"Obteniendo tipo de sangre con ID {btp_id}.")
             sql = """
-                SELECT * FROM public.clinic_blood_type
+                SELECT * FROM ceragen.clinic_blood_type
                 WHERE btp_id = %s AND btp_state = TRUE;
             """
             result = DataBaseHandle.getRecords(sql, 1, (btp_id,))
@@ -49,12 +49,13 @@ class ClinicBloodTypeComponent:
         try:
             HandleLogs.write_log(f"Creando nuevo tipo de sangre. Datos: {data}")
             sql = """
-                INSERT INTO public.clinic_blood_type (
+                INSERT INTO ceragen.clinic_blood_type (
                     btp_type,
+                    btp_state,
                     btp_description,
                     user_created,
                     date_created
-                ) VALUES (%s, %s, %s, NOW())
+                ) VALUES (%s,True, %s, %s, NOW())
                 RETURNING btp_id;
             """
             params = (
@@ -77,12 +78,12 @@ class ClinicBloodTypeComponent:
             HandleLogs.write_log(f"Actualizando tipo de sangre ID {btp_id}.")
             if not data.get('user_modified'):
                 return internal_response(False, "El usuario que modifica es requerido", None)
-            sql_check = "SELECT 1 FROM public.clinic_blood_type WHERE btp_id = %s AND btp_state = TRUE"
+            sql_check = "SELECT 1 FROM ceragen.clinic_blood_type WHERE btp_id = %s AND btp_state = TRUE"
             exists = DataBaseHandle.getRecords(sql_check, 1, (btp_id,))
             if not exists or not exists.get('result') or not exists.get('data'):
                 return internal_response(False, "Tipo de sangre no encontrado", None)
             sql = """
-                UPDATE public.clinic_blood_type SET
+                UPDATE ceragen.clinic_blood_type SET
                     btp_type = %s,
                     btp_description = %s,
                     user_modified = %s,
@@ -102,18 +103,27 @@ class ClinicBloodTypeComponent:
             return internal_response(False, "Error interno al actualizar", None)
 
     @staticmethod
-    def deleteBloodType(btp_id: int, user_modified: str):
+    def deleteBloodType(btp_id: int, user_deleted: str):
         try:
             sql = """
-                UPDATE public.clinic_blood_type
+                UPDATE ceragen.clinic_blood_type
                 SET btp_state = FALSE,
+                    user_deleted = %s,
+                    date_deleted = NOW(),
                     user_modified = %s,
                     date_modified = NOW()
                 WHERE btp_id = %s;
             """
-            params = (user_modified, btp_id)
+            params = (user_deleted, user_deleted, btp_id)
             result = DataBaseHandle.ExecuteNonQuery(sql, params)
-            return result
+            if result:
+                return internal_response(True, "Tipo de sangre eliminado con éxito", None)
+            else:
+                return internal_response(False, "No se pudo eliminar el tipo de sangre", None)
         except Exception as e:
             HandleLogs.write_error(f"Error en deleteBloodType: {str(e)}")
             return internal_response(False, "Error interno al eliminar tipo de sangre", None)
+
+
+
+

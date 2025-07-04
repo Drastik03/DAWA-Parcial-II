@@ -71,15 +71,42 @@ class DiseaseCatalogComponent:
     def listDiseaseCatalog():
         try:
             sql = """
-                SELECT dis_id, dis_name, dis_description, dis_type_id, dis_state,
-                       user_created, date_created, user_modified, date_modified
+                SELECT dis_id,
+                       dis_name,
+                       dis_description,
+                       dis_type_id,
+                       dis_state,
+                       user_created,
+                       TO_CHAR(date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                       user_modified,
+                       TO_CHAR(date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified
                 FROM ceragen.clinic_disease_catalog
-                WHERE date_deleted IS NULL AND dis_state = TRUE
+                WHERE date_deleted IS NULL AND dis_state = TRUE;
             """
-            result = DataBaseHandle.getRecords(sql)
+            result = DataBaseHandle.getRecords(sql,0)
             if result.get("result"):
                 return internal_response(True, "Datos obtenidos correctamente", result.get("data"))
             return internal_response(False, "No se encontraron registros", None)
         except Exception as e:
             HandleLogs.write_error(f"[listDiseaseCatalog] Error: {str(e)}")
             return internal_response(False, "Error al listar enfermedades", None)
+
+    @staticmethod
+    def deleteDiseaseCatalog(dis_id: int, user: str):
+        try:
+            sql_check = "SELECT 1 FROM ceragen.clinic_disease_catalog WHERE dis_id = %s AND date_deleted IS NULL"
+            exists = DataBaseHandle.getRecords(sql_check, 1, (dis_id,))
+            if not exists or not exists.get("result"):
+                return internal_response(False, "Enfermedad no encontrada o ya eliminada", None)
+
+            sql = """
+                    UPDATE ceragen.clinic_disease_catalog
+                    SET date_deleted = NOW(),
+                        user_deleted = %s
+                    WHERE dis_id = %s
+                """
+            DataBaseHandle.ExecuteNonQuery(sql, (user, dis_id))
+            return internal_response(True, "Enfermedad eliminada correctamente", {"dis_id": dis_id})
+        except Exception as e:
+            HandleLogs.write_error(f"[deleteDiseaseCatalog] Error: {str(e)}")
+            return internal_response(False, "Error al eliminar enfermedad", None)
