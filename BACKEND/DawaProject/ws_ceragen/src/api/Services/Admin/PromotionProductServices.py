@@ -132,7 +132,7 @@ class AdminPromotionService_Delete(Resource):
                 return response_unauthorize()
 
             user = TokenComponent.User(token)
-            res = AdminProductComponent.delete_product(pro_id, user)
+            res = AdminPromotionComponent.delete_promotion(pro_id, user)
             return res
         except Exception as err:
             HandleLogs.write_error(err)

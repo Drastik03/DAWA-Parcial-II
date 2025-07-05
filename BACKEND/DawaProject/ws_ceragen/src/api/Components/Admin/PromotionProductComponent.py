@@ -157,11 +157,12 @@ class AdminPromotionComponent:
                 WHERE ppr_id = %s
             """
             record = (p_user, datetime.now(), ppr_id)
-            rows_affected = DataBaseHandle.ExecuteNonQuery(query, record)
-            if rows_affected > 0:
+            result = DataBaseHandle.ExecuteNonQuery(query, record)
+            if result.get("rows_affected", 0) > 0:
                 return internal_response(True, f"Promoción con ID {ppr_id} eliminada exitosamente.", 1)
             else:
                 return internal_response(False, f"No se encontró ninguna promoción con ID {ppr_id}.", 0)
+
         except Exception as err:
             HandleLogs.write_error(err)
             return internal_response(False, str(err), None)

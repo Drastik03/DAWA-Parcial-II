@@ -8,7 +8,7 @@ class AdminExpenseComponent:
     def ListAllExpense():
         try:
             query = """
-     SELECT 
+                SELECT 
                         e.exp_id,
                         ext.ext_name,
                         pme.pme_name,
@@ -28,6 +28,36 @@ class AdminExpenseComponent:
                     WHERE e.exp_state = true;
             """
             return DataBaseHandle.getRecords(query, 0)
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return None
+
+    @staticmethod
+    def ExpenseByDateRange(from_date, to_date):
+        try:
+            query = """
+                    SELECT 
+                            e.exp_id,
+                            ext.ext_name,
+                            pme.pme_name,
+                            to_char(e.exp_date, 'DD/MM/YYYY HH24:MI:SS') AS date_expense,
+                            CAST(e.exp_amount AS double precision),
+                            e.exp_description,
+                            e.exp_receipt_number,
+                            e.user_created,
+                            to_char(e.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                            e.user_modified,
+                            to_char(e.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                            e.user_deleted,
+                            to_char(e.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS date_deleted
+                        FROM ceragen.admin_expense AS e
+                        INNER JOIN ceragen.admin_payment_method AS pme ON e.exp_payment_method_id = pme.pme_id
+                        INNER JOIN ceragen.admin_expense_type AS ext ON e.exp_type_id = ext.ext_id
+                        WHERE e.exp_state = true
+                          AND e.exp_date BETWEEN %s AND %s
+                        ORDER BY e.exp_date DESC;
+                """
+            return DataBaseHandle.getRecords(query, 0, (from_date, to_date))
         except Exception as err:
             HandleLogs.write_error(err)
             return None

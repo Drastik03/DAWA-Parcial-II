@@ -89,7 +89,7 @@ class Person_genre_Component:
             rows_affected = DataBaseHandle.ExecuteNonQuery(query, record)
             HandleLogs.write_log("Filas afectadas: " + str(rows_affected))
 
-            if rows_affected > 0:
+            if rows_affected.get("data", 0) > 0:
                 return True, f"Registro con ID {id} eliminado exitosamente."
             else:
                 return False, f"No se encontró ningún registro con ID {id}."

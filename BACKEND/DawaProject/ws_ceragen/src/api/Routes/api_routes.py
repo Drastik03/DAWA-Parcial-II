@@ -1,7 +1,7 @@
 from ..Services.Admin.AdminClientService import AdminClientService_GetAll, AdminClientServiceAdd, \
     AdminClientServiceUpdate, AdminClientServiceDelete
 from ..Services.Admin.AdminExpenseService import AdminExpenseService_GetAll, AdminExpenseService_Delete, \
-    AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById
+    AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById, AdminExpenseService_GetByDateRange
 from ..Services.Admin.AdminInvoiceService import AdminInvoiceService_GetAll, AdminInvoiceService_Add, \
     AdminInvoiceService_GetById, AdminInvoiceService_Update, AdminInvoiceService_Delete
 #----------- MÓDULO ADMINISTRADOR ----------------------------
@@ -39,7 +39,7 @@ from ..Services.Admin.MedicalPersonTypeService import MedicPersonTypeService_Get
 from ..Services.Admin.PaymentMethodService import AdminPaymentMethodService_GetAll, AdminPaymentMethodService_Update, \
     AdminPaymentMethodService_Add, AdminPaymentMethodService_Delete
 from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetAll, AdminPromotionService_Add, \
-    AdminPromotionService_Update
+    AdminPromotionService_Update, AdminPromotionService_Delete
 from ..Services.Admin.TherapyTypeService import TherapyTypeService_GetAll, TherapyTypeService_Add, \
     TherapyTypeService_Delete, TherapyTypeService_Update
 from ..Services.Patients.ClinicBloodService import ClinicBloodService_GetAll, ClinicBloodService_Add, \
@@ -179,6 +179,7 @@ def load_routes(api):
     api.add_resource(AdminPromotionService_GetAll, '/admin/promotion/list')
     api.add_resource(AdminPromotionService_Add, '/admin/promotion/insert')
     api.add_resource(AdminPromotionService_Update, '/admin/promotion/update')
+    api.add_resource(AdminPromotionService_Delete, '/admin/promotion/delete/<int:pro_id>')
 
     #METODOS DE PAGO
     api.add_resource(AdminPaymentMethodService_GetAll, '/admin/payment_method/list')
@@ -219,6 +220,7 @@ def load_routes(api):
     api.add_resource(AdminExpenseService_GetById, '/admin/expense/<int:exp_id>')
     api.add_resource(AdminExpenseService_Add, '/admin/expense/insert')
     api.add_resource(AdminExpenseService_Update, '/admin/expense/update')
+    api.add_resource(AdminExpenseService_GetByDateRange, '/admin/expense/list_by_date')
     api.add_resource(AdminExpenseService_Delete, '/admin/expense/delete/<int:exp_id>')
 
     # ----------- MÓDULO PACIENTES ----------------------------

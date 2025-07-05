@@ -30,6 +30,27 @@ class AdminExpenseService_GetAll(Resource):
             HandleLogs.write_error(err)
             return response_error(str(err))
 
+class AdminExpenseService_GetByDateRange(Resource):
+    @staticmethod
+    def get():
+        try:
+            HandleLogs.write_log("Consulta de gastos por rango de fechas")
+            token = request.headers.get('tokenapp')
+            if not token:
+                return response_error("Token no proporcionado")
+            if not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            from_date = request.args.get('from')
+            to_date = request.args.get('to')
+            if not from_date or not to_date:
+                return response_error("Parámetros 'from' y 'to' son requeridos")
+
+            res = AdminExpenseComponent.ExpenseByDateRange(from_date, to_date)
+            return response_success(res) if res and res["data"] else response_not_found()
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return response_error(str(err))
 
 class AdminExpenseService_GetById(Resource):
     @staticmethod

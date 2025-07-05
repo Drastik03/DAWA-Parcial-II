@@ -9,7 +9,7 @@ class AdminProductComponent:
     def list_all_products():
         try:
             query = """
-                        SELECT 
+                       SELECT 
                             p.pro_id,
                             p.pro_code,
                             p.pro_name,
@@ -35,8 +35,9 @@ class AdminProductComponent:
                             TO_CHAR(p.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS date_deleted
                         FROM ceragen.admin_product p
                         LEFT JOIN ceragen.admin_therapy_type t ON p.pro_therapy_type_id = t.tht_id
-                        LEFT JOIN ceragen.admin_product_promotion promo ON p.pro_id = promo.ppr_product_id
-                        WHERE p.pro_state = true;
+                        LEFT JOIN ceragen.admin_product_promotion promo 
+                            ON p.pro_id = promo.ppr_product_id AND promo.ppr_state = TRUE
+                        WHERE p.pro_state = TRUE;
                     """
             data = DataBaseHandle.getRecords(query, 0)
             data = convert_decimal_to_float(data)

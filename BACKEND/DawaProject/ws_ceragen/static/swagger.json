@@ -3020,6 +3020,54 @@
         }
       }
     },
+    "/admin/promotion/delete/{pro_id}": {
+      "delete": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Eliminar una promoción",
+        "description": "Elimina una promoción específica por ID",
+        "operationId": "DeletePromotion",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pro_id",
+            "description": "ID de la promoción a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Promoción eliminada exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Promoción no encontrada",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar la promoción",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
     "/admin/payment_method/list": {
       "get": {
         "tags": [
@@ -4114,6 +4162,77 @@
         }
       }
     },
+    "/admin/expense/list_by_date": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de gastos por rango de fecha",
+        "description": "Obtiene el listado de gastos filtrados por fecha desde 'from' hasta 'to'. Ambos parámetros deben ser fechas en formato YYYY-MM-DD o similar.",
+        "operationId": "ListExpenseByDateRange",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación de la aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "description": "Fecha inicial del rango (inclusive) en formato YYYY-MM-DD",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "description": "Fecha final del rango (inclusive) en formato YYYY-MM-DD",
+            "required": true,
+            "type": "string",
+            "format": "date"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa con listado de gastos",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Parámetros inválidos o falta de parámetros",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "Token inválido o no autorizado",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "404": {
+            "description": "No se encontraron gastos en el rango de fechas",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
     "/admin/expense/{exp_id}": {
       "get": {
         "tags": [
