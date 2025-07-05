@@ -2,6 +2,12 @@ import { lazy } from "react";
 import { Navigate } from "react-router-dom";
 import Loadable from "../layouts/full/shared/loadable/Loadable";
 import { Protected } from "../components/auth/Protected";
+import GenreTableList from "../views/pages/admin/genre/GenreTable";
+import PromotionTableList from "../views/pages/admin/promotion/PromotionTable";
+import ExpenseReport from "../views/pages/admin/expense/ExpenseReport";
+import ExpenseReportPagination from "../views/pages/admin/expense/ExpenseReport";
+import FormExpenseRegister from "../views/pages/admin/expense/RegisterExpense";
+import ExpenseTypeList from "../views/pages/admin/expense/ExpenseTypeList";
 
 // Layouts
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
@@ -133,6 +139,31 @@ const Router = [
 					{ path: "admin/products/register", element: <ProductInsert /> },
 
 					{ path: "user-profile", element: <UserProfile /> },
+
+					{ path: "admin/Person-Genre", element: <GenreTableList /> },
+
+					{
+						path: "/admin/promotions-product",
+						element: <PromotionTableList />,
+					},
+					{
+						path: "admin/expense/reports",
+						element: <ExpenseReportPagination />,
+					},
+
+					{
+						path: "/admin/expense/register",
+						element: <FormExpenseRegister />,
+					},
+
+					{
+						path: "/admin/expense/type",
+						element: <ExpenseTypeList />,
+					},
+					{
+						path: "/admin/persons",
+						element: <PersonsList />,
+					},
 				],
 			},
 		],

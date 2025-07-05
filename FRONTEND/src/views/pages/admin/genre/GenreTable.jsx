@@ -1,6 +1,5 @@
 /** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
 import { useMemo, useState } from "react";
-import PropTypes from "prop-types";
 import {
 	Typography,
 	Table,
@@ -26,18 +25,18 @@ import { useFetch } from "../../../../hooks/useFetch";
 import PageContainer from "../../../../components/container/PageContainer";
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
-import {
-	createMarital,
-	deleteMarital,
-	updateMarital,
-} from "../../../../services/admin/MaritalService";
 import { useAuth } from "../../../../context/AuthContext";
+import {
+	editGenre,
+	deleteGenre,
+	createGenre,
+} from "../../../../services/genreService";
 
-const BCrumb = [{ to: "/", title: "Home" }, { title: "Estados Civiles" }];
+const BCrumb = [{ to: "/", title: "Home" }, { title: "Géneros" }];
 
-const MaritalTableList = () => {
+const GenreTableList = () => {
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/Marital_status/list",
+		"http://localhost:5000/admin/Person_genre/list",
 	);
 	const rows = useMemo(
 		() => (Array.isArray(data?.data) ? data?.data : []),
@@ -52,51 +51,53 @@ const MaritalTableList = () => {
 	const [editValue, setEditValue] = useState("");
 	const [snackbarOpen, setSnackbarOpen] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
-	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 	const [openCreate, setOpenCreate] = useState(false);
 	const [createValue, setCreateValue] = useState("");
-
+	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 	const handleOpenCreate = () => {
 		setCreateValue("");
 		setOpenCreate(true);
 	};
-	const handleCloseCreate = () => {
-		setOpenCreate(false);
-	};
-	const handleOpenEdit = (row) => {
-		setSelectedRow(row);
-		setEditValue(row.status_name);
-		setOpenEdit(true);
-	};
 	const handleCreateSubmit = async () => {
 		if (!createValue.trim()) {
 			setSnackbarSeverity("error");
-			setSnackbarMessage("El nombre del estado civil no puede estar vacío.");
+			setSnackbarMessage("El nombre del género es obligatorio.");
 			setSnackbarOpen(true);
 			return;
 		}
 
+		const payload = {
+			genre_name: createValue.trim(),
+			user_process: user.user.user_login_id,
+		};
+
 		try {
-			const payload = {
-				status_name: createValue.trim(),
-				user_process: user.user.user_login_id,
-			};
-			const res = await createMarital(payload);
+			const res = await createGenre(payload);
 			if (res.result) {
 				setSnackbarSeverity("success");
-				setSnackbarMessage("Estado civil creado correctamente.");
+				setSnackbarMessage("Género creado correctamente.");
 				refetch();
 				handleCloseCreate();
 			} else {
 				setSnackbarSeverity("error");
-				setSnackbarMessage(res.message || "Error al crear el estado civil.");
+				setSnackbarMessage(res.message || "No se pudo crear el género.");
 			}
 		} catch (error) {
-			console.error(error);
 			setSnackbarSeverity("error");
-			setSnackbarMessage("Error inesperado al crear el estado civil.");
+			setSnackbarMessage("Error inesperado al crear el género.");
 		}
+
 		setSnackbarOpen(true);
+	};
+
+	const handleCloseCreate = () => {
+		setOpenCreate(false);
+	};
+
+	const handleOpenEdit = (row) => {
+		setSelectedRow(row);
+		setEditValue(row.genre_name);
+		setOpenEdit(true);
 	};
 
 	const handleOpenDelete = (row) => {
@@ -113,27 +114,24 @@ const MaritalTableList = () => {
 	const handleEditSubmit = async () => {
 		const payload = {
 			id: selectedRow.id,
-			status_name: editValue,
+			genre_name: editValue,
 			user_process: user.user.user_login_id,
 		};
 
 		try {
-			const res = await updateMarital(payload);
+			const res = await editGenre(payload);
 
 			if (res.result) {
 				setSnackbarSeverity("success");
-				setSnackbarMessage("Estado civil actualizado correctamente.");
+				setSnackbarMessage("Género actualizado correctamente.");
 				refetch();
 			} else {
 				setSnackbarSeverity("error");
-				setSnackbarMessage(
-					res.message || "No se pudo actualizar el estado civil.",
-				);
+				setSnackbarMessage(res.message || "No se pudo actualizar el género.");
 			}
 		} catch (error) {
-			console.error(error);
 			setSnackbarSeverity("error");
-			setSnackbarMessage("Error inesperado al actualizar el estado civil.");
+			setSnackbarMessage("Error inesperado al actualizar el género.");
 		}
 
 		setSnackbarOpen(true);
@@ -142,19 +140,16 @@ const MaritalTableList = () => {
 
 	const handleDeleteConfirm = async () => {
 		try {
-			console.log(user.user.user_id);
-
-			const res = await deleteMarital(selectedRow.id, user.user.user_id);
+			const res = await deleteGenre(selectedRow.id, user.user.user_id);
 			if (res.result) {
 				setSnackbarSeverity("success");
-				setSnackbarMessage("Estado civil eliminado correctamente.");
+				setSnackbarMessage("Género eliminado correctamente.");
 				refetch();
 			} else {
 				setSnackbarSeverity("error");
-				setSnackbarMessage("Error al eliminar el estado civil.");
+				setSnackbarMessage("Error al eliminar el género.");
 			}
 		} catch (error) {
-			console.log(error);
 			setSnackbarSeverity("error");
 			setSnackbarMessage("Ocurrió un error inesperado.");
 		}
@@ -163,11 +158,8 @@ const MaritalTableList = () => {
 	};
 
 	return (
-		<PageContainer
-			title="Estados Civiles"
-			description="Listado de estados civiles"
-		>
-			<Breadcrumb title="Estados Civiles" items={BCrumb} />
+		<PageContainer title="Géneros" description="Listado de géneros de persona">
+			<Breadcrumb title="Géneros" items={BCrumb} />
 
 			<Button
 				variant="contained"
@@ -191,10 +183,10 @@ const MaritalTableList = () => {
 				onClick={handleOpenCreate}
 				sx={{ mb: 2, textTransform: "none", fontWeight: 600 }}
 			>
-				Crear Estado Civil
+				Crear Género
 			</Button>
 
-			<ParentCard title="Lista de Estados Civiles">
+			<ParentCard title="Lista de Géneros">
 				<Paper variant="outlined">
 					<TableContainer>
 						<Snackbar
@@ -211,7 +203,7 @@ const MaritalTableList = () => {
 								{snackbarMessage}
 							</Alert>
 						</Snackbar>
-						<Table aria-label="marital table">
+						<Table aria-label="genre table">
 							<TableHead>
 								<TableRow>
 									<TableCell>
@@ -235,9 +227,7 @@ const MaritalTableList = () => {
 								{rows.map((row) => (
 									<TableRow key={row.id} hover>
 										<TableCell>
-											<Typography fontWeight={600}>
-												{row.status_name}
-											</Typography>
+											<Typography fontWeight={600}>{row.genre_name}</Typography>
 										</TableCell>
 										<TableCell>
 											<Typography color="textSecondary">
@@ -281,13 +271,13 @@ const MaritalTableList = () => {
 				fullWidth
 				maxWidth="sm"
 			>
-				<DialogTitle>Crear Estado Civil</DialogTitle>
+				<DialogTitle>Crear Género</DialogTitle>
 				<DialogContent sx={{ pt: 1 }}>
 					<Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-						Ingresa el nombre del nuevo estado civil:
+						Ingresa el nombre del nuevo género:
 					</Typography>
 					<TextField
-						label="Nombre del estado civil"
+						label="Nombre del género"
 						fullWidth
 						variant="outlined"
 						value={createValue}
@@ -308,15 +298,16 @@ const MaritalTableList = () => {
 					</Button>
 				</DialogActions>
 			</Dialog>
+
 			{/* Modal Editar */}
 			<Dialog open={openEdit} onClose={handleClose} fullWidth maxWidth="sm">
-				<DialogTitle>Editar Estado Civil</DialogTitle>
+				<DialogTitle>Editar Género</DialogTitle>
 				<DialogContent sx={{ pt: 1 }}>
 					<Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
-						Puedes modificar el nombre del estado civil seleccionado:
+						Puedes modificar el nombre del género seleccionado:
 					</Typography>
 					<TextField
-						label="Nombre del estado civil"
+						label="Nombre del género"
 						fullWidth
 						variant="outlined"
 						value={editValue}
@@ -340,10 +331,10 @@ const MaritalTableList = () => {
 
 			{/* Modal Eliminar */}
 			<Dialog open={openDelete} onClose={handleClose}>
-				<DialogTitle>Eliminar Estado Civil</DialogTitle>
+				<DialogTitle>Eliminar Género</DialogTitle>
 				<DialogContent>
 					<Typography>
-						¿Estás seguro de que deseas eliminar "{selectedRow?.status_name}"?
+						¿Estás seguro de que deseas eliminar "{selectedRow?.genre_name}"?
 					</Typography>
 				</DialogContent>
 				<DialogActions>
@@ -361,4 +352,4 @@ const MaritalTableList = () => {
 	);
 };
 
-export default MaritalTableList;
+export default GenreTableList;

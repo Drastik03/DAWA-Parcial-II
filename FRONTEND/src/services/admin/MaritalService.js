@@ -28,3 +28,20 @@ export const updateMarital = async (data) => {
 		throw error;
 	}
 };
+
+export const createMarital = async (payload) => {
+	try {
+		const response = await axios.post(`${API_URL}/add`, payload, {
+			headers: {
+				tokenapp: Cookies.get("token"),
+			},
+		});
+		return response.data; 
+	} catch (error) {
+		console.error("Error creando estado civil:", error);
+		return {
+			result: false,
+			message: "Error en la conexión con el servidor.",
+		};
+	}
+};

@@ -42,3 +42,17 @@ export const createPerson = async (personData) => {
 		throw error;
 	}
 };
+
+export async function editPerson(personData) {
+	try {
+		const response = await axios.patch(`${API_BASE_URL}/update`, personData, {
+			headers: {
+				tokenapp: Cookies.get("token"),
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error en editPerson:", error);
+		throw error;
+	}
+}

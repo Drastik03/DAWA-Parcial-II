@@ -10,7 +10,6 @@ function getIconByName(iconName) {
 		: DefaultIcon;
 }
 
-
 export function generateMenuFromRole(menuRole) {
 	if (!menuRole) return [];
 
@@ -30,29 +29,30 @@ export function generateMenuFromRole(menuRole) {
 				return href.startsWith("/") ? href.slice(1) : href;
 			}
 
-			const children = (mod.menu || []).map((menu) => {
-				const menuIcon = getIconByName(menu.menu_icon_name);
+			const children = (mod.menu || [])
+				.filter((menu) => !menu.menu_parent_id)
+				.map((menu) => {
+					const menuIcon = getIconByName(menu.menu_icon_name);
 
-				const subChildren =
-					menu.submenu && menu.submenu.length > 0
-						? menu.submenu.map((sub) => ({
-								id: uniqueId(),
-								title: sub.menu_name,
-								icon: getIconByName(sub.menu_icon_name),
-								href: cleanHref(sub.menu_href || sub.menu_url),
-								children: [],
-							}))
-						: [];
+					const subChildren =
+						menu.submenu && menu.submenu.length > 0
+							? menu.submenu.map((sub) => ({
+									id: uniqueId(),
+									title: sub.menu_name,
+									icon: getIconByName(sub.menu_icon_name),
+									href: cleanHref(sub.menu_href || sub.menu_url),
+									children: [],
+								}))
+							: [];
 
-				return {
-					id: uniqueId(),
-					title: menu.menu_name,
-					icon: menuIcon,
-					href: cleanHref(menu.menu_href || menu.menu_url),
-					children: subChildren,
-				};
-			});
-			  
+					return {
+						id: uniqueId(),
+						title: menu.menu_name,
+						icon: menuIcon,
+						href: cleanHref(menu.menu_href || menu.menu_url),
+						children: subChildren,
+					};
+				});
 
 			menuItems.push({
 				id: uniqueId(),

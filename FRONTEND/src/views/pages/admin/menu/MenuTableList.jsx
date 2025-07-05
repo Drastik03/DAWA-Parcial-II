@@ -40,6 +40,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
 import { deleteMenu, updateMenu } from "../../../../services/admin/MenuService";
+import { Stack } from "@mui/system";
 
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
 	const theme = useTheme();
@@ -100,15 +101,24 @@ const MenuPaginationTable = () => {
 	const [alertOpen, setAlertOpen] = React.useState(false);
 	const [alertMessage, setAlertMessage] = React.useState("");
 	const [alertSeverity, setAlertSeverity] = React.useState("success");
-
+	const [searchTerm, setSearchTerm] = React.useState("");
 	const navigate = useNavigate();
 	const { data, refetch } = useFetch("http://localhost:5000/Menu/list");
 	const { data: modulesData } = useFetch("http://localhost:5000/Module/list");
 	const modules = Array.isArray(modulesData) ? modulesData : [];
 	const rows = Array.isArray(data) ? data : [];
+	const filteredRows = rows.filter((row) =>
+		row.menu_name.toLowerCase().includes(searchTerm.toLowerCase()),
+	);
+
 	const emptyRows =
 		rowsPerPage > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
+	React.useEffect(() => {
+		if (page > 0 && page * rowsPerPage >= filteredRows.length) {
+			setPage(0);
+		}
+	}, [filteredRows, page, rowsPerPage]);
 	const {
 		control,
 		handleSubmit,
@@ -184,14 +194,31 @@ const MenuPaginationTable = () => {
 		<PageContainer title="Menús" description="Tabla de menús con paginación">
 			<Breadcrumb title="Menús" items={BCrumb} />
 			<ParentCard title="Listado de Menús">
-				<Button
-					variant="contained"
-					color="primary"
-					onClick={() => navigate("/security/menu/Register")}
+				<Stack
+					direction={{ xs: "column", sm: "row" }}
+					spacing={2}
+					alignItems="center"
+					justifyContent="space-between"
 					sx={{ mb: 2 }}
 				>
-					Crear Menú
-				</Button>
+					<TextField
+						label="Buscar menú"
+						variant="outlined"
+						size="small"
+						fullWidth
+						value={searchTerm}
+						onChange={(e) => setSearchTerm(e.target.value)}
+					/>
+
+					<Button
+						variant="contained"
+						color="primary"
+						onClick={() => navigate("/security/menu/Register")}
+						sx={{ whiteSpace: "nowrap" }}
+					>
+						Crear Menú
+					</Button>
+				</Stack>
 
 				{alertOpen && (
 					<Box sx={{ mb: 2 }}>
@@ -218,11 +245,11 @@ const MenuPaginationTable = () => {
 							</TableHead>
 							<TableBody>
 								{(rowsPerPage > 0
-									? rows.slice(
+									? filteredRows.slice(
 											page * rowsPerPage,
 											page * rowsPerPage + rowsPerPage,
 										)
-									: rows
+									: filteredRows
 								).map((row) => (
 									<TableRow key={row.menu_id}>
 										<TableCell>{row.menu_id}</TableCell>

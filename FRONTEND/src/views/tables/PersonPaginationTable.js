@@ -30,7 +30,7 @@ import ParentCard from "../../components/shared/ParentCard";
 import PersonRow from "../../components/admin/persons/PersonRows";
 import { useNavigate } from "react-router-dom";
 import Spinner from "../spinner/Spinner";
-import { deletePersonById } from "../../services/personsService";
+import { deletePersonById, editPerson } from "../../services/personsService";
 import { useAuth } from "../../context/AuthContext";
 
 function TablePaginationActions(props) {
@@ -121,6 +121,7 @@ const PersonPaginationTable = ({
 	// console.log("DESDE DATA PERSON
 	const [alertOpen, setAlertOpen] = React.useState(false);
 	const [alertMessage, setAlertMessage] = React.useState("");
+
 	const [alertSeverity, setAlertSeverity] = React.useState("success");
 
 	const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -145,13 +146,13 @@ const PersonPaginationTable = ({
 			return () => clearTimeout(timer);
 		}
 	}, [alertOpen]);
-	
+
 	const handleDeletePersonId = async (id) => {
 		try {
 			const data = await deletePersonById(id, user.user.user_login_id);
 			console.log("Respuesta deletePersonById:", data);
 			if (data?.result === true) {
-				setAlertMessage("Usuario eliminado con éxito");
+				setAlertMessage("Persona eliminado con éxito");
 				setAlertSeverity("success");
 				setAlertOpen(true);
 				onRefresh();
@@ -161,8 +162,35 @@ const PersonPaginationTable = ({
 				setAlertOpen(true);
 			}
 		} catch (error) {
-			console.error("Error al eliminar el usuario:", error);
-			setAlertMessage("Error al eliminar el usuario");
+			console.error("Error al eliminar la persona:", error);
+			setAlertMessage("Error al eliminar el persona");
+			setAlertSeverity("error");
+			setAlertOpen(true);
+		}
+	};
+	const handleEditPerson = async (personData) => {
+		try {
+			const payload = {
+				per_id: personData.per_id,
+				per_name: personData.per_name,
+				per_genre_id: Number(personData.per_genre_id), 
+				user_process: user.user_login_id, 
+			};
+
+			const result = await editPerson(payload, user.token);
+
+			if (result.result) {
+				setAlertMessage("Persona editada con éxito");
+				setAlertSeverity("success");
+				setAlertOpen(true);
+				onRefresh();
+			} else {
+				setAlertMessage("Error: " + result.message);
+				setAlertSeverity("error");
+				setAlertOpen(true);
+			}
+		} catch (error) {
+			setAlertMessage("Error al editar a la persona");
 			setAlertSeverity("error");
 			setAlertOpen(true);
 		}
@@ -260,7 +288,7 @@ const PersonPaginationTable = ({
 													<PersonRow
 														key={row.per_id}
 														person={row}
-														onEdit={(p) => console.log("Editar persona:", p)}
+														onEdit={(p) => handleEditPerson(p)}
 														onDelete={(id) => handleDeletePersonId(id)}
 													/>
 												))}
