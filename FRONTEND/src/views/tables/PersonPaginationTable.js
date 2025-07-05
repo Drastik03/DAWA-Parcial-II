@@ -17,6 +17,7 @@ import {
 	TableContainer,
 	Button,
 	Alert,
+	TextField,
 } from "@mui/material";
 
 import FirstPageIcon from "@mui/icons-material/FirstPage";
@@ -121,6 +122,7 @@ const PersonPaginationTable = ({
 	// console.log("DESDE DATA PERSON
 	const [alertOpen, setAlertOpen] = React.useState(false);
 	const [alertMessage, setAlertMessage] = React.useState("");
+	const [searchTerm, setSearchTerm] = React.useState("");
 
 	const [alertSeverity, setAlertSeverity] = React.useState("success");
 
@@ -132,8 +134,14 @@ const PersonPaginationTable = ({
 	// Avoid a layout jump when reaching the last page with empty rows.
 	// eslint-disable-next-line react/prop-types
 	const rows = list?.data || [];
+	const filteredRows = rows.filter((row) =>
+		`${row.per_names} ${row.per_surnames}`
+			.toLowerCase()
+			.includes(searchTerm.toLowerCase()),
+	);
+
 	const emptyRows =
-		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+		page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
 
 	const handleChangePage = (event, newPage) => {
 		setPage(newPage);
@@ -149,48 +157,22 @@ const PersonPaginationTable = ({
 
 	const handleDeletePersonId = async (id) => {
 		try {
-			const data = await deletePersonById(id, user.user.user_login_id);
-			console.log("Respuesta deletePersonById:", data);
-			if (data?.result === true) {
-				setAlertMessage("Persona eliminado con éxito");
+			const response = await deletePersonById(id, user.user.user_login_id);
+			console.log("Respuesta deletePersonById:", response);
+
+			if (response?.result && response?.data?.result) {
+				setAlertMessage("Persona eliminada con éxito");
 				setAlertSeverity("success");
 				setAlertOpen(true);
 				onRefresh();
 			} else {
-				setAlertMessage("Error al eliminar el usuario");
+				setAlertMessage(response?.message || "Error al eliminar la persona");
 				setAlertSeverity("error");
 				setAlertOpen(true);
 			}
 		} catch (error) {
 			console.error("Error al eliminar la persona:", error);
-			setAlertMessage("Error al eliminar el persona");
-			setAlertSeverity("error");
-			setAlertOpen(true);
-		}
-	};
-	const handleEditPerson = async (personData) => {
-		try {
-			const payload = {
-				per_id: personData.per_id,
-				per_name: personData.per_name,
-				per_genre_id: Number(personData.per_genre_id), 
-				user_process: user.user_login_id, 
-			};
-
-			const result = await editPerson(payload, user.token);
-
-			if (result.result) {
-				setAlertMessage("Persona editada con éxito");
-				setAlertSeverity("success");
-				setAlertOpen(true);
-				onRefresh();
-			} else {
-				setAlertMessage("Error: " + result.message);
-				setAlertSeverity("error");
-				setAlertOpen(true);
-			}
-		} catch (error) {
-			setAlertMessage("Error al editar a la persona");
+			setAlertMessage("Error inesperado al eliminar la persona");
 			setAlertSeverity("error");
 			setAlertOpen(true);
 		}
@@ -199,6 +181,53 @@ const PersonPaginationTable = ({
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
 		setPage(0);
+	};
+
+	const handleEditPerson = async (personData) => {
+		try {
+			const payload = {
+				per_id: personData.per_id,
+				per_identification: personData.per_identification,
+				per_names: personData.per_names,
+				per_surnames: personData.per_surnames,
+				per_mail: personData.per_mail,
+				per_city: personData.per_city,
+				per_marital_status_id: Number(personData.per_marital_status_id),
+				per_country: personData.per_country,
+				per_address: personData.per_address,
+				per_phone: personData.per_phone,
+				per_birth_date: personData.per_birth_date,
+				per_genre_id: Number(personData.per_genre_id),
+				user_process: user.user.user_login_id,
+			};
+			console.log("DATA", payload.user_process);
+
+			console.log("Payload a enviar:", personData);
+
+			console.log("Payload a enviar:", payload);
+
+			const response = await editPerson(payload, user.token);
+			console.log("Respuesta editPerson:", response);
+
+			if (response?.data?.result) {
+				setAlertMessage("Persona editada con éxito");
+				setAlertSeverity("success");
+				setAlertOpen(true);
+				onRefresh();
+			} else {
+				setAlertMessage(
+					"Error al editar la persona: " +
+						(response?.data?.message || "Error desconocido"),
+				);
+				setAlertSeverity("error");
+				setAlertOpen(true);
+			}
+		} catch (error) {
+			console.error("Error al editar la persona:", error);
+			setAlertMessage("Error inesperado al editar la persona");
+			setAlertSeverity("error");
+			setAlertOpen(true);
+		}
 	};
 
 	return (
@@ -233,6 +262,16 @@ const PersonPaginationTable = ({
 					Crear Persona
 				</Button>
 				<ParentCard title="Personas Registradas">
+					<Box sx={{ display: "flex", justifyContent: "flex-start", mb: 2 }}>
+						<TextField
+							label="Buscar por nombre o apellido"
+							variant="outlined"
+							size="small"
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+						/>
+					</Box>
+
 					<Paper variant="outlined">
 						<TableContainer>
 							{alertOpen && (
@@ -279,11 +318,11 @@ const PersonPaginationTable = ({
 													</TableCell>
 												</TableRow>
 											: (rowsPerPage > 0
-													? rows.slice(
+													? filteredRows.slice(
 															page * rowsPerPage,
 															page * rowsPerPage + rowsPerPage,
 														)
-													: rows
+													: filteredRows
 												).map((row) => (
 													<PersonRow
 														key={row.per_id}
@@ -309,7 +348,7 @@ const PersonPaginationTable = ({
 												{ label: "All", value: -1 },
 											]}
 											colSpan={8}
-											count={rows.length}
+											count={filteredRows.length}
 											rowsPerPage={rowsPerPage}
 											page={page}
 											SelectProps={{

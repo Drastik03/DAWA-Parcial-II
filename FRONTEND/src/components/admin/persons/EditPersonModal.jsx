@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	Modal,
 	Box,
@@ -36,6 +36,7 @@ const style = {
 export const EditPersonModal = ({
 	openEdit,
 	handleEditClose,
+	onSave,
 	handleEditSave,
 	handleEditChange,
 	editData = {},
@@ -47,7 +48,6 @@ export const EditPersonModal = ({
 	const { data: maritalData } = useFetch(
 		"http://localhost:5000/admin/Marital_status/list",
 	);
-
 	const {
 		register,
 		control,
@@ -58,6 +58,15 @@ export const EditPersonModal = ({
 
 	const genres = Array.isArray(genreData?.data) ? genreData.data : [];
 	const maritals = Array.isArray(maritalData?.data) ? maritalData.data : [];
+
+	useEffect(() => {
+		reset(editData);
+	}, [editData, reset]);
+
+	useEffect(() => {
+		reset(editData);
+	}, [editData, reset]);
+
 	const handleSaveClick = () => {
 		setConfirmOpen(true);
 	};
@@ -66,139 +75,123 @@ export const EditPersonModal = ({
 		setConfirmOpen(false);
 	};
 
-	const handleConfirmSave = () => {
+	const onSubmit = (data) => {
 		setConfirmOpen(false);
-		handleEditSave();
+		onSave(data);
 	};
-
 	return (
 		<>
 			<Modal open={openEdit} onClose={handleEditClose}>
-				<Box sx={style}>
+				<Box sx={style} component="form" onSubmit={handleSubmit(onSubmit)}>
 					<Typography variant="h6" component="h2" mb={2}>
 						Editar Persona
 					</Typography>
-					<form>
-						<Grid container spacing={2}>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Identificacion (CI)</CustomFormLabel>
-								<CustomTextField
-									name="per_identification"
-									value={editData.per_identification || ""}
-									onChange={handleEditChange}
-									fullWidth
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Email</CustomFormLabel>
-								<CustomTextField
-									name="per_mail"
-									value={editData.per_mail || ""}
-									onChange={handleEditChange}
-									fullWidth
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Nombres</CustomFormLabel>
-								<CustomTextField
-									name="per_names"
-									value={editData.per_names || ""}
-									onChange={handleEditChange}
-									fullWidth
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Apellidos</CustomFormLabel>
-								<CustomTextField
-									name="per_surnames"
-									value={editData.per_surnames || ""}
-									onChange={handleEditChange}
-									fullWidth
-								/>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Género</CustomFormLabel>
-								<FormControl fullWidth error={!!errors.per_genre_id}>
-									<Controller
-										name="per_genre_id"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<Autocomplete
-												options={genres}
-												getOptionLabel={(option) => option.genre_name || ""}
-												onChange={(_, newValue) =>
-													field.onChange(newValue ? newValue.id : "")
-												}
-												renderInput={(params) => (
-													<CustomTextField
-														{...params}
-														error={!!errors.per_genre_id}
-														helperText={
-															errors.per_genre_id && "Campo requerido"
-														}
-													/>
-												)}
-											/>
-										)}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<CustomFormLabel>Estado civil</CustomFormLabel>
-								<FormControl fullWidth error={!!errors.per_marital_status_id}>
-									<Controller
-										name="per_marital_status_id"
-										control={control}
-										rules={{ required: true }}
-										render={({ field }) => (
-											<Autocomplete
-												options={maritals}
-												getOptionLabel={(option) => option.status_name || ""}
-												onChange={(_, newValue) =>
-													field.onChange(newValue ? newValue.id : "")
-												}
-												renderInput={(params) => (
-													<CustomTextField
-														{...params}
-														error={!!errors.per_marital_status_id}
-														helperText={
-															errors.per_marital_status_id && "Campo requerido"
-														}
-													/>
-												)}
-											/>
-										)}
-									/>
-								</FormControl>
-							</Grid>
-							<Grid item xs={12} sm={6}>
-								<TextField
-									label="Fecha de Nacimiento"
-									name="per_birth_date"
-									value={editData.per_birth_date || ""}
-									onChange={handleEditChange}
-									fullWidth
-									type="date"
-									InputLabelProps={{ shrink: true }}
-								/>
-							</Grid>
+					<Grid container spacing={2}>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Identificacion (CI)</CustomFormLabel>
+							<CustomTextField
+								{...register("per_identification", { required: true })}
+								fullWidth
+							/>
 						</Grid>
-						<Stack direction="row" spacing={2} justifyContent="flex-end" mt={4}>
-							<Button onClick={handleEditClose} color="primary">
-								Cancelar
-							</Button>
-							<Button
-								onClick={handleSaveClick}
-								color="primary"
-								variant="contained"
-							>
-								Guardar
-							</Button>
-						</Stack>
-					</form>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Email</CustomFormLabel>
+							<CustomTextField
+								{...register("per_mail", { required: true })}
+								fullWidth
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Nombres</CustomFormLabel>
+							<CustomTextField
+								{...register("per_names", { required: true })}
+								fullWidth
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Apellidos</CustomFormLabel>
+							<CustomTextField
+								{...register("per_surnames", { required: true })}
+								fullWidth
+							/>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Género</CustomFormLabel>
+							<FormControl fullWidth error={!!errors.per_genre_id}>
+								<Controller
+									name="per_genre_id"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={genres}
+											getOptionLabel={(option) => option.genre_name || ""}
+											value={genres.find((g) => g.id === field.value) || null}
+											onChange={(_, newValue) =>
+												field.onChange(newValue ? newValue.id : "")
+											}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.per_genre_id}
+													helperText={errors.per_genre_id && "Campo requerido"}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Estado civil</CustomFormLabel>
+							<FormControl fullWidth error={!!errors.per_marital_status_id}>
+								<Controller
+									name="per_marital_status_id"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={maritals}
+											getOptionLabel={(option) => option.status_name || ""}
+											value={maritals.find((m) => m.id === field.value) || null}
+											onChange={(_, newValue) =>
+												field.onChange(newValue ? newValue.id : "")
+											}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.per_marital_status_id}
+													helperText={
+														errors.per_marital_status_id && "Campo requerido"
+													}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
+						</Grid>
+						<Grid item xs={12} sm={6}>
+							<CustomFormLabel>Fecha de Nacimiento</CustomFormLabel>
+							<CustomTextField
+								type="date"
+								{...register("per_birth_date", { required: true })}
+								fullWidth
+								InputLabelProps={{ shrink: true }}
+							/>
+						</Grid>
+					</Grid>
+					<Stack direction="row" spacing={2} justifyContent="flex-end" mt={4}>
+						<Button onClick={handleEditClose} color="primary">
+							Cancelar
+						</Button>
+						<Button type="submit" color="primary" variant="contained">
+							Guardar
+						</Button>
+					</Stack>
 				</Box>
 			</Modal>
+
 			<Dialog open={confirmOpen} onClose={handleConfirmClose}>
 				<DialogTitle>Confirmar cambios</DialogTitle>
 				<DialogContent>
@@ -211,7 +204,7 @@ export const EditPersonModal = ({
 						Cancelar
 					</Button>
 					<Button
-						onClick={handleConfirmSave}
+						onClick={handleSubmit(onSubmit)}
 						color="primary"
 						variant="contained"
 					>
