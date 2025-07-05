@@ -141,18 +141,24 @@ class AdminPersonComponent:
     @staticmethod
     def delete_admin_person(per_id, p_user):
         try:
-            query = "UPDATE ceragen.admin_person " \
-                     "SET per_state = false, user_deleted = %s, date_deleted = %s WHERE per_id = %s"
+            query = """
+                UPDATE ceragen.admin_person 
+                SET per_state = false, user_deleted = %s, date_deleted = %s 
+                WHERE per_id = %s
+            """
             record = (p_user, datetime.now(), per_id)
             rows_affected = DataBaseHandle.ExecuteNonQuery(query, record)
+
             HandleLogs.write_log("Filas afectadas: " + str(rows_affected))
 
-            if rows_affected > 0:
-               # return True, f"Registro con ID {per_id} eliminado exitosamente."
-               return internal_response(True, f"Registro con ID {per_id} eliminado exitosamente.", 1)
+            affected_rows = rows_affected["data"] if isinstance(rows_affected, dict) else 0
+
+            if affected_rows > 0:
+                return internal_response(True, f"Registro con ID {per_id} eliminado exitosamente.", affected_rows)
             else:
                 return internal_response(False, f"No se encontró ningún registro con ID {per_id}.", 0)
         except Exception as err:
             HandleLogs.write_error(err)
-            return None
+            return internal_response(False, str(err), 0)
+
 

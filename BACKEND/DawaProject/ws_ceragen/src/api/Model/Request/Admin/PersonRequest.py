@@ -22,6 +22,7 @@ class PersonUpdateRequest(Schema):
     per_genre_id = fields.Int(required=True)
     per_marital_status_id = fields.Int(required=False)
     per_country = fields.String(required=False)
+    per_birth_date = fields.Date(required=False)
     per_city = fields.String(required=False)
     per_address = fields.String(required=False)
     per_phone = fields.String(required=False)

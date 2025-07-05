@@ -138,7 +138,7 @@ class admin_person_service_Delete(Resource):
             user_token = TokenComponent.User(token)
             res = AdminPersonComponent.delete_admin_person(per_id, user_token)
             #success, message = AdminCicleComponent.delete_admin_cicle(id)
-            if res:
+            if res and res.get("result") is True:
                 return response_success(res)
             else:
                 return response_not_found()
