@@ -5346,7 +5346,7 @@
             "in" :"path",
             "required" :true,
             "type" :"string"
-          },
+          }
 
         ],
         "responses" :{
@@ -5359,6 +5359,370 @@
         }
       }
     },
+
+    "/admin/Medical_staff/list": {
+    "get": {
+      "tags": [
+        "Admin Medical Staff"
+      ],
+      "summary": "Listar todo el personal médico activo",
+      "description": "Devuelve una lista de todos los registros de personal médico que están activos en el sistema.",
+      "operationId": "listMedicalStaff",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa. Lista de personal médico.",
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/MedicalStaffResponse"
+            }
+          }
+        },
+        "401": {
+          "description": "No autorizado. Token inválido o no proporcionado.",
+          "schema": {
+            "$ref": "#/definitions/UnauthorizeResponse"
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/Medical_staff/list/{med_id}": {
+    "get": {
+      "tags": [
+        "Admin Medical Staff"
+      ],
+      "summary": "Obtener personal médico por ID",
+      "description": "Devuelve un registro de personal médico específico por su ID.",
+      "operationId": "getMedicalStaffById",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "med_id",
+          "description": "ID del personal médico a obtener.",
+          "required": true,
+          "type": "integer",
+          "format": "int32"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa. Personal médico encontrado.",
+          "schema": {
+            "$ref": "#/definitions/MedicalStaffResponse"
+          }
+        },
+        "401": {
+          "description": "No autorizado. Token inválido o no proporcionado.",
+          "schema": {
+            "$ref": "#/definitions/UnauthorizeResponse"
+          }
+        },
+        "404": {
+          "description": "Personal médico no encontrado.",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/Medical_staff/add": {
+    "post": {
+      "tags": [
+        "Admin Medical Staff"
+      ],
+      "summary": "Crear un nuevo registro de personal médico",
+      "description": "Crea un nuevo personal médico en la base de datos.",
+      "operationId": "addMedicalStaff",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Objeto de personal médico a crear.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/MedicalStaffInsertRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Personal médico creado exitosamente.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "boolean",
+                "example": true
+              },
+              "message": {
+                "type": "string",
+                "example": "Personal médico creado exitosamente."
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "med_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Solicitud inválida. Errores de validación.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        },
+        "401": {
+          "description": "No autorizado. Token inválido o no proporcionado.",
+          "schema": {
+            "$ref": "#/definitions/UnauthorizeResponse"
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/Medical_staff/update/{med_id}": {
+    "patch": {
+      "tags": [
+        "Admin Medical Staff"
+      ],
+      "summary": "Actualizar un registro de personal médico existente",
+      "description": "Actualiza uno o más campos de un registro de personal médico existente por su ID.",
+      "operationId": "updateMedicalStaff",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "med_id",
+          "description": "ID del personal médico a actualizar.",
+          "required": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Campos del personal médico a actualizar.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/MedicalStaffUpdateRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Personal médico actualizado exitosamente.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "boolean",
+                "example": true
+              },
+              "message": {
+                "type": "string",
+                "example": "Personal médico actualizado exitosamente."
+              },
+              "data": {
+                "type": "object",
+                "properties": {
+                  "med_id": {
+                    "type": "integer",
+                    "format": "int32",
+                    "example": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Solicitud inválida. Errores de validación o datos faltantes.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        },
+        "401": {
+          "description": "No autorizado. Token inválido o no proporcionado.",
+          "schema": {
+            "$ref": "#/definitions/UnauthorizeResponse"
+          }
+        },
+        "404": {
+          "description": "Personal médico no encontrado o inactivo.",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/Medical_staff/delete/{med_id}": {
+    "delete": {
+      "tags": [
+        "Admin Medical Staff"
+      ],
+      "summary": "Eliminar (inactivar) lógicamente un registro de personal médico",
+      "description": "Marca un registro de personal médico como inactivo por su ID.",
+      "operationId": "deleteMedicalStaff",
+      "consumes": [
+        "application/json"
+      ],
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación para la aplicación.",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "med_id",
+          "description": "ID del personal médico a eliminar lógicamente.",
+          "required": true,
+          "type": "integer",
+          "format": "int32"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "description": "Datos requeridos para la eliminación lógica.",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/MedicalStaffDeleteRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Personal médico inactivado exitosamente.",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "boolean",
+                "example": true
+              },
+              "message": {
+                "type": "string",
+                "example": "Personal médico inactivado exitosamente."
+              },
+              "data": {
+                "type": "object",
+                "description": "Objeto vacío para eliminación exitosa."
+              }
+            }
+          }
+        },
+        "400": {
+          "description": "Solicitud inválida. Datos faltantes para la eliminación.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        },
+        "401": {
+          "description": "No autorizado. Token inválido o no proporcionado.",
+          "schema": {
+            "$ref": "#/definitions/UnauthorizeResponse"
+          }
+        },
+        "404": {
+          "description": "Personal médico no encontrado o ya estaba inactivo.",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        },
+        "500": {
+          "description": "Error interno del servidor.",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
 
 
 
@@ -6510,8 +6874,8 @@
 
 
   },
-  "definitions":
-  {
+  "definitions":{
+
     "UnauthorizeResponse": {
       "type": "object",
       "properties": {
@@ -6648,7 +7012,6 @@
       }
     },
 
-    "definitions": {
     "DiseaseTypeUpdateRequest": {
       "type": "object",
       "required": [
@@ -6673,8 +7036,7 @@
           "description": "Estado del tipo de enfermedad (activo/inactivo)"
         }
       }
-      }
-    },
+      },
 
 
     "AdminInvoiceCreate": {
@@ -6724,6 +7086,172 @@
       ]
     },
 
+
+    "MedicalStaffInsertRequest": {
+    "type": "object",
+    "required": [
+      "med_person_id",
+      "med_type_id",
+      "user_created"
+    ],
+    "properties": {
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada al personal médico.",
+        "example": 101
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico (ej. Doctor, Enfermero).",
+        "example": 1
+      },
+      "med_registration_number": {
+        "type": "string",
+        "description": "Número de registro profesional del personal médico.",
+        "maxLength": 100,
+        "example": "REG12345"
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "maxLength": 100,
+        "example": "Cardiología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo del personal médico. Por defecto: true.",
+        "default": true,
+        "example": true
+      },
+      "user_created": {
+        "type": "string",
+        "description": "Usuario que crea el registro.",
+        "maxLength": 50,
+        "example": "admin_user"
+      }
+    }
+  },
+    "MedicalStaffUpdateRequest": {
+    "type": "object",
+    "properties": {
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada al personal médico.",
+        "example": 102
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico (ej. Doctor, Enfermero).",
+        "example": 2
+      },
+      "med_registration_number": {
+        "type": "string",
+        "description": "Número de registro profesional del personal médico.",
+        "maxLength": 100,
+        "example": "UPDATED_REG"
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "maxLength": 100,
+        "example": "Dermatología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo del personal médico.",
+        "example": false
+      }
+    }
+  },
+    "MedicalStaffDeleteRequest": {
+    "type": "object",
+    "required": [
+      "user_deleted"
+    ],
+    "properties": {
+      "user_deleted": {
+        "type": "string",
+        "description": "Usuario que realiza la eliminación lógica (obtenido del token en el backend).",
+        "maxLength": 50,
+        "example": "admin_user"
+      }
+    }
+  },
+    "MedicalStaffResponse": {
+    "type": "object",
+    "properties": {
+      "med_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID único del personal médico.",
+        "example": 1
+      },
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada.",
+        "example": 101
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico.",
+        "example": 1
+      },
+      "med_registration_number": {
+        "type": "string",
+        "description": "Número de registro profesional.",
+        "example": "REG12345"
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "example": "Cardiología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo.",
+        "example": true
+      },
+      "user_created": {
+        "type": "string",
+        "description": "Usuario que creó el registro.",
+        "example": "admin_user"
+      },
+      "date_created": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de creación del registro.",
+        "example": "2025-07-02T19:28:08.088Z"
+      },
+      "user_modified": {
+        "type": "string",
+        "description": "Último usuario que modificó el registro.",
+        "example": "editor_user"
+      },
+      "date_modified": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de última modificación.",
+        "example": "2025-07-02T21:22:40.786Z"
+      },
+      "user_deleted": {
+        "type": "string",
+        "description": "Usuario que eliminó (inactivó) el registro.",
+        "example": "deleter_user"
+      },
+      "date_deleted": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de eliminación (inactivación).",
+        "example": "2025-07-03T10:00:00.000Z"
+      }
+    }
+  },
 
 
     "AdminProductInsert": {
@@ -7310,6 +7838,9 @@
         "user_process"
       ]
     },
+
+
+
 
     "MedicalHistoryInsertRequest": {
       "type": "object",

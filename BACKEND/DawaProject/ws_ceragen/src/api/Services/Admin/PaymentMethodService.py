@@ -1,6 +1,6 @@
 from flask_restful import Resource
 from ...Components.Admin.PaymentMethodComponent import AdminPaymentMethodComponent
-from ws_ceragen.src.api.Model.Request.Admin.PaymentRequest import PaymentMethodCreateRequest, PaymentMethodUpdateRequest
+from ...Model.Request.Admin.PaymentRequest import PaymentMethodCreateRequest, PaymentMethodUpdateRequest
 from ....utils.general.logs import HandleLogs
 from flask import request
 from ....utils.general.response import (

@@ -4,6 +4,10 @@ from ..Services.Admin.AdminExpenseService import AdminExpenseService_GetAll, Adm
     AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById
 from ..Services.Admin.AdminInvoiceService import AdminInvoiceService_GetAll, AdminInvoiceService_Add, \
     AdminInvoiceService_GetById, AdminInvoiceService_Update, AdminInvoiceService_Delete
+
+from ..Services.Admin.MedicalStaffService import MedicalStaffService_GetAll, MedicalStaffService_GetById, MedicalStaffService_Add,\
+    MedicalStaffService_Update, MedicalStaffService_Delete
+
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
 from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
@@ -115,6 +119,15 @@ def load_routes(api):
     api.add_resource(admin_Person_Genre_service_add, '/admin/Person_genre/add')   # Add
     api.add_resource(admin_Person_Genre_service_Update, '/admin/Person_genre/update')   # Update
     api.add_resource(admin_Person_Genre_service_Delete, '/admin/Person_genre/delete/<int:id>/<string:user>')  # Delete
+
+    # Rutas de Tabla admin_medical_staff
+    api.add_resource(MedicalStaffService_GetAll, '/admin/Medical_staff/list')
+    api.add_resource(MedicalStaffService_GetById, '/admin/Medical_staff/list/<int:med_id>')
+    api.add_resource(MedicalStaffService_Add,'/admin/Medical_staff/add')
+    api.add_resource(MedicalStaffService_Update,'/admin/Medical_staff/update/<int:med_id>')
+    api.add_resource(MedicalStaffService_Delete,'/admin/Medical_staff/delete/<int:med_id>')
+
+
     #******* SECURITY PATH ******#
     #metodo para el login
     api.add_resource(LoginService, '/security/login')
