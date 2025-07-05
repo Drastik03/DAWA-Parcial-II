@@ -8,6 +8,7 @@ import ExpenseReport from "../views/pages/admin/expense/ExpenseReport";
 import ExpenseReportPagination from "../views/pages/admin/expense/ExpenseReport";
 import FormExpenseRegister from "../views/pages/admin/expense/RegisterExpense";
 import ExpenseTypeList from "../views/pages/admin/expense/ExpenseTypeList";
+import AuditTableList from "../views/pages/admin/audit/AuditTable";
 
 // Layouts
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
@@ -163,6 +164,10 @@ const Router = [
 					{
 						path: "/admin/persons",
 						element: <PersonsList />,
+					},
+					{
+						path: "Auditoria/commandsql",
+						element: <AuditTableList />,
 					},
 				],
 			},

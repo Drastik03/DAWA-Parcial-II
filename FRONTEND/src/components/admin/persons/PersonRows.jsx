@@ -71,12 +71,12 @@ const PersonRow = ({ person, onEdit, onDelete }) => {
 				</TableCell>
 			</TableRow>
 
-			{/* Edit Modal */}
 			<EditPersonModal
-				handleEditChange={handleEditChange}
-				handleEditClose={handleEditClose}
-				handleEditSave={handleEditSave}
 				openEdit={openEdit}
+				handleEditClose={handleEditClose}
+				onSave={(data) => {
+					onEdit(data);
+				}}
 				editData={editData}
 			/>
 
