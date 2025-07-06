@@ -2732,14 +2732,14 @@
         }
       }
     },
+
     "/admin/product/insert": {
       "post": {
-        "tags": [
-          "WS Admin"
-        ],
+        "tags": ["WS Admin"],
         "summary": "Agregar Producto",
-        "description": "Agregar un producto específico",
+        "description": "Agregar un producto con posible imagen",
         "operationId": "AddProduct",
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
             "in": "header",
@@ -2749,45 +2749,77 @@
             "type": "string"
           },
           {
-            "in": "body",
-            "name": "AdminProductInsert",
-            "description": "Datos para insertar un producto",
+            "in": "formData",
+            "name": "pro_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_description",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "pro_price",
+            "type": "number",
+            "format": "float",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_total_sessions",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_duration_days",
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "pro_therapy_type_id",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "type": "file",
+            "description": "Imagen del producto"
+          },
+          {
+            "name": "user_created",
+            "in": "formData",
+            "description": "Usuario del proceso",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminProductInsert"
-            }
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
+            "schema": { "$ref": "#/definitions/Response" }
           },
           "400": {
             "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
+            "schema": { "$ref": "#/definitions/NotFound" }
           },
           "500": {
             "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         }
       }
     },
     "/admin/product/update": {
       "patch": {
-        "tags": [
-          "WS Admin"
-        ],
+        "tags": ["WS Admin"],
         "summary": "Actualizar un Producto",
-        "description": "Actualizar un producto específico",
+        "description": "Actualizar un producto con posible imagen",
         "operationId": "UpdateProduct",
+        "consumes": ["multipart/form-data"],
         "parameters": [
           {
             "in": "header",
@@ -2797,37 +2829,83 @@
             "type": "string"
           },
           {
-            "in": "body",
-            "name": "AdminProductUpdate",
-            "description": "Datos para actualizar un producto",
+            "in": "formData",
+            "name": "pro_id",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_name",
+            "type": "string",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_description",
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "pro_price",
+            "type": "number",
+            "format": "float",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_total_sessions",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_duration_days",
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "pro_therapy_type_id",
+            "type": "integer",
+            "required": true
+          },
+          {
+            "in": "formData",
+            "name": "pro_image_url",
+            "type": "string",
+            "description": "URL anterior si no se sube una imagen nueva"
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "type": "file",
+            "description": "Nueva imagen del producto (opcional)"
+          },
+          {
+            "name": "user_process",
+            "in": "path",
+            "description": "Usuario del proceso",
             "required": true,
-            "schema": {
-              "$ref": "#/definitions/AdminProductUpdate"
-            }
+            "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Producto agregado exitosamente",
-            "schema": {
-              "$ref": "#/definitions/Response"
-            }
+            "description": "Producto actualizado exitosamente",
+            "schema": { "$ref": "#/definitions/Response" }
           },
           "400": {
             "description": "Datos inválidos o faltantes",
-            "schema": {
-              "$ref": "#/definitions/NotFound"
-            }
+            "schema": { "$ref": "#/definitions/NotFound" }
           },
           "500": {
-            "description": "Error al agregar el producto",
-            "schema": {
-              "$ref": "#/definitions/ErrorResponse"
-            }
+            "description": "Error al actualizar el producto",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         }
       }
     },
+
     "/admin/product/delete/{pro_id}": {
       "delete": {
         "tags": [
@@ -7363,200 +7441,6 @@
       ]
     },
 
-
-
-    "AdminProductInsert": {
-      "type": "object",
-      "properties": {
-        "pro_code": {
-          "type": "string",
-          "description": "Código del producto"
-        },
-        "pro_name": {
-          "type": "string",
-          "description": "Nombre del producto"
-        },
-        "pro_description": {
-          "type": "string",
-          "description": "Descripción del producto"
-        },
-        "pro_price": {
-          "type": "number",
-          "format": "float",
-          "description": "Precio del producto"
-        },
-        "pro_total_sessions": {
-          "type": "integer",
-          "description": "Número total de sesiones"
-        },
-        "pro_duration_days": {
-          "type": "integer",
-          "description": "Duración en días"
-        },
-        "pro_image_url": {
-          "type": "string",
-          "description": "URL de la imagen"
-        },
-        "pro_therapy_type_id": {
-          "type": "integer",
-          "description": "ID del tipo de terapia"
-        },
-        "user_created": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "pro_code",
-        "pro_name",
-        "pro_price",
-        "pro_total_sessions",
-        "pro_therapy_type_id",
-        "user_created"
-      ]
-    },
-    "AdminProductUpdate": {
-      "type": "object",
-      "properties": {
-        "pro_id": {
-          "type": "integer",
-          "description": "ID del producto"
-        },
-        "pro_code": {
-          "type": "string",
-          "description": "Código del producto"
-        },
-        "pro_name": {
-          "type": "string",
-          "description": "Nombre del producto"
-        },
-        "pro_description": {
-          "type": "string",
-          "description": "Descripción del producto"
-        },
-        "pro_price": {
-          "type": "number",
-          "format": "float",
-          "description": "Precio del producto"
-        },
-        "pro_total_sessions": {
-          "type": "integer",
-          "description": "Número total de sesiones"
-        },
-        "pro_duration_days": {
-          "type": "integer",
-          "description": "Duración en días"
-        },
-        "pro_image_url": {
-          "type": "string",
-          "description": "URL de la imagen"
-        },
-        "pro_therapy_type_id": {
-          "type": "integer",
-          "description": "ID del tipo de terapia"
-        },
-        "user_process": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "pro_id",
-        "user_process"
-      ]
-    },
-
-
-    "AdminPromotionCreate": {
-      "type": "object",
-      "properties": {
-        "ppr_product_id": {
-          "type": "integer",
-          "description": "ID de la promocion"
-        },
-        "ppr_name": {
-          "type": "string",
-          "description": "Nombre de la promocion"
-        },
-        "ppr_description": {
-          "type": "string",
-          "description": "Descripción de la promocion"
-        },
-        "ppr_discount_percent": {
-          "type": "integer",
-          "description": "Precio del producto"
-        },
-        "ppr_extra_sessions": {
-          "type": "integer",
-          "description": "Cantidad de sesiones extras"
-        },
-        "ppr_start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de inicio de la promoción (YYYY-MM-DD)"
-        },
-        "ppr_end_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de fin de la promoción (YYYY-MM-DD)"
-        },
-        "user_created": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "ppr_id",
-        "user_created"
-      ]
-    },
-    "AdminPromotionUpdate": {
-      "type": "object",
-      "properties": {
-        "ppr_id": {
-          "type": "integer",
-          "description": "ID de la promocion"
-        },
-        "ppr_product_id": {
-          "type": "integer",
-          "description": "ID del producto asociado"
-        },
-        "ppr_name": {
-          "type": "string",
-          "description": "Nombre de la promocion"
-        },
-        "ppr_description": {
-          "type": "string",
-          "description": "Descripción de la promocion"
-        },
-        "ppr_discount_percent": {
-          "type": "integer",
-          "description": "Precio del producto"
-        },
-        "ppr_extra_sessions": {
-          "type": "integer",
-          "description": "Cantidad de sesiones extras"
-        },
-        "ppr_start_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de inicio de la promoción (YYYY-MM-DD)"
-        },
-        "ppr_end_date": {
-          "type": "string",
-          "format": "date",
-          "description": "Fecha de fin de la promoción (YYYY-MM-DD)"
-        },
-        "user_process": {
-          "type": "string",
-          "description": "Usuario que crea el producto"
-        }
-      },
-      "required": [
-        "ppr_id",
-        "user_process"
-      ]
-    },
 
     "AdminPaymentMethodCreate": {
       "type": "object",
