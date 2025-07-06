@@ -5465,7 +5465,7 @@
             "in" :"path",
             "required" :true,
             "type" :"string"
-          },
+          }
 
         ],
         "responses" :{
@@ -6624,13 +6624,533 @@
           "500": { "description": "Error del servidor" }
         }
       }
+    },
+
+    "/admin/invoicepayment/list": {
+    "get": {
+      "tags": [
+        "WS Admin"
+      ],
+      "summary": "Lista de pagos de facturas",
+      "description": "Obtiene una lista de todos los pagos realizados a facturas",
+      "operationId": "ListAllInvoicePayments",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para aplicación",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "500": {
+          "description": "Error",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        },
+        "400": {
+          "description": "Not Found",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        }
+      }
     }
-
-
+  },
+    "/admin/invoicepayment/{inp_id}": {
+    "get": {
+      "tags": [
+        "WS Admin"
+      ],
+      "summary": "Obtener pago de factura por id",
+      "description": "Obtiene un pago específico de factura por su Id",
+      "operationId": "InvoicePaymentGetById",
+      "produces": [
+        "application/json"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para aplicación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "inp_id",
+          "description": "ID del pago de factura a revisar (inp_id)",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Operación exitosa",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "500": {
+          "description": "Error",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        },
+        "400": {
+          "description": "Bad Request",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        }
+      }
+    }
+  },
+    "/admin/invoicepayment/insert": {
+    "post": {
+      "tags": [
+        "WS Admin"
+      ],
+      "summary": "Registrar un pago de factura",
+      "description": "Crear un nuevo pago para una factura",
+      "operationId": "CreateInvoicePayment",
+      "consumes": [
+        "multipart/form-data"
+      ],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para aplicación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "formData",
+          "name": "inp_invoice_id",
+          "description": "ID de la factura a la que pertenece el pago",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "in": "formData",
+          "name": "inp_payment_method_id",
+          "description": "ID del método de pago",
+          "required": true,
+          "type": "integer"
+        },
+        {
+          "in": "formData",
+          "name": "inp_amount",
+          "description": "Monto pagado",
+          "required": true,
+          "type": "number",
+          "format": "float"
+        },
+        {
+          "in": "formData",
+          "name": "file",
+          "description": "Imagen comprobante del pago",
+          "required": false,
+          "type": "file"
+        },
+        {
+          "in": "formData",
+          "name": "user_created",
+          "description": "Usuario que registra del pago",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Pago registrado exitosamente",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "400": {
+          "description": "Datos inválidos o faltantes",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        },
+        "500": {
+          "description": "Error al registrar el pago",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/invoicepayment/delete/{inp_id}": {
+    "delete": {
+      "tags": [
+        "WS Admin"
+      ],
+      "summary": "Eliminar un pago de factura",
+      "description": "Dar de baja un pago específico de factura",
+      "operationId": "DeleteInvoicePayment",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token para aplicación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "inp_id",
+          "in": "path",
+          "description": "ID del pago de factura",
+          "required": true,
+          "type": "integer",
+          "format": "int64"
+        },
+        {
+          "name": "user_process",
+          "in": "query",
+          "description": "Usuario del proceso de eliminación",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Pago eliminado exitosamente",
+          "schema": {
+            "$ref": "#/definitions/Response"
+          }
+        },
+        "400": {
+          "description": "Datos inválidos o faltantes",
+          "schema": {
+            "$ref": "#/definitions/NotFound"
+          }
+        },
+        "500": {
+          "description": "Error al eliminar el pago",
+          "schema": {
+            "$ref": "#/definitions/ErrorResponse"
+          }
+        }
+      }
+    }
+  },
+    "/admin/invoicepayment/update": {
+      "patch": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Actualizar un pago de factura",
+        "description": "Modificar un pago existente de una factura",
+        "operationId": "UpdateInvoicePayment",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "inp_id",
+            "description": "ID del pago a actualizar",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "inp_invoice_id",
+            "description": "ID de la factura a la que pertenece el pago",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "inp_payment_method_id",
+            "description": "ID del método de pago",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "inp_amount",
+            "description": "Monto pagado",
+            "required": true,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "Imagen comprobante del pago",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "in": "formData",
+            "name": "user_modified",
+            "description": "Usuario que modifica el pago",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago actualizado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar el pago",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoicedetail/list": {
+    "get": {
+      "tags": ["WS Admin"],
+      "summary": "Listado de detalles de facturas",
+      "description": "Obtiene la lista completa de los detalles registrados para facturas.",
+      "operationId": "ListAllInvoiceDetails",
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Consulta exitosa",
+          "schema": { "$ref": "#/definitions/Response" }
+        },
+        "400": {
+          "description": "No encontrado",
+          "schema": { "$ref": "#/definitions/NotFound" }
+        },
+        "500": {
+          "description": "Error de servidor",
+          "schema": { "$ref": "#/definitions/ErrorResponse" }
+        }
+      }
+    }
+  },
+    "/admin/invoicedetail/{ind_id}": {
+    "get": {
+      "tags": ["WS Admin"],
+      "summary": "Detalle de factura por ID",
+      "description": "Obtiene un detalle específico de factura por su ID",
+      "operationId": "GetInvoiceDetailById",
+      "produces": ["application/json"],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "path",
+          "name": "ind_id",
+          "description": "ID del detalle",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Detalle encontrado",
+          "schema": { "$ref": "#/definitions/Response" }
+        },
+        "400": {
+          "description": "Solicitud inválida",
+          "schema": { "$ref": "#/definitions/NotFound" }
+        },
+        "500": {
+          "description": "Error interno",
+          "schema": { "$ref": "#/definitions/ErrorResponse" }
+        }
+      }
+    }
+  },
+    "/admin/invoicedetail/insert": {
+    "post": {
+      "tags": ["WS Admin"],
+      "summary": "Agregar detalle de factura",
+      "description": "Registra un nuevo detalle de factura",
+      "operationId": "InsertInvoiceDetail",
+      "consumes": ["application/json"],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/InvoiceDetailInsertRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Registro exitoso",
+          "schema": { "$ref": "#/definitions/Response" }
+        },
+        "400": {
+          "description": "Datos inválidos",
+          "schema": { "$ref": "#/definitions/NotFound" }
+        },
+        "500": {
+          "description": "Error al registrar",
+          "schema": { "$ref": "#/definitions/ErrorResponse" }
+        }
+      }
+    }
+  },
+    "/admin/invoicedetail/update": {
+    "patch": {
+      "tags": ["WS Admin"],
+      "summary": "Actualizar detalle de factura",
+      "description": "Modifica un detalle de factura existente",
+      "operationId": "UpdateInvoiceDetail",
+      "consumes": ["application/json"],
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "in": "body",
+          "name": "body",
+          "required": true,
+          "schema": {
+            "$ref": "#/definitions/InvoiceDetailUpdateRequest"
+          }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Actualización exitosa",
+          "schema": { "$ref": "#/definitions/Response" }
+        },
+        "400": {
+          "description": "Datos inválidos",
+          "schema": { "$ref": "#/definitions/NotFound" }
+        },
+        "500": {
+          "description": "Error al actualizar",
+          "schema": { "$ref": "#/definitions/ErrorResponse" }
+        }
+      }
+    }
+  },
+    "/admin/invoicedetail/delete/{ind_id}": {
+    "delete": {
+      "tags": ["WS Admin"],
+      "summary": "Eliminar detalle de factura",
+      "description": "Marca un detalle de factura como eliminado",
+      "operationId": "DeleteInvoiceDetail",
+      "parameters": [
+        {
+          "in": "header",
+          "name": "tokenapp",
+          "description": "Token de autenticación",
+          "required": true,
+          "type": "string"
+        },
+        {
+          "name": "ind_id",
+          "in": "path",
+          "description": "ID del detalle",
+          "required": true,
+          "type": "integer"
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Eliminación exitosa",
+          "schema": { "$ref": "#/definitions/Response" }
+        },
+        "400": {
+          "description": "Datos inválidos",
+          "schema": { "$ref": "#/definitions/NotFound" }
+        },
+        "500": {
+          "description": "Error al eliminar",
+          "schema": { "$ref": "#/definitions/ErrorResponse" }
+        }
+      }
+    }
+  }
 
   },
   "definitions":
   {
+    "InvoiceDetailInsertRequest": {
+      "type": "object",
+      "required": ["ind_invoice_id", "ind_product_id", "ind_quantity", "ind_unit_price", "ind_total"],
+      "properties": {
+        "ind_invoice_id": { "type": "integer", "example": 1 },
+        "ind_product_id": { "type": "integer", "example": 10 },
+        "ind_quantity": { "type": "integer", "example": 2 },
+        "ind_unit_price": { "type": "number", "format": "float", "example": 25.50 },
+        "ind_total": { "type": "number", "format": "float", "example": 51.00 }
+      }
+    },
+    "InvoiceDetailUpdateRequest": {
+      "type": "object",
+      "required": ["ind_id", "ind_invoice_id", "ind_product_id", "ind_quantity", "ind_unit_price", "ind_total"],
+      "properties": {
+        "ind_id": { "type": "integer", "example": 5 },
+        "ind_invoice_id": { "type": "integer", "example": 1 },
+        "ind_product_id": { "type": "integer", "example": 10 },
+        "ind_quantity": { "type": "integer", "example": 3 },
+        "ind_unit_price": { "type": "number", "format": "float", "example": 30.00 },
+        "ind_total": { "type": "number", "format": "float", "example": 90.00 }
+      }
+    },
+
     "UnauthorizeResponse": {
       "type": "object",
       "properties": {

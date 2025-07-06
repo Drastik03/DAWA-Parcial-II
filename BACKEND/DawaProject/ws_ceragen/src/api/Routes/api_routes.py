@@ -34,6 +34,11 @@ from ..Services.Admin.AdminProductService import AdminProductService_GetAll, Adm
 from ..Services.Admin.DashboardService import DashboardService_GetAll
 from ..Services.Admin.ExpenseTypeService import ExpenseTypeService_GetAll, ExpenseTypeServiceAdd, \
     AdminExpenseTypeServiceUpdate, AdminExpenseTypeServiceDelete, ExpenseTypeServiceGetById
+from ..Services.Admin.InvoiceDetailService import AdminInvoiceDetailService_Add, AdminInvoiceDetailService_Update, \
+    AdminInvoiceDetailService_Delete, AdminInvoiceDetailService_GetAll, AdminInvoiceDetailService_GetById
+from ..Services.Admin.InvoicePaymentService import AdminInvoicePaymentService_GetAll, \
+    AdminInvoicePaymentService_GetById, AdminInvoicePaymentService_Add, AdminInvoicePaymentService_Update, \
+    AdminInvoicePaymentService_Delete
 from ..Services.Admin.MedicalPersonTypeService import MedicPersonTypeService_GetAll, MedicPersonTypeService_Add, \
     MedicPersonTypeService_Update, MedicPersonTypeService_Delete
 from ..Services.Admin.PaymentMethodService import AdminPaymentMethodService_GetAll, AdminPaymentMethodService_Update, \
@@ -304,3 +309,16 @@ def load_routes(api):
     api.add_resource(ClinicBloodService_GetAll, '/clinic/bloodtype/list')
     #api.add_resource(BloodTypeService_GetById, '/clinic/bloodtype/get/<int:btp_id>')
 
+    # Rutas para Invoice Payment
+    api.add_resource(AdminInvoicePaymentService_Add, '/admin/invoicepayment/insert')
+    api.add_resource(AdminInvoicePaymentService_Update, '/admin/invoicepayment/update')
+    api.add_resource(AdminInvoicePaymentService_Delete, '/admin/invoicepayment/delete/<int:inp_id>')
+    api.add_resource(AdminInvoicePaymentService_GetAll, '/admin/invoicepayment/list')
+    api.add_resource(AdminInvoicePaymentService_GetById, '/admin/invoicepayment/<int:inp_id>')
+
+    # Rutas para Invoice Detail
+    api.add_resource(AdminInvoiceDetailService_Add, '/admin/invoicedetail/insert')
+    api.add_resource(AdminInvoiceDetailService_Update, '/admin/invoicedetail/update')
+    api.add_resource(AdminInvoiceDetailService_Delete, '/admin/invoicedetail/delete/<int:ind_id>')
+    api.add_resource(AdminInvoiceDetailService_GetAll, '/admin/invoicedetail/list')
+    api.add_resource(AdminInvoiceDetailService_GetById, '/admin/invoicedetail/<int:ind_id>')

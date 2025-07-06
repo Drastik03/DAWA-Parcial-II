@@ -1,6 +1,8 @@
 import configparser
 import os
 
+import cloudinary
+
 CFG = configparser.ConfigParser()
 config_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'config.cfg')
 CFG.read(config_path, encoding='utf-8')
@@ -23,3 +25,13 @@ class Config_SMPT:
     smpt_password = CFG[CONNECT_MAIL]['app_password']
     url = CFG[CONNECT_MAIL]['url']
     ruta = CFG[CONNECT_MAIL]['ruta']
+
+class CONFIG_CLOUD:
+    @staticmethod
+    def configure():
+        cloudinary.config(
+            cloud_name= CFG[AMBIENTE]['cloud_name'],
+            api_key=CFG[AMBIENTE]['api_key_cloud'],
+            api_secret=CFG[AMBIENTE]['api_secret_cloud'],
+            secure=True
+        )
