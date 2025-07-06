@@ -15,6 +15,13 @@ import {
 	TableHead,
 	TableRow,
 	Button,
+	Snackbar,
+	Alert,
+	Dialog,
+	DialogTitle,
+	DialogContent,
+	DialogContentText,
+	DialogActions,
 } from "@mui/material";
 
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
@@ -27,8 +34,10 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router";
+import ProductEditModal from "./ProductEditModal"; 
+import { deleteProduct } from "../../../../services/admin/productService";
 
-function Row({ row }) {
+function Row({ row, onEdit, onDelete }) {
 	const [open, setOpen] = useState(false);
 
 	return (
@@ -78,32 +87,25 @@ function Row({ row }) {
 						{row.pro_total_sessions}
 					</Typography>
 				</TableCell>
-				{/**ACCION EDITAR - ELIMINAR CON ICONOS */}
 				<TableCell align="center">
 					<IconButton
 						color="primary"
 						aria-label="editar"
-						onClick={() => {
-							// handleEdit(row);
-							console.log("EDIT");
-						}}
+						onClick={() => onEdit(row)}
 					>
 						<EditOutlined />
 					</IconButton>
 					<IconButton
 						color="error"
 						aria-label="desactivar"
-						onClick={() => {
-							// handleDeactivate(row);
-							console.log("DELETE");
-						}}
+						onClick={() => onDelete(row)}
 					>
 						<DeleteOutline />
 					</IconButton>
 				</TableCell>
 			</TableRow>
 			<TableRow>
-				<TableCell sx={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+				<TableCell sx={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
 					<Collapse in={open} timeout="auto" unmountOnExit>
 						<Box margin={1}>
 							<Typography
@@ -167,6 +169,8 @@ function Row({ row }) {
 
 Row.propTypes = {
 	row: PropTypes.object.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
 };
 
 const BCrumb = [
@@ -180,12 +184,78 @@ const BCrumb = [
 ];
 
 const ProductsTable = () => {
-	const { data } = useFetch("http://localhost:5000/admin/product/list");
+	const { data, refetch } = useFetch(
+		"http://localhost:5000/admin/product/list",
+	);
 	const navigate = useNavigate();
 
-	const rows = useMemo(() => {
-		return data?.data || [];
-	}, [data]);
+	const [editModalOpen, setEditModalOpen] = useState(false);
+	const [selectedProduct, setSelectedProduct] = useState(null);
+
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [productToDelete, setProductToDelete] = useState(null);
+
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarMessage, setSnackbarMessage] = useState("");
+	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+
+	const rows = useMemo(() => data?.data || [], [data]);
+	const { data: therapies } = useFetch(
+		"http://localhost:5000/admin/therapy-type/list",
+	);
+	const therapyOptions = therapies?.data || [];
+	const handleOpenEditModal = (product) => {
+		setSelectedProduct(product);
+		setEditModalOpen(true);
+	};
+
+	const handleCloseEditModal = () => {
+		setSelectedProduct(null);
+		setEditModalOpen(false);
+	};
+
+	const handleProductUpdated = () => {
+		refetch?.();
+		handleCloseEditModal();
+		setSnackbarMessage("Producto actualizado correctamente");
+		setSnackbarSeverity("success");
+		setOpenSnackbar(true);
+	};
+
+	const handleOpenDeleteDialog = (product) => {
+		setProductToDelete(product);
+		setDeleteDialogOpen(true);
+	};
+
+	const handleCloseDeleteDialog = () => {
+		setProductToDelete(null);
+		setDeleteDialogOpen(false);
+	};
+
+	const handleConfirmDelete = async () => {
+		if (!productToDelete) return;
+		try {
+			const res = await deleteProduct(productToDelete.pro_id);
+			if (res.result) {
+				setSnackbarMessage("Producto eliminado correctamente");
+				setSnackbarSeverity("success");
+				setOpenSnackbar(true);
+				refetch?.();
+			} else {
+				setSnackbarMessage(
+					`Error al eliminar: ${res.message || "Error desconocido"}`,
+				);
+				setSnackbarSeverity("error");
+				setOpenSnackbar(true);
+			}
+		} catch (error) {
+			setSnackbarMessage(`Error al eliminar: ${error.message}`);
+			setSnackbarSeverity("error");
+			setOpenSnackbar(true);
+		} finally {
+			handleCloseDeleteDialog();
+		}
+	};
 
 	return (
 		<PageContainer
@@ -212,12 +282,10 @@ const ProductsTable = () => {
 						/>
 					</svg>
 				}
-				onClick={() => {
-					navigate("/admin/products/register");
-				}}
+				onClick={() => navigate("/admin/products/register")}
 				sx={{ mb: 2, textTransform: "none", fontWeight: 600 }}
 			>
-				Crear Product
+				Crear Producto
 			</Button>
 			<ParentCard title="Lista de Productos">
 				<Paper variant="outlined">
@@ -244,17 +312,71 @@ const ProductsTable = () => {
 									<TableCell>
 										<Typography variant="h6">Sesiones</Typography>
 									</TableCell>
+									<TableCell align="center">
+										<Typography variant="h6">Acciones</Typography>
+									</TableCell>
 								</TableRow>
 							</TableHead>
 							<TableBody>
 								{rows.map((row) => (
-									<Row key={row.pro_id} row={row} />
+									<Row
+										key={row.pro_id}
+										row={row}
+										onEdit={handleOpenEditModal}
+										onDelete={handleOpenDeleteDialog}
+									/>
 								))}
 							</TableBody>
 						</Table>
 					</TableContainer>
 				</Paper>
 			</ParentCard>
+
+			{/* Modal para editar producto */}
+			<ProductEditModal
+				open={editModalOpen}
+				onClose={handleCloseEditModal}
+				product={selectedProduct}
+				therapyOptions={therapyOptions}
+				onUpdated={handleProductUpdated}
+			/>
+
+			<Dialog open={deleteDialogOpen} onClose={handleCloseDeleteDialog}>
+				<DialogTitle>Confirmar eliminación</DialogTitle>
+				<DialogContent>
+					<DialogContentText>
+						¿Está seguro que desea eliminar el producto{" "}
+						<strong>{productToDelete?.pro_name}</strong>?
+					</DialogContentText>
+				</DialogContent>
+				<DialogActions>
+					<Button onClick={handleCloseDeleteDialog} color="inherit">
+						Cancelar
+					</Button>
+					<Button
+						onClick={handleConfirmDelete}
+						color="error"
+						variant="contained"
+					>
+						Eliminar
+					</Button>
+				</DialogActions>
+			</Dialog>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={5000}
+				onClose={() => setOpenSnackbar(false)}
+				anchorOrigin={{ vertical: "top", horizontal: "center" }}
+			>
+				<Alert
+					onClose={() => setOpenSnackbar(false)}
+					severity={snackbarSeverity}
+					variant="filled"
+					sx={{ width: "100%" }}
+				>
+					{snackbarMessage}
+				</Alert>
+			</Snackbar>
 		</PageContainer>
 	);
 };

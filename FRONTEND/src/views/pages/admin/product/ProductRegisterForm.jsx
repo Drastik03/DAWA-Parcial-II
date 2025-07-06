@@ -1,12 +1,22 @@
 import React, { useState } from "react";
-import { Grid, Box, Button, Snackbar, Alert } from "@mui/material";
-import { useForm } from "react-hook-form";
+import {
+	Grid,
+	Box,
+	Button,
+	Snackbar,
+	Alert,
+	Autocomplete,
+	FormControl,
+} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 import CustomTextField from "../../../../components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../../../../components/forms/theme-elements/CustomFormLabel";
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
-// import { createProduct } from "../../../../services/admin/ProductService"; // Implement this service
+import { useFetch } from "../../../../hooks/useFetch";
+import { createProduct } from "../../../../services/admin/productService";
+import { useAuth } from "../../../../context/AuthContext";
 
 const BCrumb = [
 	{
@@ -19,6 +29,7 @@ const ProductRegisterForm = () => {
 	const {
 		register,
 		handleSubmit,
+		control,
 		formState: { errors },
 		reset,
 	} = useForm();
@@ -26,19 +37,44 @@ const ProductRegisterForm = () => {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
+	const { data } = useFetch("http://localhost:5000/admin/therapy-type/list");
+	const therapyOptions = data?.data || [];
+
+	console.log(data?.data);
+	const [imageFile, setImageFile] = useState(null);
+	const { user } = useAuth();
 
 	const registerProduct = async (data) => {
 		try {
-			// const res = await createProduct(data);
-			// if (res.result) {
-			setSnackbarMessage("Producto registrado exitosamente");
-			setSnackbarSeverity("success");
-			setOpenSnackbar(true);
-			reset();
-			// } else {
-			//   throw new Error(res.message);
-			// }
+			const formData = new FormData();
+			formData.append("user_created", user.user.user_login_id);
+			Object.entries(data).forEach(([key, value]) => {
+				if (value?.ext_id) {
+					formData.append("pro_therapy_type_id", value.ext_id);
+				} else {
+					formData.append(key, value);
+				}
+			});
+
+			if (imageFile) {
+				formData.append("file", imageFile);
+			}
+
+			const res = await createProduct(formData);
+
+			if (res.result) {
+				setSnackbarMessage("Producto registrado exitosamente");
+				setSnackbarSeverity("success");
+				setOpenSnackbar(true);
+				reset();
+				setImageFile(null); // limpiar imagen
+			} else {
+				setSnackbarMessage(`Error: ${res.message || "No se pudo registrar"}`);
+				setSnackbarSeverity("error");
+				setOpenSnackbar(true);
+			}
 		} catch (error) {
+			console.error("Error al registrar producto:", error);
 			setSnackbarMessage(`Error: ${error.message}`);
 			setSnackbarSeverity("error");
 			setOpenSnackbar(true);
@@ -81,15 +117,6 @@ const ProductRegisterForm = () => {
 					noValidate
 				>
 					<Grid container spacing={3} mb={3}>
-						<Grid item xs={12} sm={6}>
-							<CustomFormLabel>Código del Producto</CustomFormLabel>
-							<CustomTextField
-								fullWidth
-								{...register("pro_code", { required: true })}
-								error={!!errors.pro_code}
-								helperText={errors.pro_code && "Campo requerido"}
-							/>
-						</Grid>
 						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Nombre del Producto</CustomFormLabel>
 							<CustomTextField
@@ -162,30 +189,51 @@ const ProductRegisterForm = () => {
 							/>
 						</Grid>
 						<Grid item xs={12} sm={6}>
-							<CustomFormLabel>URL de Imagen</CustomFormLabel>
-							<CustomTextField
-								fullWidth
-								{...register("pro_image_url", { required: true })}
-								error={!!errors.pro_image_url}
-								helperText={errors.pro_image_url && "Campo requerido"}
+							<CustomFormLabel>Imagen del Producto</CustomFormLabel>
+							<input
+								name="file"
+								type="file"
+								accept="image/*"
+								onChange={(e) => setImageFile(e.target.files[0])}
+								style={{
+									background: "#fff",
+									padding: "10px",
+									borderRadius: "8px",
+									width: "100%",
+								}}
 							/>
 						</Grid>
+
 						<Grid item xs={12} sm={6}>
-							<CustomFormLabel>ID Tipo de Terapia</CustomFormLabel>
-							<CustomTextField
-								type="number"
-								fullWidth
-								inputProps={{ min: 0 }}
-								{...register("pro_therapy_type_id", {
-									required: true,
-									min: { value: 0, message: "No puede ser negativo" },
-								})}
-								error={!!errors.pro_therapy_type_id}
-								helperText={
-									errors.pro_therapy_type_id &&
-									(errors.pro_therapy_type_id.message || "Campo requerido")
-								}
-							/>
+							<CustomFormLabel>Tipo de Terapia</CustomFormLabel>
+							<FormControl fullWidth error={!!errors.pro_therapy_type_id}>
+								<Controller
+									name="pro_therapy_type_id"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={therapyOptions}
+											getOptionLabel={(option) => option.tht_name || ""}
+											isOptionEqualToValue={(option, value) =>
+												option.tht_id === value.tht_id
+											}
+											onChange={(_, newValue) =>
+												field.onChange(newValue ? newValue.tht_id : null)
+											}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.pro_therapy_type_id}
+													helperText={
+														errors.pro_therapy_type_id && "Campo requerido"
+													}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
 						</Grid>
 					</Grid>
 				</Box>
