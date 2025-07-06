@@ -1,8 +1,16 @@
 /** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 /** biome-ignore-all lint/a11y/noSvgWithoutTitle: <explanation> */
 import React, { useState } from "react";
-import { Grid, Box, Button, FormControl, Snackbar, Alert } from "@mui/material";
-import { useForm } from "react-hook-form";
+import {
+	Grid,
+	Box,
+	Button,
+	FormControl,
+	Snackbar,
+	Alert,
+	Autocomplete,
+} from "@mui/material";
+import { Controller, useForm } from "react-hook-form";
 import CustomTextField from "../../../../components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../../../../components/forms/theme-elements/CustomFormLabel";
 import ParentCard from "../../../../components/shared/ParentCard";
@@ -10,6 +18,7 @@ import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
 import { createExpense } from "../../../../services/admin/expenseService";
 import { useFetch } from "../../../../hooks/useFetch";
+import { useAuth } from "../../../../context/AuthContext";
 
 const BCrumb = [
 	{
@@ -25,6 +34,7 @@ const FormExpenseRegister = () => {
 	const {
 		register,
 		handleSubmit,
+		control,
 		formState: { errors },
 		reset,
 	} = useForm();
@@ -32,20 +42,38 @@ const FormExpenseRegister = () => {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-	const { data } = useFetch("http://localhost:5000/admin/ExpenseType/list");
-	console.log(data);
-	
+	const { user } = useAuth();
+	const { data: expenseTypesData } = useFetch(
+		"http://localhost:5000/admin/ExpenseType/list",
+	);
+	const { data: methodData } = useFetch(
+		"http://localhost:5000/admin/payment_method/list",
+	);
+	console.log(methodData);
+
+	const expenseTypes = Array.isArray(expenseTypesData?.data)
+		? expenseTypesData.data
+		: [];
+	const methodPayments = Array.isArray(methodData?.data?.data)
+		? methodData.data.data
+		: [];
+
+	console.log(methodPayments);
 
 	const registerExpense = async (data) => {
 		try {
+			console.log(data);
+
 			const payload = {
-				ext_name: data.ext_name,
-				pme_name: data.pme_name,
-				date_expense: data.date_expense,
-				exp_amount: parseFloat(data.exp_amount),
+				exp_type_id: data.ext_name?.ext_id,
+				exp_payment_method_id: data.pme_name?.pme_id,
 				exp_description: data.exp_description,
+				exp_date: data.date_expense,
+				exp_amount: parseFloat(data.exp_amount),
 				exp_receipt_number: data.exp_receipt_number,
+				user_created: user.user.user_login_id,
 			};
+
 			const res = await createExpense(payload);
 			if (res.result) {
 				setSnackbarMessage("Gasto registrado exitosamente");
@@ -100,22 +128,52 @@ const FormExpenseRegister = () => {
 					<Grid container spacing={3} mb={3}>
 						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Tipo de Gasto</CustomFormLabel>
-							<CustomTextField
-								fullWidth
-								{...register("ext_name", { required: true })}
-								error={!!errors.ext_name}
-								helperText={errors.ext_name && "Campo requerido"}
-							/>
+							<FormControl fullWidth error={!!errors.ext_name}>
+								<Controller
+									name="ext_name"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={expenseTypes}
+											getOptionLabel={(option) => option.ext_name ?? ""}
+											onChange={(_, newValue) => field.onChange(newValue)}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.ext_name}
+													helperText={errors.ext_name && "Campo requerido"}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
 						</Grid>
 
 						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Método de Pago</CustomFormLabel>
-							<CustomTextField
-								fullWidth
-								{...register("pme_name", { required: true })}
-								error={!!errors.pme_name}
-								helperText={errors.pme_name && "Campo requerido"}
-							/>
+							<FormControl fullWidth error={!!errors.pme_name}>
+								<Controller
+									name="pme_name"
+									control={control}
+									rules={{ required: true }}
+									render={({ field }) => (
+										<Autocomplete
+											options={methodPayments}
+											getOptionLabel={(option) => option.pme_name ?? ""}
+											onChange={(_, newValue) => field.onChange(newValue)}
+											renderInput={(params) => (
+												<CustomTextField
+													{...params}
+													error={!!errors.pme_name}
+													helperText={errors.pme_name && "Campo requerido"}
+												/>
+											)}
+										/>
+									)}
+								/>
+							</FormControl>
 						</Grid>
 
 						<Grid item xs={12} sm={6}>

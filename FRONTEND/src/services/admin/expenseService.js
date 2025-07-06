@@ -1,9 +1,10 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const API_URL = "http://localhost:5000/admin/expense";
 export const createExpense = async (payload) => {
 	try {
-		const response = await axios.post(`${API_URL}/create`, payload, {
+		const response = await axios.post(`${API_URL}/insert`, payload, {
 			headers: {
 				"Content-Type": "application/json",
 				tokenapp: Cookies.get("token"),

@@ -29,6 +29,7 @@ import { useFetch } from "../../../../hooks/useFetch";
 
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
 	const theme = useTheme();
+
 	return (
 		<Box sx={{ flexShrink: 0, ml: 2.5 }}>
 			<IconButton onClick={(e) => onPageChange(e, 0)} disabled={page === 0}>
@@ -84,7 +85,29 @@ const ExpenseReport = () => {
 	const { data, error: errorFetch } = useFetch(
 		"http://localhost:5000/admin/expense/list",
 	);
+	const handleEdit = (expense) => {
+		console.log("Editar gasto:", expense);
+	};
+	const handleDelete = async (id) => {
+		const confirm = window.confirm("¿Estás seguro de eliminar este gasto?");
+		if (!confirm) return;
 
+		try {
+			const response = await axios.delete(
+				`http://localhost:5000/admin/expense/delete/${id}`,
+				{
+					headers: { tokenapp: Cookies.get("token") },
+				},
+			);
+			if (response.data?.result) {
+				setExpenses((prev) => prev.filter((e) => e.exp_id !== id));
+			} else {
+				alert("No se pudo eliminar el gasto.");
+			}
+		} catch (error) {
+			alert("Error al eliminar el gasto.");
+		}
+	};
 	useEffect(() => {
 		if (!startDate && !endDate) {
 			if (data && Array.isArray(data.data)) {
@@ -217,6 +240,22 @@ const ExpenseReport = () => {
 									</TableCell>
 									<TableCell>${row.exp_amount.toFixed(2)}</TableCell>
 									<TableCell>{row.date_expense}</TableCell>
+									<TableCell>
+										<Button
+											size="small"
+											color="primary"
+											onClick={() => handleEdit(row)}
+										>
+											Editar
+										</Button>
+										<Button
+											size="small"
+											color="error"
+											onClick={() => handleDelete(row.exp_id)}
+										>
+											Eliminar
+										</Button>
+									</TableCell>
 								</TableRow>
 							))}
 							{expenses.length === 0 && (
