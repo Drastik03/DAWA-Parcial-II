@@ -15,6 +15,8 @@ import { Controller, useForm } from "react-hook-form";
 import CustomTextField from "../../../../components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../../../../components/forms/theme-elements/CustomFormLabel";
 import { useAuth } from "../../../../context/AuthContext";
+import { editProductData } from "../../../../services/admin/productService";
+
 
 const ProductEditModal = ({
 	open,
@@ -66,6 +68,7 @@ const ProductEditModal = ({
 			setImageFile(null);
 		}
 	}, [product, reset]);
+	
 
 	const onSubmit = async (data) => {
 		try {
@@ -79,7 +82,7 @@ const ProductEditModal = ({
 			formData.append("pro_code", product.pro_code);
 			formData.append("pro_image_url", product.pro_image_url);
 
-			const res = await editProduct(formData);
+			const res = await editProductData(formData);
 
 			if (res.result) {
 				setSnackbarMessage("Producto actualizado correctamente");

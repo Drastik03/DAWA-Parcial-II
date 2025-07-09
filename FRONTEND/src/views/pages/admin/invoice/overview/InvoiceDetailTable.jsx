@@ -68,4 +68,3 @@ export default function InvoiceDetailTable({ rows }) {
 		</Paper>
 	);
 }
-  

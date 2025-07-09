@@ -21,6 +21,8 @@ function mostrarValor(value) {
 }
 
 export default function TaxTable({ taxes }) {
+	console.log(taxes);
+
 	const theme = useTheme();
 
 	if (!taxes || taxes.length === 0) {
@@ -120,9 +122,7 @@ export default function TaxTable({ taxes }) {
 											whiteSpace: "nowrap",
 										}}
 									>
-										{mostrarValor(
-											tax.tax_type || tax.type || tax.nombre || tax.descripcion,
-										)}
+										{mostrarValor(tax.tax_name)}
 									</TableCell>
 									<TableCell
 										sx={{
@@ -132,11 +132,9 @@ export default function TaxTable({ taxes }) {
 										}}
 									>
 										{mostrarValor(
-											tax.tax_percent != null
-												? `${parseFloat(tax.tax_percent).toFixed(2)}%`
-												: tax.porcentaje != null
-													? `${parseFloat(tax.porcentaje).toFixed(2)}%`
-													: "No indica",
+											tax.tax_percentage
+												? `Descuento del ${tax.tax_percentage}%`
+												: "No indica",
 										)}
 									</TableCell>
 									<TableCell
@@ -148,8 +146,8 @@ export default function TaxTable({ taxes }) {
 									>
 										{tax.amount != null
 											? `$${parseFloat(tax.amount).toFixed(2)}`
-											: tax.monto != null
-												? `$${parseFloat(tax.monto).toFixed(2)}`
+											: tax.int_tax_amount != null
+												? `$${parseFloat(tax.int_tax_amount)}`
 												: "No indica"}
 									</TableCell>
 								</TableRow>
