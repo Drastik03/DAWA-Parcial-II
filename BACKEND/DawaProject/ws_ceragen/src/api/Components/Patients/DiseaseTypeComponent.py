@@ -75,37 +75,42 @@ class DiseaseTypeComponent:
             return internal_response(False, "Error al eliminar tipo", None)
 
     @staticmethod
-    def listDiseaseType():
+    def listDiseaseCatalog():
         try:
             sql = """
-                SELECT dst_id, dst_name, dst_description, dst_state,
-                       user_created, 
-                       TO_CHAR(date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
-                       user_modified, 
-                       TO_CHAR(date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified
+                SELECT 
+                    dst_id,
+                    dst_name,
+                    dst_description,
+                    dst_state,
+                    user_created,
+                    TO_CHAR(date_created, 'DD-MM-YYYY HH24:MI:SS') AS date_created,
+                    user_modified,
+                    TO_CHAR(date_modified, 'DD-MM-YYYY HH24:MI:SS') AS date_modified,
+                    user_deleted,
+                    TO_CHAR(date_deleted, 'DD-MM-YYYY HH24:MI:SS') AS date_deleted
                 FROM ceragen.clinic_disease_type
-                WHERE date_deleted IS NULL AND dst_state = TRUE;
-
+                WHERE date_deleted IS NULL AND dst_state = TRUE
             """
-            result = DataBaseHandle.getRecords(sql,0)
-            return internal_response(True, "Tipos obtenidos correctamente", result.get("data"))
+            result = DataBaseHandle.getRecords(sql, 0)
+            return internal_response(True, "Enfermedades obtenidas correctamente", result.get("data"))
         except Exception as e:
-            HandleLogs.write_error(f"[listDiseaseType] Error: {str(e)}")
-            return internal_response(False, "Error al listar tipos", None)
+            HandleLogs.write_error(f"[listDiseaseCatalog] Error: {str(e)}")
+            return internal_response(False, "Error al listar enfermedades", None)
 
     @staticmethod
     def deleteDiseaseCatalog(dis_id: int, user: str):
         try:
-            sql_check = "SELECT 1 FROM ceragen.clinic_disease_catalog WHERE dis_id = %s AND date_deleted IS NULL"
+            sql_check = "SELECT 1 FROM ceragen.clinic_disease_type WHERE dst_id = %s AND date_deleted IS NULL"
             exists = DataBaseHandle.getRecords(sql_check, 1, (dis_id,))
             if not exists or not exists.get("result"):
                 return internal_response(False, "Registro no encontrado o ya eliminado", None)
 
             sql_delete = """
-                UPDATE ceragen.clinic_disease_catalog
+                UPDATE ceragen.clinic_disease_type
                 SET date_deleted = NOW(),
                     user_modified = %s
-                WHERE dis_id = %s
+                WHERE dst_id = %s
             """
             params = (user, dis_id)
             result = DataBaseHandle.ExecuteNonQuery(sql_delete, params)

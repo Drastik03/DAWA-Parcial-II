@@ -9,7 +9,7 @@ class AdminProductComponent:
     def list_all_products():
         try:
             query = """
-                       SELECT 
+                        SELECT 
                             p.pro_id,
                             p.pro_code,
                             p.pro_name,
@@ -36,8 +36,11 @@ class AdminProductComponent:
                         FROM ceragen.admin_product p
                         LEFT JOIN ceragen.admin_therapy_type t ON p.pro_therapy_type_id = t.tht_id
                         LEFT JOIN ceragen.admin_product_promotion promo 
-                            ON p.pro_id = promo.ppr_product_id AND promo.ppr_state = TRUE
-                        WHERE p.pro_state = TRUE;
+                            ON p.pro_id = promo.ppr_product_id 
+                            AND promo.ppr_state = TRUE
+                            AND CURRENT_DATE BETWEEN promo.ppr_start_date AND promo.ppr_end_date
+                        WHERE p.pro_state = TRUE
+                          AND p.date_deleted IS NULL;
                     """
             data = DataBaseHandle.getRecords(query, 0)
             data = convert_decimal_to_float(data)
@@ -67,6 +70,7 @@ class AdminProductComponent:
     @staticmethod
     def add_product(data):
         try:
+            pro_code = data.get('pro_code') or AdminProductComponent.generate_next_product_code()
             sql = """
                 INSERT INTO ceragen.admin_product (
                     pro_code, pro_name, pro_description, pro_price, pro_total_sessions,
@@ -75,7 +79,7 @@ class AdminProductComponent:
                 ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
             record = (
-                data['pro_code'],
+                pro_code,
                 data['pro_name'],
                 data.get('pro_description'),
                 data['pro_price'],
@@ -144,3 +148,28 @@ class AdminProductComponent:
         except Exception as err:
             HandleLogs.write_error(err)
             return internal_response(False, str(err), None)
+
+    @staticmethod
+    def generate_next_product_code():
+        try:
+            sql = """
+                SELECT LPAD(
+                    CAST(
+                        COALESCE(
+                            MAX(CAST(SUBSTRING(pro_code, 3) AS INTEGER)),
+                            0
+                        ) + 1 AS TEXT
+                    ),
+                    6,
+                    '0'
+                ) AS next_number
+                FROM ceragen.admin_product
+                WHERE pro_code LIKE 'P-%'
+            """
+            result = DataBaseHandle.getRecords(sql, 1)
+            if result and result.get("data"):
+                return f"P-{result['data']['next_number']}"
+            return "P-000001"
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return "P-000001"

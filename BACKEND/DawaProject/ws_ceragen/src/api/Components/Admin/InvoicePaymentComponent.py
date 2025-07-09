@@ -192,3 +192,38 @@ class InvoicePaymentComponent:
         except Exception as err:
             HandleLogs.write_error(err)
             return "P-000001"
+
+    @staticmethod
+    def GetPaymentsByInvoiceId(invoice_id):
+        try:
+            query = """
+                SELECT 
+                    p.inp_id,
+                    p.inp_invoice_id,
+                    p.inp_payment_method_id,
+                    pm.pme_name,
+                    pm.pme_description,
+                    pm.pme_require_references,
+                    pm.pme_require_picture_proff,
+                    p.inp_amount,
+                    p.inp_reference,
+                    p.inp_proof_image_path,
+                    p.inp_state,
+                    p.user_created,
+                    TO_CHAR(p.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                    p.user_modified,
+                    TO_CHAR(p.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                    p.user_deleted,
+                    TO_CHAR(p.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS date_deleted
+                FROM ceragen.admin_invoice_payment p
+                JOIN ceragen.admin_payment_method pm ON p.inp_payment_method_id = pm.pme_id
+                WHERE p.inp_state = true 
+                  AND pm.pme_state = true 
+                  AND p.inp_invoice_id = %s
+            """
+            result = DataBaseHandle.getRecords(query, 0, (invoice_id,))
+            data = convert_decimal_to_float(result)
+            return internal_response(True, "Pagos encontrados", data)
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return internal_response(False, "Error al obtener pagos", None)

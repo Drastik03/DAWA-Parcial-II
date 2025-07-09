@@ -16,4 +16,4 @@ class PaymentMethodUpdateRequest(Schema):
     pme_description = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)
     pme_require_references = fields.Boolean(required=True)
     pme_require_picture_proff = fields.Boolean(required=True)
-    user_created = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)
+    user_modified = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)

@@ -2732,14 +2732,17 @@
         }
       }
     },
-
     "/admin/product/insert": {
       "post": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Agregar Producto",
         "description": "Agregar un producto con posible imagen",
         "operationId": "AddProduct",
-        "consumes": ["multipart/form-data"],
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -2800,26 +2803,36 @@
         "responses": {
           "200": {
             "description": "Producto agregado exitosamente",
-            "schema": { "$ref": "#/definitions/Response" }
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
           },
           "400": {
             "description": "Datos inválidos o faltantes",
-            "schema": { "$ref": "#/definitions/NotFound" }
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
           },
           "500": {
             "description": "Error al agregar el producto",
-            "schema": { "$ref": "#/definitions/ErrorResponse" }
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
     "/admin/product/update": {
       "patch": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Actualizar un Producto",
         "description": "Actualizar un producto con posible imagen",
         "operationId": "UpdateProduct",
-        "consumes": ["multipart/form-data"],
+        "consumes": [
+          "multipart/form-data"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -2892,20 +2905,25 @@
         "responses": {
           "200": {
             "description": "Producto actualizado exitosamente",
-            "schema": { "$ref": "#/definitions/Response" }
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
           },
           "400": {
             "description": "Datos inválidos o faltantes",
-            "schema": { "$ref": "#/definitions/NotFound" }
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
           },
           "500": {
             "description": "Error al actualizar el producto",
-            "schema": { "$ref": "#/definitions/ErrorResponse" }
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
     },
-
     "/admin/product/delete/{pro_id}": {
       "delete": {
         "tags": [
@@ -3145,7 +3163,6 @@
         }
       }
     },
-
     "/admin/payment_method/list": {
       "get": {
         "tags": [
@@ -4310,7 +4327,6 @@
         }
       }
     },
-
     "/admin/expense/{exp_id}": {
       "get": {
         "tags": [
@@ -5390,38 +5406,37 @@
         }
       }
     },
-
-    "/clinic/bloodtype/list" :{
-      "get" :{
-        "tags" :[
+    "/clinic/bloodtype/list": {
+      "get": {
+        "tags": [
           "WS Clinic Blood Type"
         ],
-        "summary" :"Listar tipos de sangre",
-        "description" :"Devuelve todos los tipos de sangre registrados y activos.",
-        "operationId" :"ListarTiposSangre",
-        "produces" :[
+        "summary": "Listar tipos de sangre",
+        "description": "Devuelve todos los tipos de sangre registrados y activos.",
+        "operationId": "ListarTiposSangre",
+        "produces": [
           "application/json"
         ],
-        "parameters" :[
+        "parameters": [
           {
-            "in" :"header",
-            "name" :"tokenapp",
-            "description" :"Token para aplicación",
-            "required" :true,
-            "type" :"string"
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
           }
         ],
-        "responses" :{
-          "200" :{
-            "description" :"Listado exitoso",
-            "schema" :{
-              "$ref" :"#/definitions/Response"
+        "responses": {
+          "200": {
+            "description": "Listado exitoso",
+            "schema": {
+              "$ref": "#/definitions/Response"
             }
           },
-          "500" :{
-            "description" :"Error interno",
-            "schema" :{
-              "$ref" :"#/definitions/ErrorResponse"
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
             }
           }
         }
@@ -5477,12 +5492,18 @@
     },
     "/clinic/bloodtype/update": {
       "patch": {
-        "tags": ["WS Clinic Blood Type"],
+        "tags": [
+          "WS Clinic Blood Type"
+        ],
         "summary": "Actualizar tipo de sangre",
         "description": "Actualiza la información de un tipo de sangre existente.",
         "operationId": "ActualizarTipoSangre",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
         "parameters": [
           {
             "in": "header",
@@ -5516,15 +5537,15 @@
         }
       }
     },
-    "/clinic/bloodtype/delete/{btp_id}" :{
-      "delete" :{
-        "tags" :[
+    "/clinic/bloodtype/delete/{btp_id}": {
+      "delete": {
+        "tags": [
           "WS Clinic Blood Type"
         ],
-        "summary" :"Eliminar tipo de sangre",
-        "description" :"Elimina lógicamente un tipo de sangre del catálogo.",
-        "operationId" :"EliminarTipoSangre",
-        "parameters" :[
+        "summary": "Eliminar tipo de sangre",
+        "description": "Elimina lógicamente un tipo de sangre del catálogo.",
+        "operationId": "EliminarTipoSangre",
+        "parameters": [
           {
             "in": "header",
             "name": "tokenapp",
@@ -5533,32 +5554,28 @@
             "description": "Token de autenticación del usuario"
           },
           {
-            "name" :"btp_id",
-            "in" :"path",
-            "required" :true,
-            "type" :"integer"
+            "name": "btp_id",
+            "in": "path",
+            "required": true,
+            "type": "integer"
           },
           {
-            "name" :"user_proccess",
-            "in" :"path",
-            "required" :true,
-            "type" :"string"
+            "name": "user_proccess",
+            "in": "path",
+            "required": true,
+            "type": "string"
           }
-
         ],
-        "responses" :{
-          "200" :{
-            "description" :"Tipo de sangre eliminado correctamente"
+        "responses": {
+          "200": {
+            "description": "Tipo de sangre eliminado correctamente"
           },
-          "404" :{
-            "description" :"No se encontró el tipo de sangre"
+          "404": {
+            "description": "No se encontró el tipo de sangre"
           }
         }
       }
     },
-
-
-
     "/clinic/patient-disease/add": {
       "post": {
         "tags": [
@@ -5661,7 +5678,6 @@
         }
       }
     },
-
     "/clinic/patient-disease/list": {
       "get": {
         "tags": [
@@ -5747,53 +5763,51 @@
     },
     "/clinic/patient-disease/delete/{pd_id}": {
       "delete": {
-      "tags": [
-        "WS Clinic Disease"
-      ],
-      "summary": "Eliminar enfermedad del paciente",
-      "description": "Elimina (o marca como eliminada) una enfermedad registrada del paciente, usando su ID.",
-      "operationId": "deletePatientDiseaseById",
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token para autenticación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "pd_id",
-          "description": "ID de la enfermedad del paciente a eliminar",
-          "required": true,
-          "type": "integer",
-          "format": "int64"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Enfermedad eliminada correctamente",
-          "schema": {
-            "$ref": "#/definitions/Response"
+        "tags": [
+          "WS Clinic Disease"
+        ],
+        "summary": "Eliminar enfermedad del paciente",
+        "description": "Elimina (o marca como eliminada) una enfermedad registrada del paciente, usando su ID.",
+        "operationId": "deletePatientDiseaseById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "pd_id",
+            "description": "ID de la enfermedad del paciente a eliminar",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
           }
-        },
-        "404": {
-          "description": "Enfermedad no encontrada"
-        },
-        "401": {
-          "description": "No autorizado - Token inválido o faltante"
-        },
-        "500": {
-          "description": "Error interno del servidor"
+        ],
+        "responses": {
+          "200": {
+            "description": "Enfermedad eliminada correctamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "404": {
+            "description": "Enfermedad no encontrada"
+          },
+          "401": {
+            "description": "No autorizado - Token inválido o faltante"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
         }
       }
-    }
     },
-
-
     "/clinic/TherapySession/list": {
       "get": {
         "tags": [
@@ -5832,6 +5846,93 @@
           },
           "404": {
             "description": "No se encontraron sesiones de control de terapia.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/clinic/TherapySession/report/by-nurse": {
+      "post": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Reporte de sesiones por enfermera y fechas",
+        "description": "Devuelve todas las sesiones de terapia realizadas por una enfermera específica dentro de un rango de fechas.",
+        "operationId": "therapySessionReportByNurse",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos necesarios para filtrar por enfermera y rango de fechas.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "nurse_id": {
+                  "type": "integer",
+                  "example": 5
+                },
+                "start_date": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2025-07-01"
+                },
+                "end_date": {
+                  "type": "string",
+                  "format": "date",
+                  "example": "2025-07-07"
+                }
+              },
+              "required": [
+                "nurse_id",
+                "start_date",
+                "end_date"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesiones obtenidas exitosamente",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/TherapySessionControlResponse"
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud incorrecta (datos faltantes o inválidos)",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "No se encontraron sesiones con los filtros proporcionados.",
             "schema": {
               "$ref": "#/definitions/NotFound"
             }
@@ -6036,95 +6137,121 @@
       }
     },
     "/clinic/TherapySession/delete/{sec_id}": {
-    "delete": {
-      "tags": [
-        "WS Clinic Sessions"
-      ],
-      "summary": "Eliminar lógicamente sesión de control de terapia",
-      "description": "Marca una sesión de control de terapia como inactiva por su `sec_id`.",
-      "operationId": "therapySessionControlDelete",
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación para la aplicación.",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "sec_id",
-          "description": "ID de la sesión de control de terapia a eliminar lógicamente.",
-          "required": true,
-          "type": "integer",
-          "format": "int32"
-       },
-        {
-         "in": "path",
-          "name": "user_process",
-          "description": "Usuario que realiza la eliminación lógica.",
-          "required": true,
-          "schema": {
-            "type": "object",
-            "properties": {
-              "user_deleted": {
-                "type": "string",
-               "description": "Usuario que realiza la eliminación lógica.",
-                "example": "admin_user"
+      "delete": {
+        "tags": [
+          "WS Clinic Sessions"
+        ],
+        "summary": "Eliminar lógicamente sesión de control de terapia",
+        "description": "Marca una sesión de control de terapia como inactiva por su `sec_id`.",
+        "operationId": "therapySessionControlDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "sec_id",
+            "description": "ID de la sesión de control de terapia a eliminar lógicamente.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "path",
+            "name": "user_process",
+            "description": "Usuario que realiza la eliminación lógica.",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_deleted": {
+                  "type": "string",
+                  "description": "Usuario que realiza la eliminación lógica.",
+                  "example": "admin_user"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sesión de control de terapia inactivada exitosamente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Sesión eliminada lógicamente exitosamente."
+                },
+                "": {
+                  "type": "object",
+                  "example": {}
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida (ej. 'user_deleted' no proporcionado).",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Se requiere 'user_deleted' en el cuerpo de la solicitud para la eliminación."
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Sesión de control de terapia no encontrada o ya estaba inactiva.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Sesión de control de terapia no encontrada o ya estaba inactiva."
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": false
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Error interno del servidor al procesar la solicitud."
+                }
               }
             }
           }
         }
-      ],
-      "responses": {
-        "200": {
-          "description": "Sesión de control de terapia inactivada exitosamente.",
-          "schema": {
-            "type": "object",
-            "properties": {
-             "result": { "type": "boolean", "example": true },
-              "message": { "type": "string", "example": "Sesión eliminada lógicamente exitosamente." },
-              "" : { "type": "object", "example": {} }
-            }
-          }
-        },
-        "400": {
-          "description": "Solicitud inválida (ej. 'user_deleted' no proporcionado).",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "result": { "type": "boolean", "example": false },
-              "message": { "type": "string", "example": "Se requiere 'user_deleted' en el cuerpo de la solicitud para la eliminación." }
-            }
-          }
-        },
-        "404": {
-          "description": "Sesión de control de terapia no encontrada o ya estaba inactiva.",
-          "schema": {
-            "type": "object",
-            "properties": {
-              "result": { "type": "boolean", "example": false },
-              "message": { "type": "string", "example": "Sesión de control de terapia no encontrada o ya estaba inactiva." }
-            }
-          }
-        },
-        "500": {
-          "description": "Error interno del servidor.",
-          "schema": {
-           "type": "object",
-            "properties": {
-              "result": { "type": "boolean", "example": false },
-              "message": { "type": "string", "example": "Error interno del servidor al procesar la solicitud." }
-            }
-          }
-        }
       }
-    }
-  },
-
+    },
     "/admin/invoice/list": {
       "get": {
         "tags": [
@@ -6266,12 +6393,14 @@
     },
     "/admin/invoice/delete/{inv_id}": {
       "delete": {
-        "tags": ["WS Admin"],
+        "tags": [
+          "WS Admin"
+        ],
         "summary": "Dar de baja una factura",
         "description": "Dar de baja una factura en específico",
         "operationId": "DeleteInvoice",
         "parameters": [
-           {
+          {
             "in": "header",
             "name": "tokenapp",
             "description": "Token para aplicación",
@@ -6294,7 +6423,6 @@
             "type": "string"
           }
         ],
-
         "responses": {
           "200": {
             "description": "Tipo de gasto eliminado exitosamente",
@@ -6317,13 +6445,11 @@
         }
       }
     },
-
-
-
-
     "/catalog/allergy/add": {
       "post": {
-        "tags": ["Allergy Catalog"],
+        "tags": [
+          "Allergy Catalog"
+        ],
         "summary": "Registrar alergia en el catálogo",
         "description": "Agrega una nueva alergia al catálogo general.",
         "parameters": [
@@ -6344,16 +6470,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Alergia registrada correctamente" },
-          "400": { "description": "Error de validación" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Alergia registrada correctamente"
+          },
+          "400": {
+            "description": "Error de validación"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/allergy/update/{al_id}": {
       "patch": {
-        "tags": ["Allergy Catalog"],
+        "tags": [
+          "Allergy Catalog"
+        ],
         "summary": "Actualizar alergia del catálogo",
         "description": "Modifica los datos de una alergia existente en el catálogo.",
         "parameters": [
@@ -6379,17 +6515,29 @@
           }
         ],
         "responses": {
-          "200": { "description": "Actualización exitosa" },
-          "400": { "description": "Error de validación" },
-          "404": { "description": "Registro no encontrado" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Actualización exitosa"
+          },
+          "400": {
+            "description": "Error de validación"
+          },
+          "404": {
+            "description": "Registro no encontrado"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/allergy/delete/{al_id}": {
       "delete": {
-        "tags": ["Allergy Catalog"],
+        "tags": [
+          "Allergy Catalog"
+        ],
         "summary": "Eliminar alergia del catálogo",
         "description": "Elimina (lógicamente) una alergia del catálogo por ID.",
         "parameters": [
@@ -6407,16 +6555,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Alergia eliminada correctamente" },
-          "404": { "description": "Registro no encontrado" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Alergia eliminada correctamente"
+          },
+          "404": {
+            "description": "Registro no encontrado"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/allergy/list": {
       "get": {
-        "tags": ["Allergy Catalog"],
+        "tags": [
+          "Allergy Catalog"
+        ],
         "summary": "Listar alergias activas",
         "description": "Devuelve el listado de todas las alergias activas del catálogo.",
         "parameters": [
@@ -6437,16 +6595,20 @@
               }
             }
           },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
-
-
     "/catalog/disease/add": {
       "post": {
-        "tags": ["Disease Catalog"],
+        "tags": [
+          "Disease Catalog"
+        ],
         "summary": "Registrar enfermedad en el catálogo",
         "description": "Agrega una nueva enfermedad al catálogo general.",
         "parameters": [
@@ -6467,16 +6629,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Enfermedad registrada correctamente" },
-          "400": { "description": "Error de validación" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Enfermedad registrada correctamente"
+          },
+          "400": {
+            "description": "Error de validación"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/disease/update/{dis_id}": {
       "patch": {
-        "tags": ["Disease Catalog"],
+        "tags": [
+          "Disease Catalog"
+        ],
         "summary": "Actualizar enfermedad del catálogo",
         "description": "Actualiza los datos de una enfermedad existente en el catálogo.",
         "parameters": [
@@ -6502,17 +6674,29 @@
           }
         ],
         "responses": {
-          "200": { "description": "Enfermedad actualizada correctamente" },
-          "400": { "description": "Error de validación" },
-          "404": { "description": "No encontrado" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Enfermedad actualizada correctamente"
+          },
+          "400": {
+            "description": "Error de validación"
+          },
+          "404": {
+            "description": "No encontrado"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/disease/delete/{dis_id}": {
       "delete": {
-        "tags": ["Disease Catalog"],
+        "tags": [
+          "Disease Catalog"
+        ],
         "summary": "Eliminar enfermedad del catálogo",
         "description": "Elimina (lógicamente) una enfermedad del catálogo por ID.",
         "parameters": [
@@ -6530,16 +6714,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Eliminado correctamente" },
-          "404": { "description": "Registro no encontrado" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Eliminado correctamente"
+          },
+          "404": {
+            "description": "Registro no encontrado"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/disease/list": {
       "get": {
-        "tags": ["Disease Catalog"],
+        "tags": [
+          "Disease Catalog"
+        ],
         "summary": "Listar enfermedades activas",
         "description": "Obtiene todas las enfermedades activas registradas en el catálogo.",
         "parameters": [
@@ -6560,15 +6754,20 @@
               }
             }
           },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
-
     "/catalog/disease-type/add": {
       "post": {
-        "tags": ["Disease Type"],
+        "tags": [
+          "Disease Type"
+        ],
         "summary": "Registrar tipo de enfermedad",
         "description": "Crea un nuevo tipo de enfermedad.",
         "parameters": [
@@ -6588,16 +6787,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Tipo de enfermedad registrado correctamente" },
-          "400": { "description": "Validación fallida" },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error interno del servidor" }
+          "200": {
+            "description": "Tipo de enfermedad registrado correctamente"
+          },
+          "400": {
+            "description": "Validación fallida"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error interno del servidor"
+          }
         }
       }
     },
     "/catalog/disease-type/update/{dst_id}": {
       "patch": {
-        "tags": ["Disease Type"],
+        "tags": [
+          "Disease Type"
+        ],
         "summary": "Actualizar tipo de enfermedad",
         "description": "Actualiza un tipo de enfermedad existente por su ID.",
         "parameters": [
@@ -6650,7 +6859,9 @@
     },
     "/catalog/disease-type/delete/{dst_id}": {
       "delete": {
-        "tags": ["Disease Type"],
+        "tags": [
+          "Disease Type"
+        ],
         "summary": "Eliminar tipo de enfermedad",
         "description": "Elimina lógicamente un tipo de enfermedad.",
         "parameters": [
@@ -6668,16 +6879,26 @@
           }
         ],
         "responses": {
-          "200": { "description": "Tipo de enfermedad eliminado correctamente" },
-          "401": { "description": "Token inválido" },
-          "404": { "description": "Registro no encontrado" },
-          "500": { "description": "Error del servidor" }
+          "200": {
+            "description": "Tipo de enfermedad eliminado correctamente"
+          },
+          "401": {
+            "description": "Token inválido"
+          },
+          "404": {
+            "description": "Registro no encontrado"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
         }
       }
     },
     "/catalog/disease-type/list": {
       "get": {
-        "tags": ["Disease Type"],
+        "tags": [
+          "Disease Type"
+        ],
         "summary": "Listar tipos de enfermedades",
         "description": "Obtiene una lista de tipos de enfermedades activas.",
         "parameters": [
@@ -6698,235 +6919,288 @@
               }
             }
           },
-          "401": { "description": "Token inválido" },
-          "500": { "description": "Error del servidor" }
+          "401": {
+            "description": "Token inválido"
+          },
+          "500": {
+            "description": "Error del servidor"
+          }
+        }
+      }
+    },
+    "/admin/invoicepayment/list": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Lista de pagos de facturas",
+        "description": "Obtiene una lista de todos los pagos realizados a facturas",
+        "operationId": "ListAllInvoicePayments",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoicepayment/{inp_id}": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Obtener pago de factura por id",
+        "description": "Obtiene un pago específico de factura por su Id",
+        "operationId": "InvoicePaymentGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "inp_id",
+            "description": "ID del pago de factura a revisar (inp_id)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoicepayment/by_invoice/{inv_id}": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Obtener pagos por ID de factura",
+        "description": "Obtiene todos los pagos asociados a una factura específica por su ID",
+        "operationId": "InvoicePaymentGetByInvoiceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "inv_id",
+            "description": "ID de la factura a consultar (inv_id)",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
         }
       }
     },
 
-    "/admin/invoicepayment/list": {
-    "get": {
-      "tags": [
-        "WS Admin"
-      ],
-      "summary": "Lista de pagos de facturas",
-      "description": "Obtiene una lista de todos los pagos realizados a facturas",
-      "operationId": "ListAllInvoicePayments",
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token para aplicación",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Operación exitosa",
-          "schema": {
-            "$ref": "#/definitions/Response"
-          }
-        },
-        "500": {
-          "description": "Error",
-          "schema": {
-            "$ref": "#/definitions/ErrorResponse"
-          }
-        },
-        "400": {
-          "description": "Not Found",
-          "schema": {
-            "$ref": "#/definitions/NotFound"
-          }
-        }
-      }
-    }
-  },
-    "/admin/invoicepayment/{inp_id}": {
-    "get": {
-      "tags": [
-        "WS Admin"
-      ],
-      "summary": "Obtener pago de factura por id",
-      "description": "Obtiene un pago específico de factura por su Id",
-      "operationId": "InvoicePaymentGetById",
-      "produces": [
-        "application/json"
-      ],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token para aplicación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "inp_id",
-          "description": "ID del pago de factura a revisar (inp_id)",
-          "required": true,
-          "type": "integer"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Operación exitosa",
-          "schema": {
-            "$ref": "#/definitions/Response"
-          }
-        },
-        "500": {
-          "description": "Error",
-          "schema": {
-            "$ref": "#/definitions/ErrorResponse"
-          }
-        },
-        "400": {
-          "description": "Bad Request",
-          "schema": {
-            "$ref": "#/definitions/NotFound"
-          }
-        }
-      }
-    }
-  },
     "/admin/invoicepayment/insert": {
-    "post": {
-      "tags": [
-        "WS Admin"
-      ],
-      "summary": "Registrar un pago de factura",
-      "description": "Crear un nuevo pago para una factura",
-      "operationId": "CreateInvoicePayment",
-      "consumes": [
-        "multipart/form-data"
-      ],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token para aplicación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "formData",
-          "name": "inp_invoice_id",
-          "description": "ID de la factura a la que pertenece el pago",
-          "required": true,
-          "type": "integer"
-        },
-        {
-          "in": "formData",
-          "name": "inp_payment_method_id",
-          "description": "ID del método de pago",
-          "required": true,
-          "type": "integer"
-        },
-        {
-          "in": "formData",
-          "name": "inp_amount",
-          "description": "Monto pagado",
-          "required": true,
-          "type": "number",
-          "format": "float"
-        },
-        {
-          "in": "formData",
-          "name": "file",
-          "description": "Imagen comprobante del pago",
-          "required": false,
-          "type": "file"
-        },
-        {
-          "in": "formData",
-          "name": "user_created",
-          "description": "Usuario que registra del pago",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Pago registrado exitosamente",
-          "schema": {
-            "$ref": "#/definitions/Response"
+      "post": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Registrar un pago de factura",
+        "description": "Crear un nuevo pago para una factura",
+        "operationId": "CreateInvoicePayment",
+        "consumes": [
+          "multipart/form-data"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "formData",
+            "name": "inp_invoice_id",
+            "description": "ID de la factura a la que pertenece el pago",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "inp_payment_method_id",
+            "description": "ID del método de pago",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "in": "formData",
+            "name": "inp_amount",
+            "description": "Monto pagado",
+            "required": true,
+            "type": "number",
+            "format": "float"
+          },
+          {
+            "in": "formData",
+            "name": "file",
+            "description": "Imagen comprobante del pago",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "in": "formData",
+            "name": "user_created",
+            "description": "Usuario que registra del pago",
+            "required": true,
+            "type": "string"
           }
-        },
-        "400": {
-          "description": "Datos inválidos o faltantes",
-          "schema": {
-            "$ref": "#/definitions/NotFound"
-          }
-        },
-        "500": {
-          "description": "Error al registrar el pago",
-          "schema": {
-            "$ref": "#/definitions/ErrorResponse"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago registrado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al registrar el pago",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
-    }
-  },
+    },
     "/admin/invoicepayment/delete/{inp_id}": {
-    "delete": {
-      "tags": [
-        "WS Admin"
-      ],
-      "summary": "Eliminar un pago de factura",
-      "description": "Dar de baja un pago específico de factura",
-      "operationId": "DeleteInvoicePayment",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token para aplicación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "name": "inp_id",
-          "in": "path",
-          "description": "ID del pago de factura",
-          "required": true,
-          "type": "integer",
-          "format": "int64"
-        },
-        {
-          "name": "user_process",
-          "in": "query",
-          "description": "Usuario del proceso de eliminación",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Pago eliminado exitosamente",
-          "schema": {
-            "$ref": "#/definitions/Response"
+      "delete": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Eliminar un pago de factura",
+        "description": "Dar de baja un pago específico de factura",
+        "operationId": "DeleteInvoicePayment",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para aplicación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "inp_id",
+            "in": "path",
+            "description": "ID del pago de factura",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "user_process",
+            "in": "query",
+            "description": "Usuario del proceso de eliminación",
+            "required": true,
+            "type": "string"
           }
-        },
-        "400": {
-          "description": "Datos inválidos o faltantes",
-          "schema": {
-            "$ref": "#/definitions/NotFound"
-          }
-        },
-        "500": {
-          "description": "Error al eliminar el pago",
-          "schema": {
-            "$ref": "#/definitions/ErrorResponse"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pago eliminado exitosamente",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos o faltantes",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar el pago",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
       }
-    }
-  },
+    },
     "/admin/invoicepayment/update": {
       "patch": {
         "tags": [
@@ -7013,198 +7287,1440 @@
       }
     },
     "/admin/invoicedetail/list": {
-    "get": {
-      "tags": ["WS Admin"],
-      "summary": "Listado de detalles de facturas",
-      "description": "Obtiene la lista completa de los detalles registrados para facturas.",
-      "operationId": "ListAllInvoiceDetails",
-      "produces": ["application/json"],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación",
-          "required": true,
-          "type": "string"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Consulta exitosa",
-          "schema": { "$ref": "#/definitions/Response" }
-        },
-        "400": {
-          "description": "No encontrado",
-          "schema": { "$ref": "#/definitions/NotFound" }
-        },
-        "500": {
-          "description": "Error de servidor",
-          "schema": { "$ref": "#/definitions/ErrorResponse" }
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Listado de detalles de facturas",
+        "description": "Obtiene la lista completa de los detalles registrados para facturas.",
+        "operationId": "ListAllInvoiceDetails",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error de servidor",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
         }
       }
-    }
-  },
+    },
     "/admin/invoicedetail/{ind_id}": {
-    "get": {
-      "tags": ["WS Admin"],
-      "summary": "Detalle de factura por ID",
-      "description": "Obtiene un detalle específico de factura por su ID",
-      "operationId": "GetInvoiceDetailById",
-      "produces": ["application/json"],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "path",
-          "name": "ind_id",
-          "description": "ID del detalle",
-          "required": true,
-          "type": "integer"
-        }
-      ],
-      "responses": {
-        "200": {
-          "description": "Detalle encontrado",
-          "schema": { "$ref": "#/definitions/Response" }
-        },
-        "400": {
-          "description": "Solicitud inválida",
-          "schema": { "$ref": "#/definitions/NotFound" }
-        },
-        "500": {
-          "description": "Error interno",
-          "schema": { "$ref": "#/definitions/ErrorResponse" }
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Detalle de factura por ID",
+        "description": "Obtiene un detalle específico de factura por su ID",
+        "operationId": "GetInvoiceDetailById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "ind_id",
+            "description": "ID del detalle",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalle encontrado",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
         }
       }
-    }
-  },
+    },
     "/admin/invoicedetail/insert": {
-    "post": {
-      "tags": ["WS Admin"],
-      "summary": "Agregar detalle de factura",
-      "description": "Registra un nuevo detalle de factura",
-      "operationId": "InsertInvoiceDetail",
-      "consumes": ["application/json"],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/InvoiceDetailInsertRequest"
+      "post": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Agregar detalle de factura",
+        "description": "Registra un nuevo detalle de factura",
+        "operationId": "InsertInvoiceDetail",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InvoiceDetailInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Registro exitoso",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al registrar",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
-      ],
-      "responses": {
-        "200": {
-          "description": "Registro exitoso",
-          "schema": { "$ref": "#/definitions/Response" }
-        },
-        "400": {
-          "description": "Datos inválidos",
-          "schema": { "$ref": "#/definitions/NotFound" }
-        },
-        "500": {
-          "description": "Error al registrar",
-          "schema": { "$ref": "#/definitions/ErrorResponse" }
-        }
       }
-    }
-  },
+    },
     "/admin/invoicedetail/update": {
-    "patch": {
-      "tags": ["WS Admin"],
-      "summary": "Actualizar detalle de factura",
-      "description": "Modifica un detalle de factura existente",
-      "operationId": "UpdateInvoiceDetail",
-      "consumes": ["application/json"],
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "in": "body",
-          "name": "body",
-          "required": true,
-          "schema": {
-            "$ref": "#/definitions/InvoiceDetailUpdateRequest"
+      "patch": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Actualizar detalle de factura",
+        "description": "Modifica un detalle de factura existente",
+        "operationId": "UpdateInvoiceDetail",
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/InvoiceDetailUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actualización exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al actualizar",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
           }
         }
-      ],
-      "responses": {
-        "200": {
-          "description": "Actualización exitosa",
-          "schema": { "$ref": "#/definitions/Response" }
-        },
-        "400": {
-          "description": "Datos inválidos",
-          "schema": { "$ref": "#/definitions/NotFound" }
-        },
-        "500": {
-          "description": "Error al actualizar",
-          "schema": { "$ref": "#/definitions/ErrorResponse" }
-        }
       }
-    }
-  },
+    },
     "/admin/invoicedetail/delete/{ind_id}": {
-    "delete": {
-      "tags": ["WS Admin"],
-      "summary": "Eliminar detalle de factura",
-      "description": "Marca un detalle de factura como eliminado",
-      "operationId": "DeleteInvoiceDetail",
-      "parameters": [
-        {
-          "in": "header",
-          "name": "tokenapp",
-          "description": "Token de autenticación",
-          "required": true,
-          "type": "string"
-        },
-        {
-          "name": "ind_id",
-          "in": "path",
-          "description": "ID del detalle",
-          "required": true,
-          "type": "integer"
+      "delete": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Eliminar detalle de factura",
+        "description": "Marca un detalle de factura como eliminado",
+        "operationId": "DeleteInvoiceDetail",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "ind_id",
+            "in": "path",
+            "description": "ID del detalle",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eliminación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error al eliminar",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
         }
-      ],
-      "responses": {
-        "200": {
-          "description": "Eliminación exitosa",
-          "schema": { "$ref": "#/definitions/Response" }
-        },
-        "400": {
-          "description": "Datos inválidos",
-          "schema": { "$ref": "#/definitions/NotFound" }
-        },
-        "500": {
-          "description": "Error al eliminar",
-          "schema": { "$ref": "#/definitions/ErrorResponse" }
+      }
+    },
+    "/admin/invoicedetail/invoice/{int_invoice_id}": {
+      "get": {
+        "tags": [
+          "WS Admin"
+        ],
+        "summary": "Detalles de factura por ID de factura",
+        "description": "Obtiene todos los detalles asociados a una factura usando su ID",
+        "operationId": "GetInvoiceDetailsByInvoiceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "int_invoice_id",
+            "description": "ID de la factura",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Detalles encontrados",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+
+    "/admin/Medical_staff/list": {
+      "get": {
+        "tags": [
+          "Admin Medical Staff"
+        ],
+        "summary": "Listar todo el personal médico activo",
+        "description": "Devuelve una lista de todos los registros de personal médico que están activos en el sistema.",
+        "operationId": "listMedicalStaff",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa. Lista de personal médico.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MedicalStaffResponse"
+              }
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Medical_staff/list/{med_id}": {
+      "get": {
+        "tags": [
+          "Admin Medical Staff"
+        ],
+        "summary": "Obtener personal médico por ID",
+        "description": "Devuelve un registro de personal médico específico por su ID.",
+        "operationId": "getMedicalStaffById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "med_id",
+            "description": "ID del personal médico a obtener.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa. Personal médico encontrado.",
+            "schema": {
+              "$ref": "#/definitions/MedicalStaffResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Personal médico no encontrado.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Medical_staff/add": {
+      "post": {
+        "tags": [
+          "Admin Medical Staff"
+        ],
+        "summary": "Crear un nuevo registro de personal médico",
+        "description": "Crea un nuevo personal médico en la base de datos.",
+        "operationId": "addMedicalStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Objeto de personal médico a crear.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalStaffInsertRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal médico creado exitosamente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Personal médico creado exitosamente."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "med_id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida. Errores de validación.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Medical_staff/update/{med_id}": {
+      "patch": {
+        "tags": [
+          "Admin Medical Staff"
+        ],
+        "summary": "Actualizar un registro de personal médico existente",
+        "description": "Actualiza uno o más campos de un registro de personal médico existente por su ID.",
+        "operationId": "updateMedicalStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "med_id",
+            "description": "ID del personal médico a actualizar.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Campos del personal médico a actualizar.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalStaffUpdateRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal médico actualizado exitosamente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Personal médico actualizado exitosamente."
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "med_id": {
+                      "type": "integer",
+                      "format": "int32",
+                      "example": 1
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida. Errores de validación o datos faltantes.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Personal médico no encontrado o inactivo.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/Medical_staff/delete/{med_id}": {
+      "delete": {
+        "tags": [
+          "Admin Medical Staff"
+        ],
+        "summary": "Eliminar (inactivar) lógicamente un registro de personal médico",
+        "description": "Marca un registro de personal médico como inactivo por su ID.",
+        "operationId": "deleteMedicalStaff",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token de autenticación para la aplicación.",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "path",
+            "name": "med_id",
+            "description": "ID del personal médico a eliminar lógicamente.",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Datos requeridos para la eliminación lógica.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MedicalStaffDeleteRequest"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Personal médico inactivado exitosamente.",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "result": {
+                  "type": "boolean",
+                  "example": true
+                },
+                "message": {
+                  "type": "string",
+                  "example": "Personal médico inactivado exitosamente."
+                },
+                "data": {
+                  "type": "object",
+                  "description": "Objeto vacío para eliminación exitosa."
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Solicitud inválida. Datos faltantes para la eliminación.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "401": {
+            "description": "No autorizado. Token inválido o no proporcionado.",
+            "schema": {
+              "$ref": "#/definitions/UnauthorizeResponse"
+            }
+          },
+          "404": {
+            "description": "Personal médico no encontrado o ya estaba inactivo.",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          },
+          "500": {
+            "description": "Error interno del servidor.",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "/admin/tax/list": {
+      "get": {
+        "tags": [
+          "WS Admin Tax"
+        ],
+        "summary": "Impuestos: Listar",
+        "description": "Obtiene la lista de impuestos activos",
+        "operationId": "taxList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/tax/insert": {
+      "post": {
+        "tags": [
+          "WS Admin Tax"
+        ],
+        "summary": "Impuestos: Insertar",
+        "description": "Inserta un nuevo impuesto",
+        "operationId": "taxInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "taxInsert",
+            "description": "Datos del impuesto a insertar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_tax"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/tax/update": {
+      "patch": {
+        "tags": [
+          "WS Admin Tax"
+        ],
+        "summary": "Impuestos: Actualizar",
+        "description": "Actualiza un impuesto existente",
+        "operationId": "taxUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "taxUpdate",
+            "description": "Datos del impuesto a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_tax"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actualización exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/tax/delete/{tax_id}": {
+      "delete": {
+        "tags": [
+          "WS Admin Tax"
+        ],
+        "summary": "Impuestos: Eliminar",
+        "description": "Elimina un impuesto por ID",
+        "operationId": "taxDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tax_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del impuesto a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eliminación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/tax/{tax_id}": {
+      "get": {
+        "tags": [
+          "WS Admin Tax"
+        ],
+        "summary": "Impuestos: Obtener por ID",
+        "description": "Consulta un impuesto específico por su ID",
+        "operationId": "taxGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "tax_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del impuesto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/list": {
+      "get": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Listar",
+        "description": "Obtiene la lista de impuestos de factura activos",
+        "operationId": "invoiceTaxList",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/insert": {
+      "post": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Insertar",
+        "description": "Inserta un nuevo impuesto de factura",
+        "operationId": "invoiceTaxInsert",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "invoiceTaxInsert",
+            "description": "Datos del impuesto de factura a insertar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/insert_invoice_tax"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/update": {
+      "patch": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Actualizar",
+        "description": "Actualiza un impuesto de factura existente",
+        "operationId": "invoiceTaxUpdate",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "invoiceTaxUpdate",
+            "description": "Datos del impuesto de factura a actualizar",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/update_invoice_tax"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Actualización exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "Datos inválidos",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/delete/{int_id}": {
+      "delete": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Eliminar",
+        "description": "Elimina un impuesto de factura por ID",
+        "operationId": "invoiceTaxDelete",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "int_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del impuesto de factura a eliminar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Eliminación exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/{int_id}": {
+      "get": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Obtener por ID",
+        "description": "Consulta un impuesto de factura específico por su ID",
+        "operationId": "invoiceTaxGetById",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "int_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID del impuesto de factura"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
+        }
+      }
+    },
+    "/admin/invoice_tax/by_invoice/{int_invoice_id}": {
+      "get": {
+        "tags": [
+          "WS Admin Invoice Tax"
+        ],
+        "summary": "Impuestos de Factura: Obtener por ID de Factura",
+        "description": "Consulta todos los impuestos asociados a una factura específica mediante su ID",
+        "operationId": "invoiceTaxGetByInvoiceId",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "tokenapp",
+            "description": "Token para autenticación",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "int_invoice_id",
+            "in": "path",
+            "required": true,
+            "type": "integer",
+            "description": "ID de la factura"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Consulta exitosa",
+            "schema": {
+              "$ref": "#/definitions/Response"
+            }
+          },
+          "500": {
+            "description": "Error interno",
+            "schema": {
+              "$ref": "#/definitions/ErrorResponse"
+            }
+          },
+          "400": {
+            "description": "No encontrado",
+            "schema": {
+              "$ref": "#/definitions/NotFound"
+            }
+          }
         }
       }
     }
-  }
 
   },
+
+
   "definitions":
   {
+    "insert_tax": {
+  "type": "object",
+  "required": ["tax_name", "tax_percentage"],
+  "properties": {
+    "tax_name": {
+      "type": "string",
+      "example": "IVA"
+    },
+    "tax_percentage": {
+      "type": "number",
+      "format": "float",
+      "example": 12.0
+    },
+    "tax_description": {
+      "type": "string",
+      "example": "Impuesto al valor agregado"
+    }
+  }
+},
+    "update_tax": {
+  "type": "object",
+  "required": ["tax_id", "tax_name", "tax_percentage"],
+  "properties": {
+    "tax_id": {
+      "type": "integer",
+      "example": 1
+    },
+    "tax_name": {
+      "type": "string",
+      "example": "IVA Modificado"
+    },
+    "tax_percentage": {
+      "type": "number",
+      "format": "float",
+      "example": 15.0
+    },
+    "tax_description": {
+      "type": "string",
+      "example": "IVA actualizado por ley"
+    }
+  }
+},
+    "insert_invoice_tax": {
+      "type": "object",
+      "properties": {
+        "int_invoice_id": {
+          "type": "integer",
+          "example": 123
+        },
+        "int_tax_id": {
+          "type": "integer",
+          "example": 10
+        },
+        "int_tax_amount": {
+          "type": "number",
+          "format": "float",
+          "example": 15.75
+        },
+        "user_created": {
+          "type": "string",
+          "example": "admin_user"
+        }
+      },
+      "required": ["int_invoice_id", "int_tax_id", "int_tax_amount", "user_created"]
+    },
+    "update_invoice_tax": {
+      "type": "object",
+      "properties": {
+        "int_id": {
+          "type": "integer",
+          "example": 1
+        },
+        "int_invoice_id": {
+          "type": "integer",
+          "example": 123
+        },
+        "int_tax_id": {
+          "type": "integer",
+          "example": 10
+        },
+        "int_tax_amount": {
+          "type": "number",
+          "format": "float",
+          "example": 20.00
+        },
+        "user_modified": {
+          "type": "string",
+          "example": "admin_user"
+        }
+      },
+      "required": ["int_id", "int_invoice_id", "int_tax_id", "int_tax_amount", "user_modified"]
+    },
+    "MedicalStaffInsertRequest": {
+    "type": "object",
+    "required": [
+      "med_person_id",
+      "med_type_id",
+      "user_created"
+    ],
+    "properties": {
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada al personal médico.",
+        "example": 101
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico (ej. Doctor, Enfermero).",
+        "example": 1
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "maxLength": 100,
+        "example": "Cardiología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo del personal médico. Por defecto: true.",
+        "default": true,
+        "example": true
+      },
+      "user_created": {
+        "type": "string",
+        "description": "Usuario que crea el registro.",
+        "maxLength": 50,
+        "example": "admin_user"
+      }
+    }
+  },
+    "MedicalStaffUpdateRequest": {
+    "type": "object",
+    "properties": {
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada al personal médico.",
+        "example": 102
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico (ej. Doctor, Enfermero).",
+        "example": 2
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "maxLength": 100,
+        "example": "Dermatología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo del personal médico.",
+        "example": false
+      }
+    }
+  },
+    "MedicalStaffDeleteRequest": {
+    "type": "object",
+    "required": [
+      "user_deleted"
+    ],
+    "properties": {
+      "user_deleted": {
+        "type": "string",
+        "description": "Usuario que realiza la eliminación lógica (obtenido del token en el backend).",
+        "maxLength": 50,
+        "example": "admin_user"
+      }
+    }
+  },
+    "MedicalStaffResponse": {
+    "type": "object",
+    "properties": {
+      "med_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID único del personal médico.",
+        "example": 1
+      },
+      "med_person_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID de la persona asociada.",
+        "example": 101
+      },
+      "med_type_id": {
+        "type": "integer",
+        "format": "int32",
+        "description": "ID del tipo de personal médico.",
+        "example": 1
+      },
+      "med_registration_number": {
+        "type": "string",
+        "description": "Número de registro profesional.",
+        "example": "REG12345"
+      },
+      "med_specialty": {
+        "type": "string",
+        "description": "Especialidad del personal médico.",
+        "example": "Cardiología"
+      },
+      "med_state": {
+        "type": "boolean",
+        "description": "Estado activo/inactivo.",
+        "example": true
+      },
+      "user_created": {
+        "type": "string",
+        "description": "Usuario que creó el registro.",
+        "example": "admin_user"
+      },
+      "date_created": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de creación del registro.",
+        "example": "2025-07-02T19:28:08.088Z"
+      },
+      "user_modified": {
+        "type": "string",
+        "description": "Último usuario que modificó el registro.",
+        "example": "editor_user"
+      },
+      "date_modified": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de última modificación.",
+        "example": "2025-07-02T21:22:40.786Z"
+      },
+      "user_deleted": {
+        "type": "string",
+        "description": "Usuario que eliminó (inactivó) el registro.",
+        "example": "deleter_user"
+      },
+      "date_deleted": {
+        "type": "string",
+        "format": "date-time",
+        "description": "Fecha de eliminación (inactivación).",
+        "example": "2025-07-03T10:00:00.000Z"
+      }
+    }
+  },
+
     "InvoiceDetailInsertRequest": {
       "type": "object",
       "required": ["ind_invoice_id", "ind_product_id", "ind_quantity", "ind_unit_price", "ind_total"],
@@ -8360,6 +9876,7 @@
         "date_deleted": null
       }
     },
+
 
     "addQuestion": {
       "type": "object",

@@ -91,6 +91,11 @@ class PatientDiseaseComponent:
                     pd.pd_id,
                     pd.pd_patient_id,
                     pat.pat_code AS patient_code,
+                    CONCAT(pers.per_names, ' ', pers.per_surnames) AS patient_full_name,
+                    
+                    cli.cli_id AS client_id,
+                    cli.cli_name AS client_name,
+                    
                     pd.pd_disease_id,
                     dis.dis_name AS disease_name,
                     dt.dst_name AS disease_type,
@@ -100,12 +105,17 @@ class PatientDiseaseComponent:
                     TO_CHAR(pd.date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
                     pd.user_modified,
                     TO_CHAR(pd.date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified
+                
                 FROM ceragen.clinic_patient_disease pd
                 JOIN ceragen.clinic_disease_catalog dis ON pd.pd_disease_id = dis.dis_id AND dis.date_deleted IS NULL
                 LEFT JOIN ceragen.clinic_disease_type dt ON dis.dis_type_id = dt.dst_id AND dt.date_deleted IS NULL
                 JOIN ceragen.admin_patient pat ON pd.pd_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                JOIN ceragen.admin_person pers ON pat.pat_person_id = pers.per_id AND pers.date_deleted IS NULL
+                JOIN ceragen.admin_client cli ON pat.pat_client_id = cli.cli_id AND cli.date_deleted IS NULL
+                
                 WHERE pd.date_deleted IS NULL
                 ORDER BY pd.date_created DESC;
+
             """
             result = DataBaseHandle.getRecords(sql, 0)
             if result and result.get("result"):
@@ -116,33 +126,41 @@ class PatientDiseaseComponent:
             return internal_response(False, "Error al listar enfermedades", None)
 
     @staticmethod
-    def getPatientDiseaseById(pd_id: int):
+    def getDiseasesByPatientId(patient_id: int):
         try:
             sql = """
-                SELECT 
+                SELECT
                     pd.pd_id,
                     pd.pd_patient_id,
                     pat.pat_code AS patient_code,
+                    CONCAT(per.per_names, ' ', per.per_surnames) AS patient_full_name,
                     pd.pd_disease_id,
                     dis.dis_name AS disease_name,
                     dt.dst_name AS disease_type,
                     pd.pd_notes,
                     pd.pd_is_current,
+                    CASE WHEN pd.pd_is_current THEN 'Actual' ELSE 'Pasada' END AS disease_status,
                     pd.user_created,
                     TO_CHAR(pd.date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
                     pd.user_modified,
                     TO_CHAR(pd.date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified
                 FROM ceragen.clinic_patient_disease pd
+                JOIN ceragen.admin_patient pat ON pd.pd_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                JOIN ceragen.admin_person per ON pat.pat_person_id = per.per_id AND per.date_deleted IS NULL
                 JOIN ceragen.clinic_disease_catalog dis ON pd.pd_disease_id = dis.dis_id AND dis.date_deleted IS NULL
                 LEFT JOIN ceragen.clinic_disease_type dt ON dis.dis_type_id = dt.dst_id AND dt.date_deleted IS NULL
-                JOIN ceragen.admin_patient pat ON pd.pd_patient_id = pat.pat_id AND pat.date_deleted IS NULL
-                WHERE pd.pd_id = %s AND pd.date_deleted IS NULL
+                WHERE pd.pd_patient_id = %s
+                  AND pd.date_deleted IS NULL
+                ORDER BY pd.pd_is_current DESC, pd.date_created DESC
             """
-            result = DataBaseHandle.getRecords(sql, 1, (pd_id,))
-            if not result or not result.get("result"):
-                return internal_response(False, "Enfermedad no encontrada", None)
 
-            return internal_response(True, "Enfermedad obtenida correctamente", result.get("data"))
+            result = DataBaseHandle.getRecords(sql, 0, (patient_id,))
+
+            result = DataBaseHandle.getRecords(sql, 0, (patient_id,))
+            if not result or not result.get("result"):
+                return internal_response(False, "No se encontraron enfermedades para el paciente", None)
+
+            return internal_response(True, "Enfermedades obtenidas correctamente", result.get("data"))
         except Exception as e:
-            HandleLogs.write_error(f"[getPatientDiseaseById] Error: {str(e)}")
-            return internal_response(False, "Error al obtener enfermedad", None)
+            HandleLogs.write_error(f"[getDiseasesByPatientId] Error: {str(e)}")
+            return internal_response(False, "Error al obtener enfermedades", None)

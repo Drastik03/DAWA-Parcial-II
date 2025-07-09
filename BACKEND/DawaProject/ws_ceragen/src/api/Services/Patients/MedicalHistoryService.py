@@ -190,32 +190,23 @@ class MedicalHistoryListByPatientIdService(Resource):
     Corresponde a GET /medical-histories/patient/<patient_id>
     """
     @staticmethod
-    def get(patient_id):
+    def get(hist_patient_id):
         try:
-            HandleLogs.write_log(f"Ejecutando servicio de Listar Historiales Médicos por Patient ID: {patient_id}")
+            HandleLogs.write_log(f"Ejecutando servicio de Listar Historiales Médicos por Patient ID: {hist_patient_id}")
 
             token = request.headers.get('tokenapp')
             if not token:
                 return response_error("Token no proporcionado.")
             if not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
-
-            # Llama al nuevo método del componente
-            result = MedicalHistoryComponent.getMedicalHistoriesByPatientId(patient_id)
-
+            result = MedicalHistoryComponent.getMedicalHistoriesByPatientId(hist_patient_id)
             if result.get("result"):
                 if result.get("data"):
-                    # Si el componente devuelve datos, los pasamos a response_success
                     return response_success(result.get("data"))
                 else:
-                    # Si no hay datos (lista vacía) pero la operación fue exitosa
                     return response_not_found()
             else:
-                # Si el componente reporta un error
                 return response_error(result.get("message"))
-
-
-
         except Exception as err:
             HandleLogs.write_error(f"Error inesperado en MedicalHistoryListByPatientIdService (GET): {str(err)}")
             return response_error("Error interno del servidor al listar historiales médicos por paciente")

@@ -1,4 +1,6 @@
 from flask_restful import Resource
+
+from .cloud_service import UploadImageService
 from ...Components.Admin.AdminProductComponent import AdminProductComponent
 from ....utils.general.logs import HandleLogs
 from flask import request
@@ -58,16 +60,14 @@ class AdminProductService_Add(Resource):
     @staticmethod
     def post():
         try:
-            token = request.headers.get('tokenapp')
+            token = request.headers.get("tokenapp")
             if not token:
                 return response_error("Error: No se ha podido obtener el token")
             if not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            data = request.get_json()
-            print("DESDE DATA PRODUCT: ",data)
-            if not data:
-                return response_error("Error en los datos para procesar")
+            data = request.form.to_dict()
+            file = request.files.get("file")
 
             schema = AdminProductSchema()
             errors = schema.validate(data)
@@ -75,30 +75,43 @@ class AdminProductService_Add(Resource):
                 HandleLogs.write_error("Error al validar el request -> " + str(errors))
                 return response_error("Error al validar el request -> " + str(errors))
 
+            if file:
+                upload_res = UploadImageService.upload_image(file, folder="products")
+                if not upload_res["result"]:
+                    return response_error(upload_res["message"])
+                data["pro_image_url"] = upload_res["url"]
+            else:
+                url_image = data.get("pro_image_url")
+                data["pro_image_url"] = url_image if url_image else None
+
+            data["user_created"] = TokenComponent.User(token)
+
             result = AdminProductComponent.add_product(data)
-            if result['result']:
-                return response_success("Id de Registro -> " + str(result['data']))
-            return response_error(result['message'])
+            if result["result"]:
+                return response_success("Id de Registro -> " + str(result["data"]))
+            return response_error(result["message"])
 
         except Exception as err:
             HandleLogs.write_error(err)
             return response_error(str(err))
 
 
-#MANEJA EL UPDATE
+
 class AdminProductService_Update(Resource):
     @staticmethod
     def patch():
         try:
-            token = request.headers.get('tokenapp')
+            token = request.headers.get("tokenapp")
             if not token:
                 return response_error("Error: No se ha podido obtener el token")
             if not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            data = request.get_json()
-            if not data:
-                return response_error("Error en los datos para procesar")
+            data = request.form.to_dict()
+            file = request.files.get("file")
+
+            if not data.get("pro_id"):
+                return response_error("Falta el ID del producto")
 
             schema = ProductUpdateRequest()
             errors = schema.validate(data)
@@ -106,16 +119,28 @@ class AdminProductService_Update(Resource):
                 HandleLogs.write_error("Error al validar el request -> " + str(errors))
                 return response_error("Error al validar el request -> " + str(errors))
 
+            if file:
+                upload_res = UploadImageService.upload_image(file, folder="products")
+                if not upload_res["result"]:
+                    return response_error(upload_res["message"])
+                data["pro_image_url"] = upload_res["url"]
+            else:
+                url_image = data.get("pro_image_url")
+                data["pro_image_url"] = url_image if url_image else None
+
+            data["user_process"] = TokenComponent.User(token)
+
             result = AdminProductComponent.update_product(data)
-            if result['result']:
-                if result['data']['data'] == 0:
+            if result["result"]:
+                if result["data"]["data"] == 0:
                     return response_not_found()
                 return response_success(data)
-            return response_error(result['message'])
+            return response_error(result["message"])
 
         except Exception as err:
             HandleLogs.write_error(err)
             return response_error(str(err))
+
 
 
 #MANEJA EL BORRADO

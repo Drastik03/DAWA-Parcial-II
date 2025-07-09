@@ -9,9 +9,8 @@ class MedicalHistoryInsertRequest(Schema):
     hist_related_trauma = fields.Bool(required=False, allow_none=True)
     hist_current_treatment = fields.Str(required=False, allow_none=True, validate=Length(max=1000))
     hist_notes = fields.Str(required=False, allow_none=True, validate=Length(max=1000))
-    user_created = fields.Str(required=True, validate=Length(min=1, max=50))
-    date_created = fields.DateTime(required=True, format='%Y-%m-%d %H:%M:%S')
-
+    user_created = fields.Str(required=True)
+    #date_created = fields.DateTime(dump_only=True)
 
 class MedicalHistoryUpdateRequest(Schema):
     hist_id = fields.Int(required=True, validate=validate.Range(min=1)) # ID es requerido para la actualización

@@ -129,6 +129,12 @@ class AdminExpenseComponent:
         v_message = None
         v_data = None
         try:
+            exp_date = data.get("exp_date")
+            if isinstance(exp_date, str):
+                try:
+                    exp_date = datetime.fromisoformat(exp_date.replace("Z", "+00:00"))
+                except Exception:
+                    exp_date = None
             sql = """
                     UPDATE ceragen.admin_expense 
                     SET exp_type_id = %s, exp_payment_method_id = %s, exp_date = %s, exp_amount = %s,
@@ -137,16 +143,17 @@ class AdminExpenseComponent:
                     WHERE exp_id = %s
                 """
             record = (
-                data["exp_type_id"],
-                data["exp_payment_method_id"],
-                data["exp_date"],
-                data["exp_amount"],
-                data.get("exp_description", None),
-                data.get("exp_receipt_number", None),
-                data["user_process"],
+                data.get("exp_type_id"),
+                data.get("exp_payment_method_id"),
+                exp_date,
+                data.get("exp_amount"),
+                data.get("exp_description"),
+                data.get("exp_receipt_number"),
+                data.get("user_process"),
                 datetime.now(),
-                data["exp_id"]
+                data.get("exp_id"),
             )
+
             v_data = DataBaseHandle.ExecuteNonQuery(sql, record)
             if v_data is not None:
                 v_result = True

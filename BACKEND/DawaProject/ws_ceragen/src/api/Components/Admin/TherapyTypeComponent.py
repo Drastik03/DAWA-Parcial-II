@@ -79,7 +79,7 @@ class TherapyTypeComponent:
             record = (
                 data["tht_name"],
                 data["tht_description"],
-                data["user_process"],
+                data["user_created"],
                 datetime.now(),
                 data["tht_id"]
             )

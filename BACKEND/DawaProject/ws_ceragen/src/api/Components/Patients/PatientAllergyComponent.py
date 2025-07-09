@@ -120,33 +120,37 @@ class PatientAllergyComponent:
             return internal_response(False, "Error al listar alergias", None)
 
     @staticmethod
-    def getPatientAllergyById(pa_id: int):
+    def getAllergiesByPatientId(patient_id: int):
         try:
-            HandleLogs.write_log(f"[getPatientAllergyById] Buscando pa_id={pa_id}")
+            HandleLogs.write_log(f"[getAllergiesByPatientId] Buscando alergias para paciente_id={patient_id}")
+
             sql = """
                 SELECT 
                     pa.pa_id, 
                     pa.pa_patient_id, 
                     pat.pat_code AS patient_code,
+                    CONCAT(per.per_names, ' ', per.per_surnames) AS patient_full_name,
                     pa.pa_allergy_id, 
                     al.al_name AS allergy_name,
                     pa.pa_reaction_description,
-                    TO_CHAR(pa.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                    TO_CHAR(pa.date_created, 'YYYY-MM-DD HH24:MI:SS') AS date_created,
                     pa.user_created, 
-                    TO_CHAR(pa.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                    TO_CHAR(pa.date_modified, 'YYYY-MM-DD HH24:MI:SS') AS date_modified,
                     pa.user_modified
                 FROM ceragen.clinic_patient_allergy pa
                 JOIN ceragen.admin_patient pat ON pa.pa_patient_id = pat.pat_id AND pat.date_deleted IS NULL
+                JOIN ceragen.admin_person per ON pat.pat_person_id = per.per_id AND per.date_deleted IS NULL
                 LEFT JOIN ceragen.clinic_allergy_catalog al ON pa.pa_allergy_id = al.al_id AND al.date_deleted IS NULL
-                WHERE pa.pa_id = %s AND pa.date_deleted IS NULL
+                WHERE pa.pa_patient_id = %s AND pa.date_deleted IS NULL
+                ORDER BY pa.date_created DESC
             """
 
+            result = DataBaseHandle.getRecords(sql, 0, (patient_id,))
+            if not result or not result.get("result"):
+                return internal_response(False, "No se encontraron alergias para el paciente", None)
 
-            result = DataBaseHandle.getRecords(sql, 1, (pa_id,))
-            HandleLogs.write_log(f"[getPatientAllergyById] Resultado: {result}")
-            if result.get("result"):
-                return internal_response(True, "Alergia encontrada", result.get("data"))
-            return internal_response(False, "Alergia no encontrada", None)
+            return internal_response(True, "Alergias obtenidas correctamente", result.get("data"))
+
         except Exception as e:
-            HandleLogs.write_error(f"[getPatientAllergyById] Error: {str(e)}")
-            return internal_response(False, "Error al obtener alergia", None)
+            HandleLogs.write_error(f"[getAllergiesByPatientId] Error: {str(e)}")
+            return internal_response(False, "Error al obtener alergias", None)

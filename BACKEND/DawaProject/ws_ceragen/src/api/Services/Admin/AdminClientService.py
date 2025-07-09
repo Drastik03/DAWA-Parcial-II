@@ -74,7 +74,7 @@ class AdminClientService_GetById(Resource):
             res = AdminClientComponent.GetClientById(cli_id)
             return response_success(res) if res and res["data"] else response_not_found()
         except Exception as err:
-            HandleLogs.write_error(err)
+            HandleLogs.write_error(str(err))
             return response_error(str(err))
 
 
@@ -93,6 +93,8 @@ class AdminClientServiceAdd(Resource):
                 return response_error("Datos inválidos")
 
             schema = ClientCreateRequest()
+            HandleLogs.write_error("DESDE CLIENT SERVICE SCHEMA " + str(schema))
+
             errors = schema.validate(data)
             if errors:
                 HandleLogs.write_error("Errores en validación: " + str(errors))
@@ -120,6 +122,8 @@ class AdminClientServiceUpdate(Resource):
                 return response_unauthorize()
 
             data = request.get_json()
+            HandleLogs.write_error("DESDE CLIENT SERVICE"+str(data))
+
             if not data or not data.get("cli_id"):
                 return response_error("Datos inválidos o ID faltante")
 
@@ -131,6 +135,8 @@ class AdminClientServiceUpdate(Resource):
 
             data["user_process"] = TokenComponent.User(token)
             result = AdminClientComponent.UpdateClient(data)
+            HandleLogs.write_error("DESDE CLIENT SERVICE " + str(result))
+
             if result["result"]:
                 return response_success("Cliente actualizado correctamente")
             return response_error(result["message"])

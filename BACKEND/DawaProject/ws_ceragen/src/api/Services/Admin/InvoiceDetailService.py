@@ -130,3 +130,23 @@ class AdminInvoiceDetailService_Delete(Resource):
         except Exception as err:
             HandleLogs.write_error(err)
             return response_error(str(err))
+
+class AdminInvoiceDetailService_GetByInvoiceId(Resource):
+    @staticmethod
+    def get(int_invoice_id):
+        try:
+            HandleLogs.write_log(f"Consulta de detalles de factura por Invoice ID {int_invoice_id}")
+            token = request.headers.get('tokenapp')
+            if not token:
+                return response_error("Token no proporcionado")
+            if not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            res = AdminInvoiceDetailComponent.GetByInvoiceId(int_invoice_id)
+            if res and res["result"]:
+                data = convert_decimal_to_float(res["data"])
+                return response_success(data) if data else response_not_found()
+            return response_not_found("No se encontraron detalles para esta factura")
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return response_error(str(err))

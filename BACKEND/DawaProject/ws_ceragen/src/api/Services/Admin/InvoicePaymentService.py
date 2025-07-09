@@ -159,3 +159,20 @@ class AdminInvoicePaymentService_Delete(Resource):
             return response_error(str(err))
 
 
+class AdminInvoicePaymentService_GetByInvoiceId(Resource):
+    @staticmethod
+    def get(inv_id):
+        try:
+            HandleLogs.write_log(f"Consulta de pagos por invoice_id {inv_id}")
+
+            token = request.headers.get('tokenapp')
+            if not token:
+                return response_error("Token no proporcionado")
+            if not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            res = InvoicePaymentComponent.GetPaymentsByInvoiceId(inv_id)
+            return response_success(res["data"]) if res and res["result"] else response_not_found()
+        except Exception as err:
+            HandleLogs.write_error(err)
+            return response_error(str(err))

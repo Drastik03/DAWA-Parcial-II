@@ -2,7 +2,7 @@ from marshmallow import Schema, fields
 from ..ValidateDataRequest import ValidateDataRequestSchema
 
 class AdminProductSchema(Schema):
-    pro_code = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)
+    #pro_code = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)
     pro_name = fields.String(required=True, validate=ValidateDataRequestSchema.validate_string_not_empty)
     pro_description = fields.String(allow_none=True)
     pro_price = fields.Decimal(required=True, as_string=True)

@@ -5,6 +5,8 @@ class PatientDiseaseInsertRequest(Schema):
     pd_disease_id = fields.Int(required=True)
     pd_notes = fields.Str(allow_none=True)
     user_created = fields.Str(required=True)
+    pd_is_current = fields.Boolean(required=True)
+
 
 class PatientDiseaseUpdateRequest(Schema):
     pd_disease_id = fields.Int(required=True)
