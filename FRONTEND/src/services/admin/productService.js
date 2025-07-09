@@ -22,24 +22,6 @@ export const createProduct = async (formData) => {
 	}
 };
 
-export const editProduct = async (formData) => {
-	try {
-		const response = await axios.patch(`${API_URL}/update`, formData, {
-			headers: {
-				"Content-Type": "multipart/form-data",
-				tokenapp: Cookies.get("token"),
-			},
-		});
-		return response.data;
-	} catch (error) {
-		console.error("Error al editar producto:", error);
-		if (error.response && error.response.data) {
-			return error.response.data;
-		}
-		return { result: false, message: "Error desconocido al editar producto" };
-	}
-};
-
 export const deleteProduct = async (pro_id) => {
 	try {
 		const response = await axios.delete(`${API_URL}/delete/${pro_id}`, {
@@ -54,5 +36,23 @@ export const deleteProduct = async (pro_id) => {
 			return error.response.data;
 		}
 		return { result: false, message: "Error desconocido al eliminar producto" };
+	}
+};
+
+export const editProductData = async (formData) => {
+	try {
+		const response = await axios.patch(`${API_URL}/update`, formData, {
+			headers: {
+				"Content-Type": "multipart/form-data",
+				tokenapp: Cookies.get("token"),
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error al editar producto:", error);
+		if (error.response && error.response.data) {
+			return error.response.data;
+		}
+		return { result: false, message: "Error desconocido al editar producto" };
 	}
 };

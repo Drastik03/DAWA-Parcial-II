@@ -80,7 +80,7 @@ export default function InvoiceDataOverview() {
 					headers: { tokenapp: token },
 				},
 			);
-			console.log("Taxes response:", res.data.data);
+			console.log("Taxes response:", res.data.data.data);
 			return extractDataArray(res);
 		} catch (err) {
 			if (
@@ -124,6 +124,9 @@ export default function InvoiceDataOverview() {
 		Promise.all([fetchDetails(), fetchTaxes(), fetchPayments()])
 			.then(([det, tax, pay]) => {
 				setDetails(det);
+				console.log(tax);
+				console.log(pay);
+
 				setTaxes(tax);
 				setPayments(pay);
 			})
@@ -161,7 +164,7 @@ export default function InvoiceDataOverview() {
 			</Typography>
 			<Grid container direction="column" spacing={4}>
 				<Grid item>
-					<TaxTable rows={taxes} />
+					<TaxTable taxes={taxes} />
 				</Grid>
 				<Grid item>
 					<InvoiceDetailTable rows={details} />
