@@ -1,6 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
-import { createContext, useContext, useState, useEffect } from "react";
+import {
+	createContext,
+	useContext,
+	useState,
+	useEffect,
+	useCallback,
+} from "react";
 import Cookies from "js-cookie";
 import axios from "axios";
 
@@ -16,49 +22,55 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
-	const [token, setToken] = useState(null);
+	const [token, setToken] = useState(() => Cookies.get("token") || null);
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [loginId, setLoginId] = useState(null);
 	const [role, setRole] = useState(null);
 	const [menuRole, setMenuRole] = useState([]);
 
-	useEffect(() => {
-		async function checkAuth() {
-			setLoading(true);
-			const storedToken = Cookies.get("token");
-			if (storedToken) {
-				setToken(storedToken);
-				setIsAuthenticated(true);
-				try {
-					const response = await axios.get(
-						"http://localhost:5000/user/actulization/data",
-						{
-							headers: { tokenapp: `${storedToken}` },
-						},
-					);
-					setUser(response.data.data);
-					setRole(response.data.data.rols[0]);
-					setLoginId(response.data.data.user.slo_id);
-					setMenuRole(response.data.data.rols);
-					console.log(response.data.data.rols);
-				} catch (error) {
-					console.error("Error al validar el token:", error);
-					setIsAuthenticated(false);
-					setUser(null);
-				} finally {
-					setLoading(false);
-				}
-			} else {
-				setIsAuthenticated(false);
-				setUser(null);
-				setLoading(false);
-			}
+	const checkAuth = useCallback(async () => {
+		setLoading(true);
+		if (!token) {
+			setIsAuthenticated(false);
+			setUser(null);
+			setRole(null);
+			setLoginId(null);
+			setMenuRole([]);
+			setLoading(false);
+			return;
 		}
-		checkAuth();
-	}, []);
+		try {
+			const response = await axios.get(
+				"http://localhost:5000/user/actulization/data",
+				{
+					headers: { tokenapp: token },
+				},
+			);
+			const data = response.data.data;
 
-	const login = (tokenValue) => {
+			setUser(data);
+			setRole(data.rols?.[0] || null);
+			setLoginId(data.user?.slo_id || null);
+			setMenuRole(data.rols || []);
+			setIsAuthenticated(true);
+		} catch (error) {
+			console.error("Error al validar el token:", error);
+			setIsAuthenticated(false);
+			setUser(null);
+			setRole(null);
+			setLoginId(null);
+			setMenuRole([]);
+		} finally {
+			setLoading(false);
+		}
+	}, [token]);
+
+	useEffect(() => {
+		checkAuth();
+	}, [checkAuth]);
+
+	const login = useCallback((tokenValue) => {
 		Cookies.set("token", tokenValue, {
 			secure: true,
 			sameSite: "Strict",
@@ -67,15 +79,17 @@ export const AuthProvider = ({ children }) => {
 		});
 		setToken(tokenValue);
 		setIsAuthenticated(true);
-	};
+	}, []);
 
-	const logout = () => {
+	const logout = useCallback(() => {
 		Cookies.remove("token");
 		setToken(null);
 		setUser(null);
 		setIsAuthenticated(false);
-		setMenuRole(null);
-	};
+		setRole(null);
+		setLoginId(null);
+		setMenuRole([]);
+	}, []);
 
 	return (
 		<AuthContext.Provider

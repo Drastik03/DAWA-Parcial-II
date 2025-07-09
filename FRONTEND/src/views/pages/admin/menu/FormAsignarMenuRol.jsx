@@ -31,7 +31,6 @@ const FormAsignarMenuRol = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-	// Fetch roles and menus para los selects/autocomplete
 	const { data: rolesData } = useFetch("http://localhost:5000/RolSistem/list");
 	const { data: menusData } = useFetch("http://localhost:5000/Menu/list");
 

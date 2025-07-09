@@ -169,7 +169,6 @@ const ExpenseTypeList = () => {
 		}
 	};
 
-	// Estado para nuevo tipo de gasto
 	const [newExpenseType, setNewExpenseType] = useState({
 		ext_name: "",
 		ext_description: "",

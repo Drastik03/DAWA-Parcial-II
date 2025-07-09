@@ -195,7 +195,7 @@ const PromotionTable = () => {
 			ppr_product_id: null,
 			ppr_start_date: "",
 			ppr_end_date: "",
-		}); // reset del formulario para limpiar
+		}); 
 	};
 	const { user } = useAuth();
 

@@ -4,11 +4,27 @@ import Loadable from "../layouts/full/shared/loadable/Loadable";
 import { Protected } from "../components/auth/Protected";
 import GenreTableList from "../views/pages/admin/genre/GenreTable";
 import PromotionTableList from "../views/pages/admin/promotion/PromotionTable";
-import ExpenseReport from "../views/pages/admin/expense/ExpenseReport";
 import ExpenseReportPagination from "../views/pages/admin/expense/ExpenseReport";
 import FormExpenseRegister from "../views/pages/admin/expense/RegisterExpense";
 import ExpenseTypeList from "../views/pages/admin/expense/ExpenseTypeList";
 import AuditTableList from "../views/pages/admin/audit/AuditTable";
+import PersonalMedical from "../views/pages/admin/medicalStaff/PersonalMedical";
+import MedicPersonType from "../views/pages/admin/medical/MedicPersonType";
+import MethodPaymentTable from "../views/pages/admin/payment/MethodPaymentTable";
+import TherapyTypeTable from "../views/pages/admin/therapy/TherapyTypeTable";
+import ClientsPage from "../views/pages/admin/clients/ClientsPage";
+import PatientPage from "../views/pages/patients/medical-patient/PatientPage";
+import { PatientDiseasePage } from "../views/pages/patients/medical-patient/patientdetail/PatientDiseasePage";
+import PatientAllergyPage from "../views/pages/patients/patient-allergy/PatientAllergyPage.JSX";
+import PatientMedicalHistoryPage from "../views/pages/patients/medical-histories/PatientMedicalHistoryPage";
+import TherapySessionsByNurseReport from "../views/pages/patients/sessions/TherapySessionsByNurseReport";
+import SessionTablePage from "../views/pages/patients/sessions/newSesion/SessionTablePage";
+import InvoicePage from "../views/pages/admin/invoice/normalInvoice/InvoicePage";
+import TaxPage from "../views/pages/admin/tax/TaxPage";
+import { patch } from "@mui/system";
+import DiseaseTypePage from "../views/pages/patients/diseasse-type/DiseaseTypePage";
+import DiseasePage from "../views/pages/patients/dissease-catalog/DiseasePage";
+import InvoiceDataOverview from "../views/pages/admin/invoice/overview/InvoiceDataOverview";
 
 // Layouts
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
@@ -168,6 +184,75 @@ const Router = [
 					{
 						path: "Auditoria/commandsql",
 						element: <AuditTableList />,
+					},
+
+					{
+						path: "/admin/medicos",
+						element: <PersonalMedical />,
+					},
+					{
+						path: "/admin/medicos/type",
+						element: <MedicPersonType />,
+					},
+					{
+						path: "/admin/payment/method",
+						element: <MethodPaymentTable />,
+					},
+					{
+						path: "/admin/therapy/type",
+						element: <TherapyTypeTable />,
+					},
+					{
+						path: "/admin/therapy/type",
+						element: <TherapyTypeTable />,
+					},
+					{
+						path: "/clients",
+						element: <ClientsPage />,
+					},
+					{
+						path: "/pacients/list",
+						element: <PatientPage />,
+					},
+					{
+						path: "/clinic/patients/:patientId/diseases",
+						element: <PatientDiseasePage />,
+					},
+					{
+						path: "/clinic/patients/:patientId/allergy",
+						element: <PatientAllergyPage />,
+					},
+					{
+						path: "clinic/patients/:patientId/medical-history",
+						element: <PatientMedicalHistoryPage />,
+					},
+					{
+						path: "session/reports",
+						element: <TherapySessionsByNurseReport />,
+					},
+					{
+						path: "session/therapy",
+						element: <SessionTablePage />,
+					},
+					{
+						path: "tax",
+						element: <TaxPage />,
+					},
+					{
+						path: "disease/type",
+						element: <DiseaseTypePage />,
+					},
+					{
+						path: "disease/catalog",
+						element: <DiseasePage />,
+					},
+					{
+						path: "invoice",
+						element: <InvoicePage />,
+					},
+					{
+						path: "/invoice/:id/details/view",
+						element: <InvoiceDataOverview />,
 					},
 				],
 			},

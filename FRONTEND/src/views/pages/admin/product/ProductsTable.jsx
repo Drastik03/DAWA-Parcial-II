@@ -34,7 +34,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import { DeleteOutline, EditOutlined } from "@mui/icons-material";
 import { useNavigate } from "react-router";
-import ProductEditModal from "./ProductEditModal"; 
+import ProductEditModal from "./ProductEditModal";
 import { deleteProduct } from "../../../../services/admin/productService";
 
 function Row({ row, onEdit, onDelete }) {
@@ -188,6 +188,7 @@ const ProductsTable = () => {
 		"http://localhost:5000/admin/product/list",
 	);
 	const navigate = useNavigate();
+	const [searchTerm, setSearchTerm] = useState("");
 
 	const [editModalOpen, setEditModalOpen] = useState(false);
 	const [selectedProduct, setSelectedProduct] = useState(null);
@@ -203,6 +204,17 @@ const ProductsTable = () => {
 	const { data: therapies } = useFetch(
 		"http://localhost:5000/admin/therapy-type/list",
 	);
+
+	const filteredRows = useMemo(() => {
+		if (!data?.data) return [];
+		const search = searchTerm.trim().toLowerCase();
+		if (!search) return data.data;
+
+		return data.data.filter((row) => {
+			const name = row.pro_name || "";
+			return name.toLowerCase().includes(search);
+		});
+	}, [data, searchTerm]);
 	const therapyOptions = therapies?.data || [];
 	const handleOpenEditModal = (product) => {
 		setSelectedProduct(product);
@@ -267,6 +279,7 @@ const ProductsTable = () => {
 				variant="contained"
 				color="primary"
 				startIcon={
+					// biome-ignore lint/a11y/noSvgWithoutTitle: <explanation>
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						height="24"
@@ -318,14 +331,22 @@ const ProductsTable = () => {
 								</TableRow>
 							</TableHead>
 							<TableBody>
-								{rows.map((row) => (
-									<Row
-										key={row.pro_id}
-										row={row}
-										onEdit={handleOpenEditModal}
-										onDelete={handleOpenDeleteDialog}
-									/>
-								))}
+								{filteredRows.length > 0 ? (
+									filteredRows.map((row) => (
+										<Row
+											key={row.pro_id}
+											row={row}
+											onEdit={handleOpenEditModal}
+											onDelete={handleOpenDeleteDialog}
+										/>
+									))
+								) : (
+									<TableRow>
+										<TableCell colSpan={7} align="center">
+											No se encontraron productos.
+										</TableCell>
+									</TableRow>
+								)}
 							</TableBody>
 						</Table>
 					</TableContainer>
