@@ -15,7 +15,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
-import { insertMenuRol } from "../../../../services/admin/MenuRolService";
+import { insertMenuRol } from "../../../../services/admin/menurolservice";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Asignar Menú a Rol" }];
 

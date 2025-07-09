@@ -36,8 +36,8 @@ import {
 	DeleteOutlined,
 	EditOutlined,
 } from "@mui/icons-material";
-import { updateRole } from "../../services/admin/roleService";
-import { deleteRole } from "../../services/admin/roleService";
+import { updateRole } from "../../services/admin/rolservice";
+import { deleteRole } from "../../services/admin/rolservice";
 import { useNavigate } from "react-router";
 
 function TablePaginationActions(props) {

@@ -33,7 +33,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import EditPayment from "./EditPayment";
-import { createPaymentMethod } from "../../../../services/admin/paymentTypeService";
+import { createPaymentMethod } from "../../../../services/admin/paymenttypeservice";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Tipos de Pago" }];
 
@@ -247,6 +247,7 @@ const PaymentMethodTable = () => {
 			>
 				<DialogTitle>Crear Tipo de Pago</DialogTitle>
 				<DialogContent>
+					{/** biome-ignore lint/nursery/useUniqueElementIds: <explanation> */}
 					<form
 						id="create-payment-form"
 						onSubmit={handleSubmit(onSubmitCreate)}

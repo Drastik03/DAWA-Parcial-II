@@ -42,7 +42,7 @@ import {
 	createPromotion,
 	deletePromotion,
 	updatePromotion,
-} from "../../../../services/admin/PromotionService";
+} from "../../../../services/admin/promotionSevice";
 
 function Row({ row, onEdit, onDelete }) {
 	const [open, setOpen] = useState(false);
@@ -195,7 +195,7 @@ const PromotionTable = () => {
 			ppr_product_id: null,
 			ppr_start_date: "",
 			ppr_end_date: "",
-		}); 
+		});
 	};
 	const { user } = useAuth();
 

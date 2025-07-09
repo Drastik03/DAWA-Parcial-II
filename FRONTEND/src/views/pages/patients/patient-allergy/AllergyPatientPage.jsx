@@ -29,7 +29,7 @@ import { useAuth } from "../../../../context/AuthContext";
 
 const API_BASE = "http://localhost:5000/";
 
-const PatientAllergyPage = () => {
+const AllergyPatientPage = () => {
 	const { patientId } = useParams();
 	const { user } = useAuth();
 
@@ -241,4 +241,4 @@ const PatientAllergyPage = () => {
 	);
 };
 
-export default PatientAllergyPage;
+export default AllergyPatientPage;

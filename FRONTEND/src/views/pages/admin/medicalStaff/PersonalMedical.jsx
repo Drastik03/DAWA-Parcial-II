@@ -31,7 +31,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import {
 	createPersonalMedical,
 	deletePersonalMedical,
-} from "../../../../services/admin/PersonalMedicalService";
+} from "../../../../services/admin/personalmedicalservice";
 import { useForm, Controller } from "react-hook-form";
 import EditModalPersonalMedical from "./EditModalPersonalMedical";
 
@@ -62,7 +62,7 @@ const PersonalMedical = () => {
 	};
 
 	const handleDelete = async (med_id) => {
-		if (!med_id) return; 
+		if (!med_id) return;
 
 		const userDeleted = user.user.user_login_id;
 		const res = await deletePersonalMedical(med_id, userDeleted);
@@ -71,7 +71,7 @@ const PersonalMedical = () => {
 			setSnackbarSeverity("success");
 			setSnackbarMessage("Personal médico eliminado correctamente.");
 			refetch();
-			setDeleteDialogOpen(false); 
+			setDeleteDialogOpen(false);
 		} else {
 			setSnackbarSeverity("error");
 			setSnackbarMessage(res.message || "Error al eliminar personal médico.");

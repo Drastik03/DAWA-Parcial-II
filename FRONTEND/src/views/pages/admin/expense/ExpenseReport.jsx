@@ -28,7 +28,7 @@ import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import { useFetch } from "../../../../hooks/useFetch";
-import ExpenseEditModal from "./ExpenseEditModal.JSX";
+import EditExpenseModal from "./EditExpenseModal";
 
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
 	const theme = useTheme();
@@ -305,7 +305,7 @@ const ExpenseReport = () => {
 				</TableContainer>
 			</Paper>
 
-			<ExpenseEditModal
+			<EditExpenseModal
 				open={editModalOpen}
 				onClose={handleEditClose}
 				expense={selectedToEdit}

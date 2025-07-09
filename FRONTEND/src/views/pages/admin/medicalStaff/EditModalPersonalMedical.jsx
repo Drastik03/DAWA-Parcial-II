@@ -11,7 +11,7 @@ import {
 	Autocomplete,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
-import { updatePersonalMedical } from "../../../../services/admin/PersonalMedicalService";
+import { updatePersonalMedical } from "../../../../services/admin/personalmedicalservice";
 import { useAuth } from "../../../../context/AuthContext";
 
 const EditModalPersonalMedical = ({

@@ -30,7 +30,7 @@ import {
 	createMarital,
 	deleteMarital,
 	updateMarital,
-} from "../../../../services/admin/MaritalService";
+} from "../../../../services/admin/maritalstatus";
 import { useAuth } from "../../../../context/AuthContext";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Estados Civiles" }];

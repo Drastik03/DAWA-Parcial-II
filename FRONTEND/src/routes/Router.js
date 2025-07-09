@@ -24,7 +24,7 @@ import { patch } from "@mui/system";
 import DiseaseTypePage from "../views/pages/patients/diseasse-type/DiseaseTypePage";
 import DiseasePage from "../views/pages/patients/dissease-catalog/DiseasePage";
 import InvoiceDataOverview from "../views/pages/admin/invoice/overview/InvoiceDataOverview";
-import PatientAllergyPage from "../views/pages/patients/patient-allergy/PatientAllergyPage.JSX";
+import AllergyPatientPage from "../views/pages/patients/patient-allergy/AllergyPatientPage";
 
 // Layouts
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
@@ -220,7 +220,7 @@ const Router = [
 					},
 					{
 						path: "/clinic/patients/:patientId/allergy",
-						element: <PatientAllergyPage />,
+						element: <AllergyPatientPage />,
 					},
 					{
 						path: "clinic/patients/:patientId/medical-history",

@@ -215,6 +215,7 @@ const MedicPersonType = () => {
 			>
 				<DialogTitle>Crear Tipo de Personal Médico</DialogTitle>
 				<DialogContent>
+					{/** biome-ignore lint/nursery/useUniqueElementIds: <explanation> */}
 					<form id="create-form" onSubmit={handleSubmit(onSubmitCreate)}>
 						<Controller
 							name="mpt_name"

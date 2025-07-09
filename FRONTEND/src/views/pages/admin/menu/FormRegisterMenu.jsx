@@ -15,7 +15,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
-import { insertMenu } from "../../../../services/admin/MenuService";
+import { insertMenu } from "../../../../services/admin/menuservice";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Registrar Menú" }];
 

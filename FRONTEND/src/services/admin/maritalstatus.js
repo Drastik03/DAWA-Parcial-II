@@ -36,7 +36,7 @@ export const createMarital = async (payload) => {
 				tokenapp: Cookies.get("token"),
 			},
 		});
-		return response.data; 
+		return response.data;
 	} catch (error) {
 		console.error("Error creando estado civil:", error);
 		return {

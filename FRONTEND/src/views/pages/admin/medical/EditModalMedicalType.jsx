@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../../../context/AuthContext";
-import { updateMedicalPersonType } from "../../../../services/admin/MedicalTypeService";
+import { updateMedicalPersonType } from "../../../../services/admin/medicaltypeperson";
 
 const EditModalMedicalType = ({ open, onClose, selectedData, onUpdate }) => {
 	const { user } = useAuth();

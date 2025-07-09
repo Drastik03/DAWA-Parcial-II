@@ -14,7 +14,6 @@ import {
 import { Controller, useForm } from "react-hook-form";
 import CustomTextField from "../../../../components/forms/theme-elements/CustomTextField";
 import CustomFormLabel from "../../../../components/forms/theme-elements/CustomFormLabel";
-import { editProduct } from "../../../../services/admin/productService";
 import { useAuth } from "../../../../context/AuthContext";
 
 const ProductEditModal = ({

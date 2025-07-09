@@ -16,7 +16,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
-import { asignarRole } from "../../../../services/admin/UserRoleService";
+import { asignarRole } from "../../../../services/admin/usersRoleService";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Asignar Rol" }];
 

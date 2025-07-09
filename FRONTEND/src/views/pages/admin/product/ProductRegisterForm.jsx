@@ -67,7 +67,7 @@ const ProductRegisterForm = () => {
 				setSnackbarSeverity("success");
 				setOpenSnackbar(true);
 				reset();
-				setImageFile(null); 
+				setImageFile(null);
 			} else {
 				setSnackbarMessage(`Error: ${res.message || "No se pudo registrar"}`);
 				setSnackbarSeverity("error");
