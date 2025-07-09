@@ -15,7 +15,6 @@ import TherapyTypeTable from "../views/pages/admin/therapy/TherapyTypeTable";
 import ClientsPage from "../views/pages/admin/clients/ClientsPage";
 import PatientPage from "../views/pages/patients/medical-patient/PatientPage";
 import { PatientDiseasePage } from "../views/pages/patients/medical-patient/patientdetail/PatientDiseasePage";
-import PatientAllergyPage from "../views/pages/patients/patient-allergy/PatientAllergyPage.JSX";
 import PatientMedicalHistoryPage from "../views/pages/patients/medical-histories/PatientMedicalHistoryPage";
 import TherapySessionsByNurseReport from "../views/pages/patients/sessions/TherapySessionsByNurseReport";
 import SessionTablePage from "../views/pages/patients/sessions/newSesion/SessionTablePage";
@@ -25,6 +24,7 @@ import { patch } from "@mui/system";
 import DiseaseTypePage from "../views/pages/patients/diseasse-type/DiseaseTypePage";
 import DiseasePage from "../views/pages/patients/dissease-catalog/DiseasePage";
 import InvoiceDataOverview from "../views/pages/admin/invoice/overview/InvoiceDataOverview";
+import PatientAllergyPage from "../views/pages/patients/patient-allergy/PatientAllergyPage.JSX";
 
 // Layouts
 const FullLayout = Loadable(lazy(() => import("../layouts/full/FullLayout")));
