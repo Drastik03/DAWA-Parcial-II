@@ -15,7 +15,7 @@ class AdminDashboardComponent:
             """
             data = DataBaseHandle.getRecords(query, 0)
             res = convert_decimal_to_float(data)
-            return internal_response(True, "Dashboard obtenido correctamente.", resg)
+            return internal_response(True, "Dashboard obtenido correctamente.", res)
         except Exception as err:
             HandleLogs.write_error(err)
             return internal_response(False, f"Error al obtener el dashboard de pago: {err}", [])

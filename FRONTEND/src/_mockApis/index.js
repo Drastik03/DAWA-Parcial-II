@@ -1,6 +1,5 @@
-import mock from './mock';
-import './ticket/TicketData';
-import './userprofile/PostData';
-import './userprofile/UsersData';
+import mock from "./mock";
+import "./userprofile/PostData";
+import "./userprofile/UsersData";
 
 mock.onAny().passThrough();

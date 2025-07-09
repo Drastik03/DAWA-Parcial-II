@@ -15,7 +15,7 @@ import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
-import { insertMenuRol } from "../../../../services/admin/MenuRolService";
+import { insertMenuRol } from "../../../../services/admin/menurolservice";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Asignar Menú a Rol" }];
 
@@ -31,7 +31,6 @@ const FormAsignarMenuRol = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-	// Fetch roles and menus para los selects/autocomplete
 	const { data: rolesData } = useFetch("http://localhost:5000/RolSistem/list");
 	const { data: menusData } = useFetch("http://localhost:5000/Menu/list");
 

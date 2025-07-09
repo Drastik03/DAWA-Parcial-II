@@ -71,18 +71,37 @@ class DiseaseCatalogComponent:
     def listDiseaseCatalog():
         try:
             sql = """
-                SELECT dis_id,
-                       dis_name,
-                       dis_description,
-                       dis_type_id,
-                       dis_state,
-                       user_created,
-                       TO_CHAR(date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
-                       user_modified,
-                       TO_CHAR(date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified
-                FROM ceragen.clinic_disease_catalog
-                WHERE date_deleted IS NULL AND dis_state = TRUE;
-            """
+                       SELECT
+                           cdc.dis_id,
+                           cdt.dst_name,
+                           cdc.dis_name,
+                           cdc.dis_description,
+                           cdc.dis_state,
+                           cdc.user_created,
+                           TO_CHAR(cdc.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                           cdc.user_modified,
+                           TO_CHAR(cdc.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                           cdc.user_deleted,
+                           TO_CHAR(cdc.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS date_deleted,
+
+                           cdt.dst_id,
+                           cdt.dst_name AS disease_type_name,
+                           cdt.dst_description AS disease_type_description,
+                           cdt.dst_state,
+                           cdt.user_created AS disease_type_user_created,
+                           TO_CHAR(cdt.date_created, 'DD/MM/YYYY HH24:MI:SS') AS disease_type_date_created,
+                           cdt.user_modified AS disease_type_user_modified,
+                           TO_CHAR(cdt.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS disease_type_date_modified,
+                           cdt.user_deleted AS disease_type_user_deleted,
+                           TO_CHAR(cdt.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS disease_type_date_deleted
+                       FROM ceragen.clinic_disease_catalog cdc
+                       LEFT JOIN ceragen.clinic_disease_type cdt
+                           ON cdc.dis_type_id = cdt.dst_id
+                       WHERE cdc.date_deleted IS NULL
+                         AND cdc.dis_state = TRUE
+                         AND (cdt.date_deleted IS NULL OR cdt.date_deleted IS NOT NULL) -- Opcional, puedes filtrar solo tipos activos si quieres
+                       ORDER BY cdc.dis_id;
+                   """
             result = DataBaseHandle.getRecords(sql,0)
             if result.get("result"):
                 return internal_response(True, "Datos obtenidos correctamente", result.get("data"))

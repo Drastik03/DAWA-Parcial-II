@@ -1,10 +1,11 @@
-#Permitir conectarme a una base de datos PostgreSQl
+# Permitir conectarme a una base de datos PostgreSQL
 import psycopg2
 import psycopg2.extras
 from psycopg2.extras import RealDictCursor
 from ..general.config import Parametros
 from ..general.logs import HandleLogs
 from ..general.response import internal_response
+
 
 def conn_db():
     return psycopg2.connect(host=Parametros.db_host,
@@ -13,12 +14,18 @@ def conn_db():
                             password=Parametros.db_pass,
                             database=Parametros.db_name,
                             cursor_factory=RealDictCursor)
+
+
 print("Base actual:", Parametros.db_host, Parametros.db_name)
 
+
 class DataBaseHandle:
-    #Nuestros Metodos para ejecutar sentencias.
+    # Nuestros Metodos para ejecutar sentencias.
+
     @staticmethod
-    def getRecords(query,  tamanio, record=()):
+    def getRecords(query, tamanio, record=()):
+        conn = None
+        cursor = None
         try:
             res = None
             result = False
@@ -33,7 +40,6 @@ class DataBaseHandle:
             # tamanio es 0 todos, 1 solo uno, > 1 n registros
             if tamanio == 0:
                 res = cursor.fetchall()
-
             elif tamanio == 1:
                 res = cursor.fetchone()
             else:
@@ -45,12 +51,16 @@ class DataBaseHandle:
             HandleLogs.write_error(ex)
             message = ex.__str__()
         finally:
-            cursor.close()
-            conn.close()
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
             return internal_response(result, message, res)
 
     @staticmethod
     def getRecord(query, tamanio, record=()):
+        conn = None
+        cursor = None
         try:
             conn = conn_db()
             cursor = conn.cursor()
@@ -70,12 +80,15 @@ class DataBaseHandle:
         except Exception as ex:
             HandleLogs.write_error(ex)
         finally:
-            cursor.close()
-            conn.close()
-
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
 
     @staticmethod
     def execute(query, record=()):
+        conn = None
+        cursor = None
         try:
             conn = conn_db()
             cursor = conn.cursor()
@@ -90,12 +103,15 @@ class DataBaseHandle:
             HandleLogs.write_error(f"execute - {ex}")
             return False
         finally:
-            cursor.close()
-            conn.close()
-    
-    
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
+
     @staticmethod
     def ExecuteNonQuery(query, record):
+        conn = None
+        cursor = None
         try:
             res = None
             result = False
@@ -124,13 +140,17 @@ class DataBaseHandle:
             message = error_message.split('\nCONTEXT:')[0]
 
         finally:
-            cursor.close()
-            conn.close()
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
             return internal_response(result, message, res)
 
-    #Aplicar cuando el script SQL usa  RETURNING
+    # Aplicar cuando el script SQL usa RETURNING
     @staticmethod
     def ExecuteInsert(query, record=()):
+        conn = None
+        cursor = None
         try:
             res = None
             result = False
@@ -152,7 +172,8 @@ class DataBaseHandle:
             error_message = ex.__str__()
             message = error_message.split('\nCONTEXT:')[0]
         finally:
-            cursor.close()
-            conn.close()
+            if cursor:
+                cursor.close()
+            if conn:
+                conn.close()
             return internal_response(result, message, res)
-

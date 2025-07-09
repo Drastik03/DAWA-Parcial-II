@@ -4,6 +4,9 @@ from ..Services.Admin.AdminExpenseService import AdminExpenseService_GetAll, Adm
     AdminExpenseService_Update, AdminExpenseService_Add, AdminExpenseService_GetById, AdminExpenseService_GetByDateRange
 from ..Services.Admin.AdminInvoiceService import AdminInvoiceService_GetAll, AdminInvoiceService_Add, \
     AdminInvoiceService_GetById, AdminInvoiceService_Update, AdminInvoiceService_Delete
+from ..Services.Admin.AdminInvoiceTaxService import AdminInvoiceTaxService_GetAll, AdminInvoiceTaxService_GetById, \
+    AdminInvoiceTaxService_Add, AdminInvoiceTaxService_Update, AdminInvoiceTaxService_Delete, \
+    AdminInvoiceTaxService_GetByInvoiceId
 #----------- MÓDULO ADMINISTRADOR ----------------------------
 
 from ..Services.Admin.AdminPersonService import (AdminPersonService_get,
@@ -31,18 +34,28 @@ from ..Services.Admin.AdminPerson_genre_service import (admin_Person_genre_servi
                                                         admin_Person_Genre_service_Delete)
 from ..Services.Admin.AdminProductService import AdminProductService_GetAll, AdminProductService_Add, \
     AdminProductService_Update, AdminProductService_Delete
+from ..Services.Admin.AdminTaxService import AdminTaxService_GetAll, AdminTaxService_GetById, AdminTaxService_Add, \
+    AdminTaxService_Update, AdminTaxService_Delete
 from ..Services.Admin.DashboardService import DashboardService_GetAll
 from ..Services.Admin.ExpenseTypeService import ExpenseTypeService_GetAll, ExpenseTypeServiceAdd, \
     AdminExpenseTypeServiceUpdate, AdminExpenseTypeServiceDelete, ExpenseTypeServiceGetById
 from ..Services.Admin.InvoiceDetailService import AdminInvoiceDetailService_Add, AdminInvoiceDetailService_Update, \
-    AdminInvoiceDetailService_Delete, AdminInvoiceDetailService_GetAll, AdminInvoiceDetailService_GetById
+    AdminInvoiceDetailService_Delete, AdminInvoiceDetailService_GetAll, AdminInvoiceDetailService_GetById, \
+    AdminInvoiceDetailService_GetByInvoiceId
 from ..Services.Admin.InvoicePaymentService import AdminInvoicePaymentService_GetAll, \
     AdminInvoicePaymentService_GetById, AdminInvoicePaymentService_Add, AdminInvoicePaymentService_Update, \
-    AdminInvoicePaymentService_Delete
+    AdminInvoicePaymentService_Delete, AdminInvoicePaymentService_GetByInvoiceId
 from ..Services.Admin.MedicalPersonTypeService import MedicPersonTypeService_GetAll, MedicPersonTypeService_Add, \
     MedicPersonTypeService_Update, MedicPersonTypeService_Delete
-from ..Services.Admin.PaymentMethodService import AdminPaymentMethodService_GetAll, AdminPaymentMethodService_Update, \
-    AdminPaymentMethodService_Add, AdminPaymentMethodService_Delete
+from ..Services.Admin.PaymentMethodService import (
+    AdminPaymentMethodService_Add,
+    AdminPaymentMethodService_Delete,
+    AdminPaymentMethodService_Update,
+    AdminPaymentMethodService_GetAll,
+)
+from ..Services.Admin.MedicalStaffService import MedicalStaffService_GetAll, MedicalStaffService_GetById, MedicalStaffService_Add,\
+    MedicalStaffService_Update, MedicalStaffService_Delete
+
 from ..Services.Admin.PromotionProductServices import AdminPromotionService_GetAll, AdminPromotionService_Add, \
     AdminPromotionService_Update, AdminPromotionService_Delete
 from ..Services.Admin.TherapyTypeService import TherapyTypeService_GetAll, TherapyTypeService_Add, \
@@ -63,12 +76,12 @@ from ..Services.Patients.PatientAllergyCatalogService import AllergyCatalogInser
 from ..Services.Patients.PatientAllergyService import PatientAllergyInsertService, PatientAllergyUpdateService, \
     PatientAllergyListService, PatientAllergyDeleteService, PatientAllergyGetByIdService
 from ..Services.Patients.PatientDiseaseService import PatientDiseaseInsertService, PatientDiseaseUpdateService, \
-    PatientDiseaseListService, PatientDiseaseGetByIdService
+    PatientDiseaseListService, PatientDiseaseGetByIdService, PatientDiseaseDeleteService
 from ..Services.Patients.PatientService import PatientListService, PatientGetByIdService, PatientInsertService, \
     PatientUpdateService, PatientDeleteService
 from ..Services.Patients.TherapySessionControlService import TherapySessionControlListService, \
     TherapySessionControlGetByIdService, TherapySessionControlAddService, TherapySessionControlUpdateService, \
-    TherapySessionControlDeleteService
+    TherapySessionControlDeleteService, TherapySessionReportByNurseService
 
 from ..Services.Security.LoginService import LoginService
 from ..Services.Security.LogoutService import LogoutService
@@ -255,9 +268,10 @@ def load_routes(api):
 
     # Enfermedades del paciente
     api.add_resource(PatientDiseaseListService, '/clinic/patient-disease/list')
-    api.add_resource(PatientDiseaseGetByIdService, '/clinic/patient-disease/get/<int:pd_id>')
+    api.add_resource(PatientDiseaseGetByIdService, '/clinic/patient-disease/get/<int:patient_id>')
     api.add_resource(PatientDiseaseInsertService, '/clinic/patient-disease/add')
     api.add_resource(PatientDiseaseUpdateService, '/clinic/patient-disease/update/<int:pd_id>')
+    api.add_resource(PatientDiseaseDeleteService, '/clinic/patient-disease/delete/<int:pd_id>')
 
 
     # ----------- MÓDULO CLINIC SESSION ----------------------------
@@ -276,7 +290,7 @@ def load_routes(api):
                      '/clinic/TherapySession/update/<int:sec_id>')  # ¡Parámetro en URL actualizado a sec_id!
     api.add_resource(TherapySessionControlDeleteService,
                      '/clinic/TherapySession/delete/<int:sec_id>')  # ¡Parámetro en URL actualizado a sec_id!
-
+    api.add_resource(TherapySessionReportByNurseService, '/clinic/TherapySession/report/by-nurse')
 
     #FACTURAS
     api.add_resource(AdminInvoiceService_GetAll,'/admin/invoice/list')
@@ -315,6 +329,7 @@ def load_routes(api):
     api.add_resource(AdminInvoicePaymentService_Delete, '/admin/invoicepayment/delete/<int:inp_id>')
     api.add_resource(AdminInvoicePaymentService_GetAll, '/admin/invoicepayment/list')
     api.add_resource(AdminInvoicePaymentService_GetById, '/admin/invoicepayment/<int:inp_id>')
+    api.add_resource(AdminInvoicePaymentService_GetByInvoiceId, '/admin/invoicepayment/by_invoice/<int:inv_id>')
 
     # Rutas para Invoice Detail
     api.add_resource(AdminInvoiceDetailService_Add, '/admin/invoicedetail/insert')
@@ -322,3 +337,26 @@ def load_routes(api):
     api.add_resource(AdminInvoiceDetailService_Delete, '/admin/invoicedetail/delete/<int:ind_id>')
     api.add_resource(AdminInvoiceDetailService_GetAll, '/admin/invoicedetail/list')
     api.add_resource(AdminInvoiceDetailService_GetById, '/admin/invoicedetail/<int:ind_id>')
+    api.add_resource(AdminInvoiceDetailService_GetByInvoiceId, '/admin/invoicedetail/invoice/<int:int_invoice_id>')
+
+    api.add_resource(MedicalStaffService_GetAll, '/admin/Medical_staff/list')
+    api.add_resource(MedicalStaffService_GetById, '/admin/Medical_staff/list/<int:med_id>')
+    api.add_resource(MedicalStaffService_Add,'/admin/Medical_staff/add')
+    api.add_resource(MedicalStaffService_Update,'/admin/Medical_staff/update/<int:med_id>')
+    api.add_resource(MedicalStaffService_Delete,'/admin/Medical_staff/delete/<int:med_id>')
+
+    # IMPUESTOS
+    api.add_resource(AdminTaxService_GetAll, '/admin/tax/list')
+    api.add_resource(AdminTaxService_GetById, '/admin/tax/<int:tax_id>')
+    api.add_resource(AdminTaxService_Add, '/admin/tax/insert')
+    api.add_resource(AdminTaxService_Update, '/admin/tax/update')
+    api.add_resource(AdminTaxService_Delete, '/admin/tax/delete/<int:tax_id>')
+
+    # IMPUESTOS DE FACTURA (INVOICE TAX)
+    api.add_resource(AdminInvoiceTaxService_GetAll, '/admin/invoice_tax/list')
+    api.add_resource(AdminInvoiceTaxService_GetById, '/admin/invoice_tax/<int:int_id>')
+    api.add_resource(AdminInvoiceTaxService_Add, '/admin/invoice_tax/insert')
+    api.add_resource(AdminInvoiceTaxService_Update, '/admin/invoice_tax/update')
+    api.add_resource(AdminInvoiceTaxService_Delete, '/admin/invoice_tax/delete/<int:int_id>')
+    api.add_resource(AdminInvoiceTaxService_GetByInvoiceId,'/admin/invoice_tax/by_invoice/<int:int_invoice_id>')
+

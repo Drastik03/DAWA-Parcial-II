@@ -116,7 +116,7 @@ class AdminPaymentMethodComponent:
                 data_to_update["pme_description"],
                 data_to_update["pme_require_references"],
                 data_to_update["pme_require_picture_proff"],
-                data_to_update["user_process"],
+                data_to_update["user_modified"],
                 datetime.now(),
                 data_to_update["pme_id"]
             )

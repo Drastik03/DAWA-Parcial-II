@@ -1,6 +1,7 @@
 from flask_restful import Resource
 from ...Components.Admin.PaymentMethodComponent import AdminPaymentMethodComponent
-from ws_ceragen.src.api.Model.Request.Admin.PaymentRequest import PaymentMethodCreateRequest, PaymentMethodUpdateRequest
+from ...Model.Request.Admin.PaymentRequest import PaymentMethodCreateRequest, PaymentMethodUpdateRequest
+
 from ....utils.general.logs import HandleLogs
 from flask import request
 from ....utils.general.response import (
@@ -9,6 +10,7 @@ from ....utils.general.response import (
     response_error,
     response_unauthorize
 )
+
 from ...Components.Security.TokenComponent import TokenComponent
 
 class AdminPaymentMethodService_GetAll(Resource):
@@ -66,7 +68,7 @@ class AdminPaymentMethodService_Add(Resource):
             if not data:
                 return response_error("Error en los datos para procesar")
 
-            schema = PaymentMethodCreateRequest()
+            schema = PaymentMethodUpdateRequest()
             errors = schema.validate(data)
             if errors:
                 HandleLogs.write_error("Error al validar el request -> " + str(errors))

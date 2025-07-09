@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
 	activeDir: "ltr",
-	activeMode: "light", // This can be light or dark
-	activeTheme: "ZEN_THERAPY_THEME", // BLUE_THEME, GREEN_THEME, RED_THEME, BLACK_THEME, PURPLE_THEME, INDIGO_THEME
+	activeMode: "light", 
+	activeTheme: "MEDICAL_ELEGANCE", // BLUE_THEME, GREEN_THEME, RED_THEME, BLACK_THEME, PURPLE_THEME, INDIGO_THEME
 	SidebarWidth: 270,
 	MiniSidebarWidth: 87,
 	TopbarHeight: 70,

@@ -19,39 +19,34 @@ class PatientComponent:
         try:
             HandleLogs.write_log("Obteniendo todos los pacientes desde la DB (PatientComponent).")
             sql = """
-                SELECT
-                    ap.pat_id,
-                    ap.pat_person_id,
-                    ap.pat_client_id,
-                    ap.pat_code,
-                    ap.pat_medical_conditions,
-                    ap.pat_allergies,
-                    ap.pat_blood_type,
-                    ap.pat_emergency_contact_name,
-                    ap.pat_emergency_contact_phone,
-                    ap.pat_state,
-                    to_char(ap.date_created, 'DD/MM/YYYY HH24:MI:SS') as date_created,
-                    to_char(ap.date_modified, 'DD/MM/YYYY HH24:MI:SS') as date_modified,
-                    ap.user_created,
-                    ap.user_modified,
-                    ap.user_deleted,
-                    ap.date_deleted,
-                    -- Campos de ceragen.admin_person con sus nombres EXACTOS
-                    adp.per_identification,
-                    adp.per_names,
-                    adp.per_surnames,
-                    adp.per_genre_id, -- Nota: Este es el ID del género, si necesitas el nombre, requerirá otro JOIN
-                    adp.per_marital_status_id,
-                    adp.per_country,
-                    adp.per_city,
-                    adp.per_address,
-                    adp.per_phone,
-                    adp.per_mail,
-                    to_char(adp.per_birth_date, 'DD/MM/YYYY') as per_birth_date -- Formato para salida
-                FROM ceragen.admin_patient ap
-                JOIN ceragen.admin_person adp ON ap.pat_person_id = adp.per_id
-                WHERE ap.pat_state = TRUE;
-            """
+                        SELECT
+                            ap.pat_id,
+                            ap.pat_person_id,
+                            ap.pat_client_id,
+                            ap.pat_code,
+                            ap.pat_medical_conditions,
+                            ap.pat_allergies,
+                            ap.pat_blood_type,
+                            ap.pat_emergency_contact_name,
+                            ap.pat_emergency_contact_phone,
+                            ap.pat_state,
+                            TO_CHAR(ap.date_created, 'DD/MM/YYYY HH24:MI:SS') AS date_created,
+                            TO_CHAR(ap.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS date_modified,
+                            ap.user_created,
+                            ap.user_modified,
+                            ap.user_deleted,
+                            ap.date_deleted,
+
+                            adp.per_names,
+                            adp.per_surnames,
+
+                            cli.cli_name
+
+                        FROM ceragen.admin_patient ap
+                        JOIN ceragen.admin_person adp ON ap.pat_person_id = adp.per_id AND adp.date_deleted IS NULL
+                        JOIN ceragen.admin_client cli ON ap.pat_client_id = cli.cli_id AND cli.date_deleted IS NULL
+                        WHERE ap.pat_state = TRUE AND ap.date_deleted IS NULL;
+                    """
             result_db = DataBaseHandle.getRecords(sql, 0)
 
             if result_db and result_db.get('result'):

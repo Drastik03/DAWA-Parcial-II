@@ -15,9 +15,8 @@ import CustomFormLabel from "../../../../components/forms/theme-elements/CustomF
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
-import { createRole } from "../../../../services/admin/roleService";
 import { useFetch } from "../../../../hooks/useFetch";
-import { asignarRole } from "../../../../services/admin/UserRoleService";
+import { asignarRole } from "../../../../services/admin/usersRoleService";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Asignar Rol" }];
 
@@ -27,7 +26,12 @@ const FormAsignarRol = () => {
 		handleSubmit,
 		formState: { errors },
 		reset,
-	} = useForm();
+	} = useForm({
+		defaultValues: {
+			id_rol: "",
+			id_user: "",
+		},
+	});
 
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -63,6 +67,7 @@ const FormAsignarRol = () => {
 			description="Formulario para asignar rol a usuario"
 		>
 			<Breadcrumb title="Roles" items={BCrumb} />
+
 			<ParentCard
 				title="Asignar Rol"
 				footer={
@@ -88,25 +93,32 @@ const FormAsignarRol = () => {
 					noValidate
 				>
 					<Grid container spacing={3} mb={3}>
+						{/* Autocomplete Rol */}
 						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Rol</CustomFormLabel>
 							<FormControl fullWidth error={!!errors.id_rol}>
 								<Controller
 									name="id_rol"
 									control={control}
-									rules={{ required: true }}
+									rules={{ required: "Seleccione un rol" }}
 									render={({ field }) => (
 										<Autocomplete
 											options={roles}
-											getOptionLabel={(option) => `${option?.rol_name}`}
+											getOptionLabel={(option) => option?.rol_name ?? ""}
+											isOptionEqualToValue={(option, value) =>
+												option.rol_id === value
+											}
+											value={
+												roles.find((r) => r.rol_id === field.value) || null
+											}
 											onChange={(_, newValue) =>
 												field.onChange(newValue ? newValue.rol_id : "")
 											}
 											renderInput={(params) => (
 												<CustomTextField
 													{...params}
-													error={!!errors.rol_id}
-													helperText={errors.rol_id && "Campo requerido"}
+													error={!!errors.id_rol}
+													helperText={errors.id_rol?.message}
 												/>
 											)}
 										/>
@@ -115,17 +127,18 @@ const FormAsignarRol = () => {
 							</FormControl>
 						</Grid>
 
+						{/* Autocomplete Usuario */}
 						<Grid item xs={12} sm={6}>
 							<CustomFormLabel>Usuario</CustomFormLabel>
 							<FormControl fullWidth error={!!errors.id_user}>
 								<Controller
 									name="id_user"
 									control={control}
-									rules={{ required: true }}
+									rules={{ required: "Seleccione un usuario" }}
 									render={({ field }) => (
 										<Autocomplete
 											options={users}
-											getOptionLabel={(option) => option.full_name ?? ""}
+											getOptionLabel={(option) => option?.full_name ?? ""}
 											isOptionEqualToValue={(option, value) =>
 												option.user_id === value
 											}
@@ -144,7 +157,7 @@ const FormAsignarRol = () => {
 												<CustomTextField
 													{...params}
 													error={!!errors.id_user}
-													helperText={errors.id_user && "Campo requerido"}
+													helperText={errors.id_user?.message}
 												/>
 											)}
 										/>

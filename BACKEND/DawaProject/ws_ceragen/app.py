@@ -25,8 +25,8 @@ app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
 if __name__ == '__main__':
     try:
         HandleLogs.write_log("Servicio Iniciado")
-        port = int(os.environ.get('PORT', 1005))
-        app.run(debug=False, host='0.0.0.0', threaded=True)
+        port = int(os.environ.get('PORT', 5005))
+        app.run(debug=False, host='0.0.0.0',port=port, threaded=True)
 
     except Exception as err:
         HandleLogs.write_error(err)

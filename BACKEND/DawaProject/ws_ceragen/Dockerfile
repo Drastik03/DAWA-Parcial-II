@@ -1,11 +1,16 @@
-#docker build -t dawa_ws_image:latest .
+FROM python:3.12-slim
 
-FROM python:3.12
 RUN apt-get update && \
-    apt-get -y install --no-install-recommends \
-    tzdata
+    apt-get install -y --no-install-recommends tzdata && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app/dawa
-COPY . /app/dawa
-EXPOSE 1005
-RUN pip3 --no-cache-dir install -r src/utils/requirements.txt
-CMD ["python3", "app.py"]
+
+COPY src/utils/requirements.txt ./src/utils/requirements.txt
+RUN pip install --no-cache-dir -r src/utils/requirements.txt
+
+COPY . .
+
+EXPOSE 5000
+
+CMD ["python", "-m", "dawa.app"]

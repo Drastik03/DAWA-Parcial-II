@@ -17,27 +17,44 @@ const LightThemeColors = [
 		},
 	},
 	{
-		name: "ZEN_THERAPY_THEME",
+		name: "MEDICAL_ELEGANCE",
 		palette: {
 			primary: {
-				main: "#2E7D74", 
-				light: "#4FA89F", 
-				dark: "#1C5A52", 
+				main: "#2E5BBA",
+				light: "#E8F0FF",
+				dark: "#1E3A8A",
 				contrastText: "#ffffff",
 			},
 			secondary: {
-				main: "#A5D6A7", 
-				light: "#D7F0D8", 
-				dark: "#7BB27D", 
+				main: "#64748B",
+				light: "#F1F5F9",
+				dark: "#334155",
+				contrastText: "#ffffff",
+			},
+		},
+	},
+	{
+		name: "ZEN_THERAPY_THEME",
+		palette: {
+			primary: {
+				main: "#2E7D74",
+				light: "#4FA89F",
+				dark: "#1C5A52",
+				contrastText: "#ffffff",
+			},
+			secondary: {
+				main: "#A5D6A7",
+				light: "#D7F0D8",
+				dark: "#7BB27D",
 				contrastText: "#1E3D38",
 			},
 			background: {
-				default: "#F3F6F6", 
-				paper: "#E9EFEE", 
+				default: "#F3F6F6",
+				paper: "#E9EFEE",
 			},
 			text: {
 				primary: "#1D3C39",
-				secondary: "#4F6F6C", 
+				secondary: "#4F6F6C",
 			},
 		},
 	},

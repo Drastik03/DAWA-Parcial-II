@@ -10,19 +10,16 @@ const WeeklyStats = ({ dashboardData }) => {
 	const data = dashboardData ?? {};
 
 	const primary = theme.palette.primary.main;
-	const primarylight = theme.palette.primary.light;
 	const error = theme.palette.error.main;
 	const errorlight = theme.palette.error.light;
-	const secondary = theme.palette.success.main;
-	const secondarylight = theme.palette.success.light;
 	const seriescolumnchart = [
 		{
-			name: "Earnings",
+			name: "Ganancias",
 			data: [data.earnings_mes ?? 0, data.total_earnings ?? 0],
 			color: primary,
 		},
 		{
-			name: "Expenses",
+			name: "Gastos",
 			data: [data.expenses_mes ?? 0, data.total_expenses ?? 0],
 			color: error,
 		},
@@ -130,10 +127,6 @@ const WeeklyStats = ({ dashboardData }) => {
 									borderRadius: "4px",
 								}}
 							>
-								<Typography variant="subtitle2" fontWeight="600">
-									{/* Puedes mostrar un % u otro dato aquí si quieres */}
-									&nbsp;
-								</Typography>
 							</Avatar>
 						</Stack>
 					))}

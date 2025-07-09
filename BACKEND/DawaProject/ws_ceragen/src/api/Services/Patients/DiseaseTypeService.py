@@ -77,7 +77,7 @@ class DiseaseTypeListService(Resource):
             if not token or not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            result = DiseaseTypeComponent.listDiseaseType()
+            result = DiseaseTypeComponent.listDiseaseCatalog()
             return response_success(result)
         except Exception as e:
             HandleLogs.write_error(f"[ListDiseaseType][GET] {str(e)}")

@@ -21,15 +21,17 @@ import {
 	LastPage as LastPageIcon,
 	KeyboardArrowLeft,
 	KeyboardArrowRight,
+	EditOutlined,
+	DeleteOutlined,
 } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import PropTypes from "prop-types";
 import Cookies from "js-cookie";
 import { useFetch } from "../../../../hooks/useFetch";
+import EditExpenseModal from "./EditExpenseModal";
 
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
 	const theme = useTheme();
-
 	return (
 		<Box sx={{ flexShrink: 0, ml: 2.5 }}>
 			<IconButton onClick={(e) => onPageChange(e, 0)} disabled={page === 0}>
@@ -82,42 +84,23 @@ const ExpenseReport = () => {
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 
-	const { data, error: errorFetch } = useFetch(
-		"http://localhost:5000/admin/expense/list",
-	);
-	const handleEdit = (expense) => {
-		console.log("Editar gasto:", expense);
-	};
-	const handleDelete = async (id) => {
-		const confirm = window.confirm("¿Estás seguro de eliminar este gasto?");
-		if (!confirm) return;
+	// Modal y selección
+	const [selectedToEdit, setSelectedToEdit] = useState(null);
+	const [editModalOpen, setEditModalOpen] = useState(false);
 
-		try {
-			const response = await axios.delete(
-				`http://localhost:5000/admin/expense/delete/${id}`,
-				{
-					headers: { tokenapp: Cookies.get("token") },
-				},
-			);
-			if (response.data?.result) {
-				setExpenses((prev) => prev.filter((e) => e.exp_id !== id));
-			} else {
-				alert("No se pudo eliminar el gasto.");
-			}
-		} catch (error) {
-			alert("Error al eliminar el gasto.");
-		}
-	};
+	const {
+		data,
+		error: errorFetch,
+		refetch,
+	} = useFetch("http://localhost:5000/admin/expense/list");
+
 	useEffect(() => {
 		if (!startDate && !endDate) {
-			if (data && Array.isArray(data.data)) {
+			if (data?.data) {
 				setExpenses(data.data);
-			} else {
-				setExpenses([]);
 			}
 			setError(null);
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [data, startDate, endDate]);
 
 	const fetchExpenses = async (fromDate, toDate) => {
@@ -145,6 +128,37 @@ const ExpenseReport = () => {
 		}
 	};
 
+	const handleEditOpen = (expense) => {
+		setSelectedToEdit(expense);
+		setEditModalOpen(true);
+	};
+
+	const handleEditClose = () => {
+		setSelectedToEdit(null);
+		setEditModalOpen(false);
+	};
+
+	const handleDelete = async (id) => {
+		const confirm = window.confirm("¿Estás seguro de eliminar este gasto?");
+		if (!confirm) return;
+
+		try {
+			const response = await axios.delete(
+				`http://localhost:5000/admin/expense/delete/${id}`,
+				{
+					headers: { tokenapp: Cookies.get("token") },
+				},
+			);
+			if (response.data?.result) {
+				setExpenses((prev) => prev.filter((e) => e.exp_id !== id));
+			} else {
+				alert("No se pudo eliminar el gasto.");
+			}
+		} catch {
+			alert("Error al eliminar el gasto.");
+		}
+	};
+
 	const handleChangePage = (_, newPage) => setPage(newPage);
 	const handleChangeRowsPerPage = (event) => {
 		setRowsPerPage(parseInt(event.target.value, 10));
@@ -152,21 +166,24 @@ const ExpenseReport = () => {
 	};
 
 	const handleFilterClick = () => {
-		if (startDate && endDate) {
-			fetchExpenses(startDate, endDate);
-		}
+		if (startDate && endDate) fetchExpenses(startDate, endDate);
 	};
 
 	const handleShowAllClick = () => {
 		setStartDate("");
 		setEndDate("");
-		if (data && Array.isArray(data.data)) {
+		if (data?.data) {
 			setExpenses(data.data);
 		} else {
 			setExpenses([]);
 		}
 		setError(null);
 		setPage(0);
+	};
+
+	const handleUpdated = () => {
+		refetch();
+		if (data?.data) setExpenses(data.data);
 	};
 
 	const errorDisplay = error || errorFetch;
@@ -221,6 +238,7 @@ const ExpenseReport = () => {
 								<TableCell>Descripción</TableCell>
 								<TableCell>Monto</TableCell>
 								<TableCell>Fecha</TableCell>
+								<TableCell>Acciones</TableCell>
 							</TableRow>
 						</TableHead>
 						<TableBody>
@@ -241,26 +259,24 @@ const ExpenseReport = () => {
 									<TableCell>${row.exp_amount.toFixed(2)}</TableCell>
 									<TableCell>{row.date_expense}</TableCell>
 									<TableCell>
-										<Button
-											size="small"
+										<IconButton
 											color="primary"
-											onClick={() => handleEdit(row)}
+											onClick={() => handleEditOpen(row)}
 										>
-											Editar
-										</Button>
-										<Button
-											size="small"
+											<EditOutlined />
+										</IconButton>
+										<IconButton
 											color="error"
 											onClick={() => handleDelete(row.exp_id)}
 										>
-											Eliminar
-										</Button>
+											<DeleteOutlined />
+										</IconButton>
 									</TableCell>
 								</TableRow>
 							))}
 							{expenses.length === 0 && (
 								<TableRow>
-									<TableCell colSpan={6} align="center">
+									<TableCell colSpan={7} align="center">
 										No hay gastos para el rango seleccionado.
 									</TableCell>
 								</TableRow>
@@ -281,13 +297,20 @@ const ExpenseReport = () => {
 									onPageChange={handleChangePage}
 									onRowsPerPageChange={handleChangeRowsPerPage}
 									ActionsComponent={TablePaginationActions}
-									colSpan={6}
+									colSpan={7}
 								/>
 							</TableRow>
 						</TableFooter>
 					</Table>
 				</TableContainer>
 			</Paper>
+
+			<EditExpenseModal
+				open={editModalOpen}
+				onClose={handleEditClose}
+				expense={selectedToEdit}
+				onUpdated={handleUpdated}
+			/>
 		</Box>
 	);
 };

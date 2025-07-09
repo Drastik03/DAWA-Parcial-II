@@ -1,5 +1,3 @@
-from dis import RETURN_CONST
-
 from flask_restful import Resource
 from flask import request
 from ...Components.Patients.PatientDiseaseComponent import PatientDiseaseComponent
@@ -93,16 +91,16 @@ class PatientDiseaseListService(Resource):
 
 class PatientDiseaseGetByIdService(Resource):
     @staticmethod
-    def get(pd_id):
+    def get(patient_id):
         try:
             token = request.headers.get("tokenapp")
             if not token or not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            result = PatientDiseaseComponent.getPatientDiseaseById(pd_id)
+            result = PatientDiseaseComponent.getDiseasesByPatientId(patient_id)
             if result["result"]:
                 return response_success(result)
             return response_error(result["message"])
         except Exception as e:
-            HandleLogs.write_error(f"[GetByIdDiseaseService] {str(e)}")
-            return response_error("Error al obtener la enfermedad")
+            HandleLogs.write_error(f"[GetByPatientIdDiseaseService] {str(e)}")
+            return response_error("Error al obtener las enfermedades")

@@ -112,6 +112,7 @@ class AdminExpenseService_Update(Resource):
                 return response_unauthorize()
 
             data = request.get_json()
+            HandleLogs.write_log(data)
             if not data or not data.get("exp_id"):
                 return response_error("Datos inválidos o ID faltante")
 

@@ -59,12 +59,19 @@ class TherapySessionControlGetByIdService(Resource):
             HandleLogs.write_error(f"Error al obtener sesión de control de terapia por ID {sec_id}: {str(e)}")
             return response_error("Error interno del servidor al procesar la solicitud.")
 
+
 class TherapySessionControlAddService(Resource):
     @staticmethod
     def post():
         try:
             HandleLogs.write_log("Iniciando adición de nueva sesión de control de terapia.")
-
+            token = request.headers.get("tokenapp")
+            if not token:
+                return response_error("Token no proporcionado.")
+            if not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+            current_user = TokenComponent.User(token)
+            user_id = current_user.get("user_id") if isinstance(current_user, dict) else current_user
             data = request.get_json()
             if not data:
                 return response_error("No se proporcionaron datos JSON en la solicitud.")
@@ -74,22 +81,23 @@ class TherapySessionControlAddService(Resource):
             if errors:
                 HandleLogs.write_error(f"Error de validación al agregar sesión de control de terapia: {errors}")
                 return response_error("Error de validación: " + str(errors))
-
+            sec_med_staff_id = data.get("sec_med_staff_id")
+            if not sec_med_staff_id:
+                return response_error("Debe especificar el ID del terapeuta (sec_med_staff_id).")
+            data["user_created"] = user_id
             result = TherapySessionControlComponent.createTherapySessionControl(data)
-
+            HandleLogs.write_log("RESULT DE THERAPY: " + str(result["data"]))
             if result['result']:
                 sec_id = result['data']['sec_id']
-                NotificationComponent.NotificationSend(
-                    {
-                        "sun_user_source_id": data.get("sec_med_staff_id"),
-                        "sun_user_destination_id": data.get("sec_med_staff_id"),
-                        "sun_title_notification": "Nueva sesión de control registrada",
-                        "sun_text_notification": f"Sesión #{data.get('sec_ses_number')} programada para el {data.get('sec_ses_agend_date')}.",
-                        "sun_state_notification": True,
-                        "sun_isread_notification": False,
-                        "user_created": data.get("user_created")
-                    }
-                )
+                NotificationComponent.NotificationSend({
+                    "sun_user_source_id": sec_med_staff_id,
+                    "sun_user_destination_id": sec_med_staff_id,
+                    "sun_title_notification": "Nueva sesión de control registrada",
+                    "sun_text_notification": f"Sesión #{data.get('sec_ses_number')} programada para el {data.get('sec_ses_agend_date')}.",
+                    "sun_state_notification": True,
+                    "sun_isread_notification": False,
+                    "user_created": user_id
+                })
                 return response_inserted(result['data'])
             else:
                 return response_error(result['message'])
@@ -162,3 +170,37 @@ class TherapySessionControlDeleteService(Resource):
         except Exception as err:
             HandleLogs.write_error(f"Error en TherapySessionService_Delete: {str(err)}")
             return response_error("Error interno al eliminar la sesión de control.")
+
+
+class TherapySessionReportByNurseService(Resource):
+    @staticmethod
+    def post():
+        try:
+            token = request.headers.get("tokenapp")
+            if not token:
+                return response_error("Token no proporcionado.")
+            if not TokenComponent.Token_Validate(token):
+                return response_unauthorize()
+
+            data = request.get_json()
+            start_date = data.get("start_date")
+            end_date = data.get("end_date")
+            medical_staff_id = data.get("medical_staff_id")  # opcional
+
+            if not start_date or not end_date:
+                return response_error("Debe proporcionar las fechas.")
+
+            result = TherapySessionControlComponent.getTherapySessionsByNurseAndDateRange(
+                start_date=start_date,
+                end_date=end_date,
+                medical_staff_id=medical_staff_id,
+            )
+
+            if result.get("result"):
+                return response_success(result["data"])
+            else:
+                return response_error(result.get("message"))
+
+        except Exception as err:
+            HandleLogs.write_error(f"Error en TherapySessionReportByNurseService: {str(err)}")
+            return response_error("Error interno al generar el reporte.")

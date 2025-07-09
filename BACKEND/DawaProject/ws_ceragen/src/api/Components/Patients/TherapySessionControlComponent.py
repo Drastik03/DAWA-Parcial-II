@@ -241,3 +241,50 @@ class TherapySessionControlComponent:
         except Exception as e:
             HandleLogs.write_error(f"Error en deleteTherapySessionControl: {str(e)}")
             return internal_response(False, "Error interno al inactivar sesión de control de terapia.", None)
+
+    @staticmethod
+    def getTherapySessionsByNurseAndDateRange(start_date: str, end_date: str, medical_staff_id: int = None):
+        try:
+            base_sql = """
+                SELECT
+                    s.sec_id,
+                    s.sec_ses_number,
+                    TO_CHAR(s.sec_ses_agend_date, 'DD/MM/YYYY') AS agendada,
+                    TO_CHAR(s.sec_ses_exec_date, 'DD/MM/YYYY') AS ejecutada,
+                    p.pro_name,
+                    t.tht_name,
+                    u.user_login_id AS personal_medico,
+                    s.ses_consumed,
+                    s.ses_state,
+                    s.user_created,
+                    TO_CHAR(s.date_created, 'DD/MM/YYYY HH24:MI:SS') AS fecha_creado,
+                    s.user_modified,
+                    TO_CHAR(s.date_modified, 'DD/MM/YYYY HH24:MI:SS') AS fecha_modificado,
+                    s.user_deleted,
+                    TO_CHAR(s.date_deleted, 'DD/MM/YYYY HH24:MI:SS') AS fecha_eliminado
+                FROM ceragen.clinic_session_control s
+                LEFT JOIN ceragen.admin_product p ON p.pro_id = s.sec_pro_id
+                LEFT JOIN ceragen.admin_therapy_type t ON t.tht_id = s.sec_typ_id
+                LEFT JOIN ceragen.segu_user u ON u.user_id = s.sec_med_staff_id
+                WHERE s.ses_state = TRUE
+                  AND s.sec_ses_agend_date::date BETWEEN %s AND %s
+            """
+
+            params = [start_date, end_date]
+
+            if medical_staff_id:
+                base_sql += " AND s.sec_med_staff_id = %s"
+                params.append(medical_staff_id)
+
+            base_sql += " ORDER BY s.sec_ses_agend_date;"
+
+            result = DataBaseHandle.getRecords(base_sql, 0, tuple(params))
+
+            if result.get('result'):
+                return internal_response(True, "Reporte generado correctamente.", result.get('data', []))
+            else:
+                return internal_response(False, result.get('message', "Error al obtener el reporte."), None)
+
+        except Exception as e:
+            HandleLogs.write_error(f"Error en getTherapySessionsByNurseAndDateRange: {str(e)}")
+            return internal_response(False, "Error interno del servidor al obtener el reporte.", None)

@@ -7,8 +7,7 @@ import CustomFormLabel from "../../../../components/forms/theme-elements/CustomF
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
-import { createModule } from "../../../../services/admin/ModuleService";
-import CustomSelect from "../../../../components/forms/theme-elements/CustomSelect";
+import { createModule } from "../../../../services/admin/moduleService";
 
 const BCrumb = [
 	{

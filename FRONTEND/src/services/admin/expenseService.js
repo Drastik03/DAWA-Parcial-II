@@ -19,3 +19,21 @@ export const createExpense = async (payload) => {
 		};
 	}
 };
+
+export const updateExpense = async (payload) => {
+	try {
+		const response = await axios.patch(`${API_URL}/update`, payload, {
+			headers: {
+				"Content-Type": "application/json",
+				tokenapp: Cookies.get("token"),
+			},
+		});
+		return response.data;
+	} catch (error) {
+		console.error("Error actualizando el gasto:", error);
+		return {
+			result: false,
+			message: error.response?.data?.message || "Error al actualizar el gasto",
+		};
+	}
+};

@@ -100,7 +100,7 @@ class PatientAllergyGetByIdService(Resource):
             if not token or not TokenComponent.Token_Validate(token):
                 return response_unauthorize()
 
-            result = PatientAllergyComponent.getPatientAllergyById(pa_id)
+            result = PatientAllergyComponent.getAllergiesByPatientId(pa_id)
             if result["result"]:
                 return response_success(result)
             return response_not_found("Alergia no encontrada")

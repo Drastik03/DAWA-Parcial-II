@@ -8,7 +8,7 @@ import CustomFormLabel from "../../../../components/forms/theme-elements/CustomF
 import ParentCard from "../../../../components/shared/ParentCard";
 import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import PageContainer from "../../../../components/container/PageContainer";
-import { createRole } from "../../../../services/admin/roleService";
+import { createRole } from "../../../../services/admin/rolservice";
 
 const BCrumb = [
 	{
@@ -60,7 +60,7 @@ const FormUserRolRegister = () => {
 			description="Formulario de registro de rol"
 		>
 			<Breadcrumb title="Roles" items={BCrumb} />
-	
+
 			<ParentCard
 				title="Registro de Rol"
 				footer={

@@ -39,7 +39,7 @@ import Breadcrumb from "../../../../layouts/full/shared/breadcrumb/Breadcrumb";
 import ParentCard from "../../../../components/shared/ParentCard";
 import PageContainer from "../../../../components/container/PageContainer";
 import { useFetch } from "../../../../hooks/useFetch";
-import { deleteMenu, updateMenu } from "../../../../services/admin/MenuService";
+import { deleteMenu, updateMenu } from "../../../../services/admin/menuservice";
 import { Stack } from "@mui/system";
 
 function TablePaginationActions({ count, page, rowsPerPage, onPageChange }) {
