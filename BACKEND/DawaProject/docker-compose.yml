@@ -61,3 +61,5 @@ services:
       - "5173:5173"
     depends_on:
       - dawa-ceragen
+    command: npm run dev
+
