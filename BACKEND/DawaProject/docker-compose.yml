@@ -13,6 +13,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 12345
       POSTGRES_DB: secoedV3_db
+    networks:
+      - ceragen-network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -29,6 +31,8 @@ services:
       - "80:80"
     depends_on:
       - ceragen
+    networks:
+      - ceragen-network
 
   dawa-ceragen:
     container_name: dawa-project
@@ -36,7 +40,7 @@ services:
       context: ./ws_ceragen
       dockerfile: Dockerfile
     ports:
-      - "5000:5000"
+      - "5500:5000"
     volumes:
       - ./ws_ceragen/src/utils/general/LOGS:/app/ws_ceragen/src/utils/general/LOGS
     environment:
@@ -45,11 +49,11 @@ services:
       DATABASE_USER: postgres
       DATABASE_PASSWORD: 12345
       DATABASE_NAME: secoedV3_db
-      PORT: 5000
     depends_on:
       ceragen:
         condition: service_healthy
-    command: ["python3", "app.py"]
+    networks:
+      - ceragen-network
 
   ceragen-frontend:
     build:
@@ -58,8 +62,13 @@ services:
     container_name: ceragen-frontend
     restart: always
     ports:
-      - "5173:5173"
+      - "5502:5173"
     depends_on:
       - dawa-ceragen
+    networks:
+      - ceragen-network
     command: npm run dev
 
+networks:
+  ceragen-network:
+    driver: bridge

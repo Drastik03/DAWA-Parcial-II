@@ -11,6 +11,6 @@ RUN pip install --no-cache-dir -r src/utils/requirements.txt
 
 COPY . .
 
-EXPOSE 5000
+EXPOSE 5500
 
-CMD ["python", "-m", "dawa.app"]
+CMD ["python", "-m", "app"]
