@@ -42,7 +42,7 @@ const ChangePasswordModal = ({ open, onClose }) => {
 
 		try {
 			const res = await axios.patch(
-				"http://localhost:5000/user/change-password",
+				`${import.meta.env.VITE_API_URL}/user/change-password`,
 				{
 					oldPassword: data.oldPassword,
 					newPassword: data.newPassword,

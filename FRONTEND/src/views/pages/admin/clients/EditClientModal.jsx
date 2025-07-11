@@ -56,9 +56,11 @@ const EditClientModal = ({ open, onClose, clientData, onUpdate }) => {
 			console.log(formData);
 
 			const res = await axios.patch(
-				"http://localhost:5000/admin/client/update",
+				`${import.meta.env.VITE_API_URL}/admin/client/update`,
 				payload,
-				{ headers: { tokenapp: Cookies.get("token") } },
+				{
+					headers: { tokenapp: Cookies.get("token") },
+				},
 			);
 
 			if (res.data.result) {

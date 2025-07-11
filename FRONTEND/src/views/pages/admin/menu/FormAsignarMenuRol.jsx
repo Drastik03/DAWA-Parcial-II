@@ -30,10 +30,13 @@ const FormAsignarMenuRol = () => {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-
-	const { data: rolesData } = useFetch("http://localhost:5000/RolSistem/list");
-	const { data: menusData } = useFetch("http://localhost:5000/Menu/list");
-
+	const { data: rolesData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/RolSistem/list`,
+	);
+	const { data: menusData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Menu/list`,
+	);
+	
 	const roles = Array.isArray(rolesData) ? rolesData : [];
 	const menus = Array.isArray(menusData) ? menusData : [];
 

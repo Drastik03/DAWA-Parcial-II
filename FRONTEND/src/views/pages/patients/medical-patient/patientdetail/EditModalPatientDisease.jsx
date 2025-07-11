@@ -14,7 +14,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useFetch } from "../../../../../hooks/useFetch";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const EditModalPatientDisease = ({
 	open,
@@ -31,7 +31,7 @@ const EditModalPatientDisease = ({
 	});
 
 	const { data: diseasesData } = useFetch(
-		`${API_BASE}catalog/disease-type/list`,
+		`${API_BASE}/catalog/disease-type/list`,
 	);
 	const diseases = Array.isArray(diseasesData?.data) ? diseasesData?.data : [];
 

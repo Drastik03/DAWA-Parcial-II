@@ -29,8 +29,9 @@ import EditClientModal from "./EditClientModal";
 
 export const ClientsTable = () => {
 	const { data, loading, error, refetch } = useFetch(
-		"http://localhost:5000/admin/client/list",
+		`${import.meta.env.VITE_API_URL}/admin/client/list`,
 	);
+
 	const { user } = useAuth();
 	const clients = data?.data || [];
 
@@ -53,12 +54,13 @@ export const ClientsTable = () => {
 		try {
 			const user_process = user.user.user_login_id;
 			const res = await axios.delete(
-				`http://localhost:5000/admin/client/delete/${cli_id}`,
-				user_process,
+				`${import.meta.env.VITE_API_URL}/admin/client/delete/${cli_id}`,
 				{
+					data: user_process, 
 					headers: { tokenapp: Cookies.get("token") },
 				},
 			);
+			  
 
 			if (res.data.result) {
 				setSnackbarSeverity("success");

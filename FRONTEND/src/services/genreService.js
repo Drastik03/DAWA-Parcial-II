@@ -1,17 +1,24 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const BASE_URL = "http://localhost:5000/admin/Person_genre";
+const BASE = import.meta.env.VITE_API_URL;
+const RESOURCE = "/admin/Person_genre";
+
+const authHeader = () => ({
+	headers: {
+		tokenapp: Cookies.get("token"),
+	},
+});
 
 export const editGenre = async (genreData) => {
 	try {
-		const response = await axios.patch(`${BASE_URL}/update`, genreData, {
-			headers: {
-				tokenapp: Cookies.get("token"),
-			},
-		});
+		const response = await axios.patch(
+			`${BASE}${RESOURCE}/update`,
+			genreData,
+			authHeader(),
+		);
 		if (response.status !== 200) {
-			throw new Error("Failed to edit genre");
+			throw new Error("Fallo al editar el género");
 		}
 		return response.data;
 	} catch (error) {
@@ -21,13 +28,12 @@ export const editGenre = async (genreData) => {
 
 export const deleteGenre = async (id, user) => {
 	try {
-		const response = await axios.delete(`${BASE_URL}/delete/${id}/${user}`, {
-			headers: {
-				tokenapp: Cookies.get("token"),
-			},
-		});
+		const response = await axios.delete(
+			`${BASE}${RESOURCE}/delete/${id}/${user}`,
+			authHeader(),
+		);
 		if (response.status !== 200) {
-			throw new Error("Failed to delete genre");
+			throw new Error("Fallo al eliminar el género");
 		}
 		return response.data;
 	} catch (error) {
@@ -37,14 +43,13 @@ export const deleteGenre = async (id, user) => {
 
 export const createGenre = async (payload) => {
 	try {
-		const response = await axios.post(`${BASE_URL}/add`, payload, {
-			headers: {
-				tokenapp: Cookies.get("token"),
-			},
-		});
+		const response = await axios.post(
+			`${BASE}${RESOURCE}/add`,
+			payload,
+			authHeader(),
+		);
 		return response.data;
 	} catch (error) {
-		console.error("Error creando género:", error);
 		return {
 			result: false,
 			message: "Error en la conexión con el servidor.",

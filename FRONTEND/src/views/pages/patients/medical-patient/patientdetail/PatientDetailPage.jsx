@@ -14,7 +14,7 @@ import {
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const PatientDiseaseTable = ({ patientId, refresh }) => {
 	const [diseases, setDiseases] = useState([]);
@@ -27,7 +27,7 @@ const PatientDiseaseTable = ({ patientId, refresh }) => {
 		setLoading(true);
 		try {
 			const res = await axios.get(
-				`${API_BASE}clinic/patient-disease/get/${patientId}`,
+				`${API_BASE}/clinic/patient-disease/get/${patientId}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 					params: {

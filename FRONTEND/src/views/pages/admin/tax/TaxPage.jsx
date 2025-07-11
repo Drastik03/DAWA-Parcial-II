@@ -20,7 +20,8 @@ import Cookies from "js-cookie";
 import TaxForm from "./TaxForm";
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL; 
+
 
 export default function TaxPage() {
 	const [taxes, setTaxes] = useState([]);
@@ -49,6 +50,7 @@ export default function TaxPage() {
 		}
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		fetchTaxes();
 	}, []);

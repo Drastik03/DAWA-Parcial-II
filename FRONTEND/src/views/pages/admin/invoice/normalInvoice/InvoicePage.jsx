@@ -21,7 +21,7 @@ import InvoiceForm from "./InvoiceForm";
 import InvoiceDetailTabsDialog from "./InvoiceDetailTabsDialog";
 import { useNavigate } from "react-router-dom";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function InvoicePage() {
 	const [invoices, setInvoices] = useState([]);
@@ -52,6 +52,7 @@ export default function InvoicePage() {
 		}
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		fetchInvoices();
 	}, []);

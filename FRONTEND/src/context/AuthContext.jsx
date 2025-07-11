@@ -42,11 +42,12 @@ export const AuthProvider = ({ children }) => {
 		}
 		try {
 			const response = await axios.get(
-				"http://localhost:5000/user/actulization/data",
+				`${import.meta.env.VITE_API_URL}/user/actulization/data`,
 				{
 					headers: { tokenapp: token },
 				},
 			);
+			  
 			const data = response.data.data;
 
 			setUser(data);

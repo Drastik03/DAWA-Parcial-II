@@ -34,14 +34,16 @@ import Cookies from "js-cookie";
 import EditModalMedicalType from "./EditModalMedicalType";
 import { useAuth } from "../../../../context/AuthContext";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 const BCrumb = [
 	{ to: "/", title: "Home" },
 	{ title: "Tipos de Personal Médico" },
 ];
 
 const MedicPersonType = () => {
-	const { data, refetch } = useFetch(`${API_BASE}admin/medicalPersonType/list`);
+	const { data, refetch } = useFetch(
+		`${API_BASE}/admin/medicalPersonType/list`,
+	);
 
 	const rows = useMemo(() => {
 		const list = data?.data;
@@ -83,7 +85,7 @@ const MedicPersonType = () => {
 		try {
 			const user_process = user.user.user_login_id;
 			const res = await axios.patch(
-				`${API_BASE}admin/medicalPersonType/delete/${mpt_id}`,
+				`${API_BASE}/admin/medicalPersonType/delete/${mpt_id}`,
 				user_process,
 				{
 					headers: { tokenapp: Cookies.get("token") },
@@ -111,7 +113,7 @@ const MedicPersonType = () => {
 				user_created: "admin",
 			};
 			const res = await axios.post(
-				`${API_BASE}admin/medicalPersonType/insert`,
+				`${API_BASE}/admin/medicalPersonType/insert`,
 				payload,
 				{
 					headers: { tokenapp: Cookies.get("token") },

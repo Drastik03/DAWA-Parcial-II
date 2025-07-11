@@ -166,13 +166,14 @@ const BCrumb = [
 
 const PromotionTable = () => {
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/promotion/list",
+		`${import.meta.env.VITE_API_URL}/admin/promotion/list`,
 	);
 	console.log(data);
 
 	const { data: productData } = useFetch(
-		"http://localhost:5000/admin/product/list",
+		`${import.meta.env.VITE_API_URL}/admin/product/list`,
 	);
+
 	const products = useMemo(() => {
 		const list = Array.isArray(productData?.data) ? productData.data : [];
 		const seen = new Set();

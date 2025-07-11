@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import React, { useEffect, useState } from "react";
 import {
 	Dialog,
@@ -13,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function DiseaseForm({ open, onClose, onSuccess, editDisease }) {
 	const {

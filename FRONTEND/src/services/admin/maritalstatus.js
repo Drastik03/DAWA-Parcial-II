@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:5000/admin/Marital_status";
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/admin/Marital_status`;
 
 export const deleteMarital = async (id, user) => {
 	try {

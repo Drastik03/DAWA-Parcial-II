@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noArrayIndexKey: <explanation> */
+/** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -32,13 +33,13 @@ const Notifications = () => {
 	};
 
 	const { data, loading, refetch } = useFetch(
-		"http://localhost:5000/Notification/list",
+		`${import.meta.env.VITE_API_URL}/Notification/list`,
 	);
 
 	const readNotification = async (id) => {
 		try {
 			await axios.patch(
-				"http://localhost:5000/Notification/read",
+				`${import.meta.env.VITE_API_URL}/Notification/read`,
 				{
 					notification_read: true,
 					notification_id: id,
@@ -54,6 +55,7 @@ const Notifications = () => {
 			console.error("Error al leer notificación", error);
 		}
 	};
+	  
 
 
 

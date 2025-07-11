@@ -185,8 +185,9 @@ const BCrumb = [
 
 const ProductsTable = () => {
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/product/list",
+		`${import.meta.env.VITE_API_URL}/admin/product/list`,
 	);
+
 	const navigate = useNavigate();
 	const [searchTerm, setSearchTerm] = useState("");
 
@@ -202,7 +203,7 @@ const ProductsTable = () => {
 
 	const rows = useMemo(() => data?.data || [], [data]);
 	const { data: therapies } = useFetch(
-		"http://localhost:5000/admin/therapy-type/list",
+		`${import.meta.env.VITE_API_URL}/admin/therapy-type/list`,
 	);
 
 	const filteredRows = useMemo(() => {

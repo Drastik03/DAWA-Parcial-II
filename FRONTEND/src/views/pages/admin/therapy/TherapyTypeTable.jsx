@@ -44,7 +44,7 @@ const TherapyTypeTable = () => {
 		loading,
 		error,
 		refetch,
-	} = useFetch("http://localhost:5000/admin/therapy-type/list");
+	} = useFetch(`${import.meta.env.VITE_API_URL}/admin/therapy-type/list`);
 
 	const handleEdit = (therapy) => {
 		setSelectedTherapy(therapy);
@@ -58,9 +58,11 @@ const TherapyTypeTable = () => {
 	const handleDelete = async () => {
 		try {
 			const res = await axios.patch(
-				`http://localhost:5000/admin/therapy-type/delete/${deleteDialog.id}`,
+				`${import.meta.env.VITE_API_URL}/admin/therapy-type/delete/${deleteDialog.id}`,
 				deleteDialog.id,
-				{ headers: { tokenapp: Cookies.get("token") } },
+				{
+					headers: { tokenapp: Cookies.get("token") },
+				},
 			);
 
 			if (res.data.result) {

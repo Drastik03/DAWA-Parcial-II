@@ -41,7 +41,7 @@ const TherapySessionsByMedicalStaffReport = () => {
 		const fetchMedicalStaff = async () => {
 			try {
 				const response = await axios.get(
-					"http://localhost:5000/admin/Medical_staff/list",
+					`${import.meta.env.VITE_API_URL}/admin/Medical_staff/list`,
 					{
 						headers: { tokenapp: Cookies.get("token") },
 					},
@@ -81,7 +81,7 @@ const TherapySessionsByMedicalStaffReport = () => {
 			};
 
 			const response = await axios.post(
-				"http://localhost:5000/clinic/TherapySession/report/by-nurse",
+				`${import.meta.env.VITE_API_URL}/clinic/TherapySession/report/by-nurse`,
 				body,
 				{ headers: { tokenapp: Cookies.get("token") } },
 			);

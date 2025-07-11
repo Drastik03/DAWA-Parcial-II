@@ -9,7 +9,6 @@ import img1 from "src/assets/images/backgrounds/login-bg.svg";
 import AuthForgotPassword from "../authForms/AuthForgotPassword";
 
 const ForgotPassword = () => {
- 
 	return (
 		<PageContainer
 			title="Forgot Password"
@@ -79,7 +78,7 @@ const ForgotPassword = () => {
 				>
 					<Box p={4}>
 						<Typography variant="h4" fontWeight="700">
-							Forgot your password?
+							Olvidaste tú contraseña?
 						</Typography>
 
 						<Typography
@@ -88,8 +87,8 @@ const ForgotPassword = () => {
 							fontWeight="400"
 							mt={2}
 						>
-							Please enter the email address associated with your account and We
-							will email you a link to reset your password.
+							Ingrese la dirección de correo electrónico asociada a su cuenta y
+							le enviaremos un enlace para restablecer su contraseña.
 						</Typography>
 						<AuthForgotPassword />
 					</Box>

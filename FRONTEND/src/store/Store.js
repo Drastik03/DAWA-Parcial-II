@@ -1,12 +1,10 @@
-import { configureStore } from '@reduxjs/toolkit';
-import CustomizerReducer from './customizer/CustomizerSlice';
-import UserProfileReducer from './apps/userProfile/UserProfileSlice';
+import { configureStore } from "@reduxjs/toolkit";
+import CustomizerReducer from "./customizer/CustomizerSlice";
 
 export const store = configureStore({
-  reducer: {
-    customizer: CustomizerReducer,
-    userpostsReducer: UserProfileReducer,
-  },
+	reducer: {
+		customizer: CustomizerReducer,
+	},
 });
 
 export default store;

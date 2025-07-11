@@ -31,8 +31,13 @@ const FormRegisterMenu = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-	const { data: modulesData } = useFetch("http://localhost:5000/Module/list");
-	const { data: menusData } = useFetch("http://localhost:5000/Menu/list");
+	const { data: modulesData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Module/list`,
+	);
+	const { data: menusData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Menu/list`,
+	);
+
 
 	const modules = Array.isArray(modulesData) ? modulesData : [];
 	const menus = Array.isArray(menusData) ? menusData : [];

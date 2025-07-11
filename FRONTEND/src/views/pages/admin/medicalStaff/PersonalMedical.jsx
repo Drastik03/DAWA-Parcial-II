@@ -31,7 +31,7 @@ import { useAuth } from "../../../../context/AuthContext";
 import {
 	createPersonalMedical,
 	deletePersonalMedical,
-} from "../../../../services/admin/personalmedicalservice";
+} from "../../../../services/admin/personalMedicalService";
 import { useForm, Controller } from "react-hook-form";
 import EditModalPersonalMedical from "./EditModalPersonalMedical";
 
@@ -39,8 +39,9 @@ const BCrumb = [{ to: "/", title: "Home" }, { title: "Personal Médico" }];
 
 const PersonalMedical = () => {
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/Medical_staff/list",
+		`${import.meta.env.VITE_API_URL}/admin/Medical_staff/list`,
 	);
+
 	const rows = useMemo(() => {
 		const safeData = data?.data;
 		return Array.isArray(safeData) ? safeData : [];
@@ -94,15 +95,16 @@ const PersonalMedical = () => {
 	});
 
 	const { data: personsResponse } = useFetch(
-		"http://localhost:5000/admin/persons/list",
+		`${import.meta.env.VITE_API_URL}/admin/persons/list`,
 	);
+
 	const personsData = Array.isArray(personsResponse?.data)
 		? personsResponse.data
 		: [];
-
 	const { data: medicalTypesResponse } = useFetch(
-		"http://localhost:5000/admin/medicalPersonType/list",
+		`${import.meta.env.VITE_API_URL}/admin/medicalPersonType/list`,
 	);
+
 	const medicalTypes = Array.isArray(medicalTypesResponse?.data)
 		? medicalTypesResponse.data
 		: [];

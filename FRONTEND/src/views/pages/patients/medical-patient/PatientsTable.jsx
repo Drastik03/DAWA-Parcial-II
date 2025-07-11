@@ -30,9 +30,7 @@ import {
 import { IconEye } from "@tabler/icons";
 import EditPatientForm from "./EditPatientForm";
 
-const API_BASE = "http://localhost:5000/";
-
-
+const API_BASE = import.meta.env.VITE_API_URL;
 
 function DeletePatientModal({ open, onClose, onConfirm, patient }) {
 	if (!patient) return null;
@@ -80,7 +78,7 @@ const PatientsTable = () => {
 	const fetchPatients = useCallback(async () => {
 		setLoading(true);
 		try {
-			const res = await axios.get(`${API_BASE}clinic/patients/list`, {
+			const res = await axios.get(`${API_BASE}/clinic/patients/list`, {
 				headers: { tokenapp: Cookies.get("token") },
 			});
 			if (res.data.result) {
@@ -146,7 +144,7 @@ const PatientsTable = () => {
 
 	const handleDeleteConfirm = async () => {
 		try {
-			const endpoint = `${API_BASE}clinic/patients/delete/${deletePatient.pat_id}`;
+			const endpoint = `${API_BASE}/clinic/patients/delete/${deletePatient.pat_id}`;
 			const res = await axios.delete(endpoint, {
 				headers: { tokenapp: Cookies.get("token") },
 			});

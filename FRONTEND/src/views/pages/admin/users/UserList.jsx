@@ -3,8 +3,9 @@ import UserPaginationTable from "../../../tables/UserPaginationTable";
 
 const UserList = () => {
 	const { data, loading, error, refetch } = useFetch(
-		"http://localhost:5000/user/list",
+		`${import.meta.env.VITE_API_URL}/user/list`,
 	);
+
 	console.log("DESDE DATA USERS", data);
 
 	// const headerRow = ["ID", "Person ID", "Login ID", "Email", "Acciones"];

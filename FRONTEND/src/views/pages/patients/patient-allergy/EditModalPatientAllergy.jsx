@@ -12,8 +12,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useFetch } from "../../../../hooks/useFetch";
 
-const API_BASE = "http://localhost:5000/";
-
+const API_BASE = import.meta.env.VITE_API_URL;
 const EditModalPatientAllergy = ({
 	open,
 	onClose,
@@ -32,7 +31,7 @@ const EditModalPatientAllergy = ({
 		},
 	});
 
-	const { data: allergyData } = useFetch(`${API_BASE}catalog/allergy/list`);
+	const { data: allergyData } = useFetch(`${API_BASE}/catalog/allergy/list`);
 	const allergies = Array.isArray(allergyData?.data) ? allergyData.data : [];
 
 	useEffect(() => {

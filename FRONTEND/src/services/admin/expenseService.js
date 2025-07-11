@@ -1,7 +1,9 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:5000/admin/expense";
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/admin/expense`;
+
 export const createExpense = async (payload) => {
 	try {
 		const response = await axios.post(`${API_URL}/insert`, payload, {

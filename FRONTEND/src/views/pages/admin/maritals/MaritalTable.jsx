@@ -35,10 +35,10 @@ import { useAuth } from "../../../../context/AuthContext";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Estados Civiles" }];
 
+const API_BASE = import.meta.env.VITE_API_URL;
 const MaritalTableList = () => {
-	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/Marital_status/list",
-	);
+	const { data, refetch } = useFetch(`${API_BASE}/admin/Marital_status/list`);
+
 	const rows = useMemo(
 		() => (Array.isArray(data?.data) ? data?.data : []),
 		[data],

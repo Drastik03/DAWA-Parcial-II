@@ -70,7 +70,9 @@ Row.propTypes = {
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Módulos" }];
 
 const ModuleTableList = () => {
-	const { data, refetch } = useFetch("http://localhost:5000/Module/list");
+	const { data, refetch } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Module/list`,
+	);
 	const rows = useMemo(() => (Array.isArray(data) ? data : []), [data]);
 	const navigate = useNavigate();
 

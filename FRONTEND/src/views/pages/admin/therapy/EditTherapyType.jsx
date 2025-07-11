@@ -54,12 +54,13 @@ const EditTherapyType = ({ open, onClose, selectedTherapyType, onUpdate }) => {
 			};
 
 			const res = await axios.patch(
-				"http://localhost:5000/admin/therapy-type/update",
+				`${import.meta.env.VITE_API_URL}/admin/therapy-type/update`,
 				payload,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
 			);
+			  
 
 			if (res.data.result) {
 				onUpdate();

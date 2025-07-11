@@ -58,7 +58,7 @@ const ResetPasswordPage = () => {
 		try {
 			setErrorMsg("");
 			const response = await axios.patch(
-				"http://localhost:5000/security/change-password",
+				`${import.meta.env.VITE_API_URL}/security/change-password`,
 				{
 					new_password: data.new_password,
 					token_temp: tokenTemp,
@@ -70,7 +70,7 @@ const ResetPasswordPage = () => {
 					},
 				},
 			);
-
+			
 			if (response.data.result) {
 				navigate("/auth/login");
 			} else {

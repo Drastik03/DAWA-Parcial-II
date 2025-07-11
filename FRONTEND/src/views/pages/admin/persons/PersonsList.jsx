@@ -3,7 +3,7 @@ import PersonPaginationTable from "../../../tables/PersonPaginationTable";
 
 const PersonsList = () => {
 	const { data, loading, error, refetch } = useFetch(
-		"http://localhost:5000/admin/persons/list",
+		`${import.meta.env.VITE_API_URL}/admin/persons/list`,
 	);
 
 	const headerRow = [

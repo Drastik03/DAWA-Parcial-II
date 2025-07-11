@@ -38,7 +38,7 @@ const FormUserRegister = () => {
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
-	const { data } = useFetch("http://localhost:5000/admin/persons/list");
+	const { data } = useFetch(`${import.meta.env.VITE_API_URL}/admin/persons/list`);
 	const persons = Array.isArray(data?.data) ? data.data : [];
 
 	const registerUser = async (data) => {

@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:5000/RolSistem";
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/RolSistem`;
 
 export const createRole = async (roleData) => {
 	try {
@@ -15,6 +16,7 @@ export const createRole = async (roleData) => {
 		throw error.response ? error.response.data : error;
 	}
 };
+
 export const updateRole = async (roleData) => {
 	try {
 		const response = await axios.patch(`${API_URL}/update`, roleData, {

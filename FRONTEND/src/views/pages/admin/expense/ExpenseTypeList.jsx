@@ -91,8 +91,9 @@ const ExpenseTypeList = () => {
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const { user } = useAuth();
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/ExpenseType/list",
+		`${import.meta.env.VITE_API_URL}/admin/ExpenseType/list`,
 	);
+	  
 
 	const [selectedItem, setSelectedItem] = useState(null);
 	const [openEdit, setOpenEdit] = useState(false);

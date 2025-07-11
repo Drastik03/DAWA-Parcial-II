@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useExhaustiveDependencies: <explanation> */
 import React, { useState, useEffect } from "react";
 import {
 	TextField,
@@ -6,7 +7,6 @@ import {
 	Stack,
 	Snackbar,
 	Alert,
-	Box,
 } from "@mui/material";
 import axios from "axios";
 import Cookies from "js-cookie";
@@ -53,7 +53,7 @@ export const ClientForm = ({ selectedPerson, onCreated }) => {
 		try {
 			const token = Cookies.get("token");
 			const res = await axios.post(
-				"http://localhost:5000/admin/client/insert",
+				`${import.meta.env.VITE_API_URL}/admin/client/insert`,
 				formData,
 				{
 					headers: { tokenapp: token },

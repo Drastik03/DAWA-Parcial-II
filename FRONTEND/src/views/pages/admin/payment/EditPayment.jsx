@@ -41,7 +41,7 @@ const EditPayment = ({ open, onClose, selectedPaymentType, onUpdate }) => {
 				pme_require_references: selectedPaymentType.pme_require_references,
 				pme_require_picture_proff:
 					selectedPaymentType.pme_require_picture_proff,
-				user_created: selectedPaymentType.user_created, 
+				user_created: selectedPaymentType.user_created,
 			});
 		}
 	}, [selectedPaymentType, reset]);
@@ -57,7 +57,7 @@ const EditPayment = ({ open, onClose, selectedPaymentType, onUpdate }) => {
 				user_modified: user.user.user_login_id,
 			};
 			const res = await axios.patch(
-				"http://localhost:5000/admin/payment_method/update",
+				`${import.meta.env.VITE_API_URL}/admin/payment_method/update`,
 				payload,
 				{
 					headers: { tokenapp: Cookies.get("token") },

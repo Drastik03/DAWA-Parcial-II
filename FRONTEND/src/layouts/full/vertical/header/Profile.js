@@ -33,9 +33,13 @@ const Profile = () => {
 	};
 	const handleLogout = async () => {
 		try {
-			const res = await axios.patch("http://localhost:5000/security/logout", {
-				logId: loginId,
-			});
+			const res = await axios.patch(
+				`${import.meta.env.VITE_API_URL}/security/logout`,
+				{
+					logId: loginId,
+				},
+			);
+			  
 			if (!res.data.result) {
 				return;
 			}

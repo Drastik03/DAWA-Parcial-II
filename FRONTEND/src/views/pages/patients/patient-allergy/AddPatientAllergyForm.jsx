@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../../../context/AuthContext";
 import { useFetch } from "../../../../hooks/useFetch";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const AddPatientAllergyForm = ({ patientId, onSuccess }) => {
 	const {
@@ -37,7 +37,7 @@ const AddPatientAllergyForm = ({ patientId, onSuccess }) => {
 		severity: "success",
 	});
 
-	const { data: allergyData } = useFetch(`${API_BASE}catalog/allergy/list`);
+	const { data: allergyData } = useFetch(`${API_BASE}/catalog/allergy/list`);
 	const allergies = Array.isArray(allergyData?.data) ? allergyData.data : [];
 	console.log(allergies);
 
@@ -50,7 +50,7 @@ const AddPatientAllergyForm = ({ patientId, onSuccess }) => {
 			};
 
 			const res = await axios.post(
-				`${API_BASE}clinic/patient-allergy/add`,
+				`${API_BASE}/clinic/patient-allergy/add`,
 				payload,
 				{
 					headers: { tokenapp: Cookies.get("token") },

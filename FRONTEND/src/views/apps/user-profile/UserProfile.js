@@ -2,7 +2,6 @@ import { Button, Grid } from "@mui/material";
 import PageContainer from "../../../components/container/PageContainer";
 
 import ProfileBanner from "src/components/apps/userprofile/profile/ProfileBanner";
-import IntroCard from "src/components/apps/userprofile/profile/IntroCard";
 import ChangePasswordModal from "../../../components/admin/users/ChangePasswordCard";
 import { useState } from "react";
 import UserInfoCard from "../../../components/admin/users/UserInfoCard";

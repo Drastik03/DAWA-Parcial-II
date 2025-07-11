@@ -74,14 +74,16 @@ const TablePaginationActions = (props) => {
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Auditoría" }];
 
 const AuditPaginationTable = () => {
-	const { data, error } = useFetch("http://localhost:5000/Audit/list");
+	const { data, error } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Audit/list`,
+	);
 	const rows = Array.isArray(data) ? data : [];
 
 	const [page, setPage] = useState(0);
 	const [rowsPerPage, setRowsPerPage] = useState(5);
 	const [expandedRowId, setExpandedRowId] = useState(null);
 
-	const [filterAction, setFilterAction] = useState(""); 
+	const [filterAction, setFilterAction] = useState("");
 
 	const handleChangePage = (event, newPage) => setPage(newPage);
 	const handleChangeRowsPerPage = (event) => {
@@ -95,7 +97,7 @@ const AuditPaginationTable = () => {
 
 	const handleFilterChange = (event) => {
 		setFilterAction(event.target.value);
-		setPage(0); 
+		setPage(0);
 	};
 
 	const filteredRows = rows.filter((row) =>

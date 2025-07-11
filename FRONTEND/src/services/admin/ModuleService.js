@@ -1,6 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-const API_URL = "http://localhost:5000/Module";
+
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/Module`;
 
 export async function createModule(moduleData) {
 	try {

@@ -1,5 +1,5 @@
 import axios from "axios";
-const BASE = "http://localhost:5000";
+const BASE = import.meta.env.VITE_API_URL;
 
 export async function loginAndSetHeader(data) {
 	// eslint-disable-next-line no-useless-catch

@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:5000/admin/product";
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/admin/product`;
 
 export const createProduct = async (formData) => {
 	try {
@@ -11,7 +12,6 @@ export const createProduct = async (formData) => {
 				tokenapp: Cookies.get("token"),
 			},
 		});
-
 		return response.data;
 	} catch (error) {
 		console.error("Error al crear producto:", error);

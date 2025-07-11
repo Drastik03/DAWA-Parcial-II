@@ -5,7 +5,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAuth } from "../../../../../context/AuthContext";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function InvoiceTaxForm({ invoiceId }) {
 	const [taxes, setTaxes] = useState([]);

@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import React, { useEffect, useState } from "react";
 import {
 	Paper,
@@ -57,11 +58,12 @@ export const PatientForm = ({ selectedPerson, selectedClient, onCreated }) => {
 	const onSubmit = async (data) => {
 		try {
 			const res = await axios.post(
-				"http://localhost:5000/clinic/patients/add",
+				`${import.meta.env.VITE_API_URL}/clinic/patients/add`,
 				{
 					...data,
 					user_created: "admin",
 				},
+
 				{ headers: { tokenapp: Cookies.get("token") } },
 			);
 

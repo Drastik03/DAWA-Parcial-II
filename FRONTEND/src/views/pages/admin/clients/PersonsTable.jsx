@@ -26,8 +26,9 @@ export const PersonsTable = ({ onSelectPerson }) => {
 	});
 
 	const { data, loading, error, refetch } = useFetch(
-		"http://localhost:5000/admin/persons/list",
+		`${import.meta.env.VITE_API_URL}/admin/persons/list`,
 	);
+	  
 
 	const persons = Array.isArray(data?.data) ? data.data : [];
 

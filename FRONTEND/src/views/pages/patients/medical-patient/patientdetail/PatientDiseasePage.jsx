@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useExhaustiveDependencies: <explanation> */
 import React, { useEffect, useState, useCallback } from "react";
 import {
 	Paper,
@@ -27,7 +28,7 @@ import { DeleteIcon, EditIcon } from "lucide-react";
 import AddPatientDiseaseForm from "./AddPatientDiseaseForm";
 import EditModalPatientDisease from "./EditModalPatientDisease";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export const PatientDiseasePage = () => {
 	const { patientId } = useParams();
@@ -49,7 +50,7 @@ export const PatientDiseasePage = () => {
 	const fetchDiseases = useCallback(async () => {
 		try {
 			const res = await axios.get(
-				`${API_BASE}clinic/patient-disease/get/${patientId}`,
+				`${API_BASE}/clinic/patient-disease/get/${patientId}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
@@ -86,7 +87,7 @@ export const PatientDiseasePage = () => {
 		if (!diseaseToDelete) return;
 		try {
 			const res = await axios.delete(
-				`${API_BASE}clinic/patient-disease/delete/${diseaseToDelete.pd_id}`,
+				`${API_BASE}/clinic/patient-disease/delete/${diseaseToDelete.pd_id}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
@@ -119,10 +120,7 @@ export const PatientDiseasePage = () => {
 				Enfermedades del Paciente #{patientId}
 			</Typography>
 
-			<AddPatientDiseaseForm
-				patientId={patientId}
-				onSuccess={fetchDiseases} 
-			/>
+			<AddPatientDiseaseForm patientId={patientId} onSuccess={fetchDiseases} />
 
 			<Typography variant="h6" mt={4} mb={2}>
 				Lista de Enfermedades
@@ -204,7 +202,7 @@ export const PatientDiseasePage = () => {
 						};
 
 						const res = await axios.patch(
-							`${API_BASE}clinic/patient-disease/update/${pd_id}`,
+							`${API_BASE}/clinic/patient-disease/update/${pd_id}`,
 							payload,
 							{
 								headers: { tokenapp: Cookies.get("token") },

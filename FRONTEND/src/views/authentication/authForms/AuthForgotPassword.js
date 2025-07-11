@@ -20,11 +20,12 @@ const AuthForgotPassword = () => {
 		console.log("Form submitted with data:", data);
 		try {
 			const res = await axios.patch(
-				"http://localhost:5000/security/recover-password",
+				`${import.meta.env.VITE_API_URL}/security/recover-password`,
 				{
 					user_mail: data.email,
 				},
 			);
+
 			if (!res.success) {
 				setMessage(res.message || "Error al enviar el correo");
 			}
@@ -58,7 +59,7 @@ const AuthForgotPassword = () => {
 						</Alert>
 					)}
 
-					<CustomFormLabel htmlFor="reset-email">Email Address</CustomFormLabel>
+					<CustomFormLabel htmlFor="reset-email">Email</CustomFormLabel>
 					<CustomTextField
 						id="reset-email"
 						variant="outlined"
@@ -81,7 +82,7 @@ const AuthForgotPassword = () => {
 						fullWidth
 						type="submit"
 					>
-						Forgot Password
+						Enviame un correo
 					</Button>
 				</Stack>
 			</form>

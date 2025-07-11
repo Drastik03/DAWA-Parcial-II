@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/nursery/useUniqueElementIds: <explanation> */
 import React, { useState } from "react";
 import {
 	Grid,
@@ -37,7 +38,9 @@ const ProductRegisterForm = () => {
 	const [openSnackbar, setOpenSnackbar] = useState(false);
 	const [snackbarMessage, setSnackbarMessage] = useState("");
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
-	const { data } = useFetch("http://localhost:5000/admin/therapy-type/list");
+	const { data } = useFetch(
+		`${import.meta.env.VITE_API_URL}/admin/therapy-type/list`,
+	);
 	const therapyOptions = data?.data || [];
 
 	console.log(data?.data);

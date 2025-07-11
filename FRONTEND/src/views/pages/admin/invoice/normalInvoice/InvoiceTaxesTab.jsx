@@ -14,7 +14,7 @@ import { Add, Delete } from "@mui/icons-material";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function InvoiceTaxesTab({ invoice }) {
 	const [taxes, setTaxes] = useState([]);

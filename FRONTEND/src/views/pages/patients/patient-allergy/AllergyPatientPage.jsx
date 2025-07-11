@@ -27,7 +27,7 @@ import AddPatientAllergyForm from "./AddPatientAllergyForm";
 import EditModalPatientAllergy from "./EditModalPatientAllergy";
 import { useAuth } from "../../../../context/AuthContext";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const AllergyPatientPage = () => {
 	const { patientId } = useParams();
@@ -47,7 +47,7 @@ const AllergyPatientPage = () => {
 	const fetchAllergies = useCallback(async () => {
 		try {
 			const res = await axios.get(
-				`${API_BASE}clinic/patient-allergy/get/${patientId}`,
+				`${API_BASE}/clinic/patient-allergy/get/${patientId}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
@@ -72,6 +72,7 @@ const AllergyPatientPage = () => {
 		}
 	}, [patientId]);
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (patientId) fetchAllergies();
 	}, [fetchAllergies]);
@@ -80,7 +81,7 @@ const AllergyPatientPage = () => {
 		if (!allergyToDelete) return;
 		try {
 			const res = await axios.delete(
-				`${API_BASE}clinic/patient-allergy/delete/${allergyToDelete.pa_id}`,
+				`${API_BASE}/clinic/patient-allergy/delete/${allergyToDelete.pa_id}`,
 				{ headers: { tokenapp: Cookies.get("token") } },
 			);
 			if (res.data.result) {
@@ -185,7 +186,7 @@ const AllergyPatientPage = () => {
 							user_modified: user.user.user_login_id,
 						};
 						const res = await axios.patch(
-							`${API_BASE}clinic/patient-allergy/update/${selectedAllergy.pa_id}`,
+							`${API_BASE}/clinic/patient-allergy/update/${selectedAllergy.pa_id}`,
 							payload,
 							{ headers: { tokenapp: Cookies.get("token") } },
 						);

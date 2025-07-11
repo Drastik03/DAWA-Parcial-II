@@ -23,11 +23,11 @@ import { useReactToPrint } from "react-to-print";
 
 const PatientMedicalHistory = () => {
 	const { data, loading } = useFetch(
-		"http://localhost:5000/clinic/patients/list",
+		`${import.meta.env.VITE_API_URL}/clinic/patients/list`,
 	);
+
 	const patient = data?.[0];
 
-	// Ref para imprimir solo este componente
 	const componentRef = useRef();
 
 	const handlePrint = useReactToPrint({

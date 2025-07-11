@@ -11,7 +11,9 @@ import Welcome from "src/layouts/full/shared/welcome/Welcome";
 import { useFetch } from "../../hooks/useFetch";
 
 const Modern = () => {
-	const { data } = useFetch("http://localhost:5000/admin/dashboard/list");
+	const { data } = useFetch(
+		`${import.meta.env.VITE_API_URL}/admin/dashboard/list`,
+	);
 	console.log(data);
 	const dashboardData = data?.data?.data[0];
 	console.log(dashboardData);

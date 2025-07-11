@@ -1,7 +1,8 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_URL = "http://localhost:5000/admin/ExpenseType";
+const BASE = import.meta.env.VITE_API_URL;
+const API_URL = `${BASE}/admin/ExpenseType`;
 
 export const createExpenseType = async (payload) => {
 	try {

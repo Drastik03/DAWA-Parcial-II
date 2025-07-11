@@ -1,17 +1,16 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-const API_BASE = "http://localhost:5000/";
+
+const BASE = import.meta.env.VITE_API_URL;
+const API_BASE = `${BASE}/admin/Medical_staff`;
+
 export const createPersonalMedical = async (payload) => {
 	try {
-		const response = await axios.post(
-			`${API_BASE}/admin/Medical_staff/add`,
-			payload,
-			{
-				headers: {
-					tokenapp: Cookies.get("token"),
-				},
+		const response = await axios.post(`${API_BASE}/add`, payload, {
+			headers: {
+				tokenapp: Cookies.get("token"),
 			},
-		);
+		});
 		return response.data;
 	} catch (error) {
 		console.error("Error al crear personal médico:", error);
@@ -27,7 +26,7 @@ export const createPersonalMedical = async (payload) => {
 export const updatePersonalMedical = async (med_id, payload) => {
 	try {
 		const response = await axios.patch(
-			`http://localhost:5000/admin/Medical_staff/update/${med_id}`,
+			`${API_BASE}/update/${med_id}`,
 			payload,
 			{
 				headers: {
@@ -50,15 +49,12 @@ export const updatePersonalMedical = async (med_id, payload) => {
 
 export const deletePersonalMedical = async (med_id, userDeleted) => {
 	try {
-		const response = await axios.delete(
-			`${API_BASE}admin/Medical_staff/delete/${med_id}`,
-			{
-				data: { user_deleted: userDeleted },
-				headers: {
-					tokenapp: Cookies.get("token"),
-				},
+		const response = await axios.delete(`${API_BASE}/delete/${med_id}`, {
+			data: { user_deleted: userDeleted },
+			headers: {
+				tokenapp: Cookies.get("token"),
 			},
-		);
+		});
 		return response.data;
 	} catch (error) {
 		console.error(

@@ -15,7 +15,9 @@ import {
 import { useFetch } from "../../../../hooks/useFetch";
 
 export const ClientsTable = ({ onSelectClient }) => {
-	const { data, loading } = useFetch("http://localhost:5000/admin/client/list");
+	const { data, loading } = useFetch(
+		`${import.meta.env.VITE_API_URL}/admin/client/list`,
+	);
 	const clients = Array.isArray(data?.data) ? data?.data : [];
 
 	const [search, setSearch] = useState("");

@@ -47,9 +47,6 @@ const Error = Loadable(lazy(() => import("../views/authentication/Error")));
 
 // Dashboard
 const ModernDash = Loadable(lazy(() => import("../views/dashboard/Modern")));
-const EcommerceDash = Loadable(
-	lazy(() => import("../views/dashboard/Ecommerce")),
-);
 
 // Sistema - Admin/Security Pages
 const UserList = Loadable(
@@ -130,7 +127,6 @@ const Router = [
 				children: [
 					// Dashboard
 					{ path: "dashboards/modern", element: <ModernDash /> },
-					{ path: "dashboards/ecommerce", element: <EcommerceDash /> },
 
 					// Seguridad y administración
 					{ path: "admin/Marital-Status", element: <MaritalList /> },

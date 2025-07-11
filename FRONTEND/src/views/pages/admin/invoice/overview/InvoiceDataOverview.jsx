@@ -21,8 +21,7 @@ import PagosTable from "./PagosTable";
 import InvoiceDetailTable from "./InvoiceDetailTable";
 import TaxTable from "./TaxTable";
 
-const API_BASE = "http://localhost:5000";
-
+const API_BASE = import.meta.env.VITE_API_URL;
 function extractDataArray(response) {
 	if (!response || !response.data) return [];
 	if (Array.isArray(response.data)) return response.data;
@@ -33,7 +32,6 @@ function extractDataArray(response) {
 
 export default function InvoiceDataOverview() {
 	const { id } = useParams();
-	const theme = useTheme();
 
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
@@ -115,6 +113,7 @@ export default function InvoiceDataOverview() {
 		}
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (!id || !token) return;
 

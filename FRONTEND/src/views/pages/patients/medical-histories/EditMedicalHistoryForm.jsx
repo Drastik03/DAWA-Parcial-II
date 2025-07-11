@@ -14,7 +14,7 @@ import { useForm, Controller } from "react-hook-form";
 import axios from "axios";
 import Cookies from "js-cookie";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function EditMedicalHistoryForm({
 	open,
@@ -63,7 +63,7 @@ export default function EditMedicalHistoryForm({
 
 	const onSubmit = async (data) => {
 		try {
-            const endpoint = `${API_BASE}medical-histories/update/${editHistory.hist_id}`;
+            const endpoint = `${API_BASE}/medical-histories/update/${editHistory.hist_id}`;
 			const res = await axios.patch(endpoint, data, {
 				headers: { tokenapp: Cookies.get("token") },
 			});

@@ -8,7 +8,6 @@ import {
 	Tabs,
 	Tab,
 	Box,
-	Typography,
 } from "@mui/material";
 import InvoiceDetailForm from "./InvoiceDetailForm";
 import InvoiceTaxForm from "./InvoiceTaxForm";

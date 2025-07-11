@@ -87,12 +87,13 @@ const ExpenseReport = () => {
 	// Modal y selección
 	const [selectedToEdit, setSelectedToEdit] = useState(null);
 	const [editModalOpen, setEditModalOpen] = useState(false);
+	const API_BASE = import.meta.env.VITE_API_URL;
 
 	const {
 		data,
 		error: errorFetch,
 		refetch,
-	} = useFetch("http://localhost:5000/admin/expense/list");
+	} = useFetch(`${API_BASE}/admin/expense/list`);
 
 	useEffect(() => {
 		if (!startDate && !endDate) {
@@ -106,7 +107,8 @@ const ExpenseReport = () => {
 	const fetchExpenses = async (fromDate, toDate) => {
 		setError(null);
 		try {
-			const url = `http://localhost:5000/admin/expense/list_by_date?from=${fromDate}&to=${toDate}`;
+			const url = `${API_BASE}/admin/expense/list_by_date?from=${fromDate}&to=${toDate}`;
+
 			const response = await axios.get(url, {
 				headers: { tokenapp: Cookies.get("token") },
 			});
@@ -144,11 +146,12 @@ const ExpenseReport = () => {
 
 		try {
 			const response = await axios.delete(
-				`http://localhost:5000/admin/expense/delete/${id}`,
+				`${import.meta.env.VITE_API_URL}/admin/expense/delete/${id}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
 			);
+
 			if (response.data?.result) {
 				setExpenses((prev) => prev.filter((e) => e.exp_id !== id));
 			} else {

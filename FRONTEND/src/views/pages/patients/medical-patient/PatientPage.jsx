@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Box, Typography, Divider } from "@mui/material";
 import { PatientForm } from "./FormCreatePatient";
 import { ClientsTable } from "./ClientsTable";

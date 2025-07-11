@@ -103,8 +103,13 @@ const MenuPaginationTable = () => {
 	const [alertSeverity, setAlertSeverity] = React.useState("success");
 	const [searchTerm, setSearchTerm] = React.useState("");
 	const navigate = useNavigate();
-	const { data, refetch } = useFetch("http://localhost:5000/Menu/list");
-	const { data: modulesData } = useFetch("http://localhost:5000/Module/list");
+	const { data, refetch } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Menu/list`,
+	);
+	const { data: modulesData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/Module/list`,
+	);
+
 	const modules = Array.isArray(modulesData) ? modulesData : [];
 	const rows = Array.isArray(data) ? data : [];
 	const filteredRows = rows.filter((row) =>

@@ -40,12 +40,13 @@ const FormLoginPerson = () => {
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
 	const { data: genreData } = useFetch(
-		"http://localhost:5000/admin/Person_genre/list",
-	);
-	const { data: maritalData } = useFetch(
-		"http://localhost:5000/admin/Marital_status/list",
+		`${import.meta.env.VITE_API_URL}/admin/Person_genre/list`,
 	);
 
+	const { data: maritalData } = useFetch(
+		`${import.meta.env.VITE_API_URL}/admin/Marital_status/list`,
+	);
+	  
 	const genres = Array.isArray(genreData?.data) ? genreData.data : [];
 	const maritals = Array.isArray(maritalData?.data) ? maritalData.data : [];
 

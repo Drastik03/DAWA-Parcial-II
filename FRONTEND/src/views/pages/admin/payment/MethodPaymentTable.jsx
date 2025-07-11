@@ -33,14 +33,14 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 import EditPayment from "./EditPayment";
-import { createPaymentMethod } from "../../../../services/admin/paymenttypeservice";
+import { createPaymentMethod } from "../../../../services/admin/paymentTypeService";
 
 const BCrumb = [{ to: "/", title: "Home" }, { title: "Tipos de Pago" }];
 
 const PaymentMethodTable = () => {
 	const { user } = useAuth();
 	const { data, refetch } = useFetch(
-		"http://localhost:5000/admin/payment_method/list",
+		`${import.meta.env.VITE_API_URL}/admin/payment_method/list`,
 	);
 
 	const rows = useMemo(() => {
@@ -48,7 +48,6 @@ const PaymentMethodTable = () => {
 		return Array.isArray(safeData) ? safeData : [];
 	}, [data]);
 
-	// Estados para modales y snackbars
 	const [createOpen, setCreateOpen] = useState(false);
 	const [editOpen, setEditOpen] = useState(false);
 	const [selectedPaymentType, setSelectedPaymentType] = useState(null);
@@ -86,7 +85,7 @@ const PaymentMethodTable = () => {
 	const handleDelete = async () => {
 		try {
 			const response = await axios.delete(
-				`http://localhost:5000/admin/payment_method/delete/${deleteId}`,
+				`${import.meta.env.VITE_API_URL}/admin/payment_method/delete/${deleteId}`,
 				{
 					headers: {
 						tokenapp: Cookies.get("token"),

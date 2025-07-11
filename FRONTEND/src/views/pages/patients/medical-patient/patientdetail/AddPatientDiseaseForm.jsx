@@ -52,12 +52,12 @@ const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 				`http://localhost:5000/clinic/patient-disease/add`,
 				payload,
 			);
-
 			const res = await axios.post(
-				`http://localhost:5000/clinic/patient-disease/add`,
+				`${import.meta.env.VITE_API_URL}/clinic/patient-disease/add`,
 				payload,
 				{ headers: { tokenapp: Cookies.get("token") } },
 			);
+
 			if (res.result) {
 				setAlert({
 					open: true,
@@ -78,14 +78,12 @@ const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 		}
 	};
 	const { data: diseasesData } = useFetch(
-		"http://localhost:5000/catalog/disease-type/list",
+		`${import.meta.env.VITE_API_URL}/catalog/disease-type/list`,
 	);
-	const diseases = Array.isArray(diseasesData?.data)
-		? diseasesData?.data
-		: [];
+	  
+	const diseases = Array.isArray(diseasesData?.data) ? diseasesData?.data : [];
 	console.log(diseasesData);
 	console.log(diseases);
-
 
 	return (
 		<>
@@ -106,9 +104,7 @@ const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 									isOptionEqualToValue={(option, value) =>
 										option.dis_id === value
 									}
-									value={
-										diseases.find((d) => d.dis_id === field.value) || null
-									}
+									value={diseases.find((d) => d.dis_id === field.value) || null}
 									onChange={(_, newValue) =>
 										field.onChange(newValue ? newValue.dis_id : "")
 									}

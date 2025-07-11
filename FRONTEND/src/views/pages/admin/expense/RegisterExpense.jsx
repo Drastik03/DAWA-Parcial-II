@@ -44,11 +44,12 @@ const FormExpenseRegister = () => {
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 	const { user } = useAuth();
 	const { data: expenseTypesData } = useFetch(
-		"http://localhost:5000/admin/ExpenseType/list",
+		`${import.meta.env.VITE_API_URL}/admin/ExpenseType/list`,
 	);
 	const { data: methodData } = useFetch(
-		"http://localhost:5000/admin/payment_method/list",
+		`${import.meta.env.VITE_API_URL}/admin/payment_method/list`,
 	);
+
 	console.log(methodData);
 
 	const expenseTypes = Array.isArray(expenseTypesData?.data)

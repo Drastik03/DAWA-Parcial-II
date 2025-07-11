@@ -74,7 +74,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 					<FormGroup>
 						<FormControlLabel
 							control={<CustomCheckbox defaultChecked />}
-							label="Remeber this Device"
+							label="Recuerdame"
 						/>
 					</FormGroup>
 					<Typography
@@ -86,7 +86,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 							color: "primary.main",
 						}}
 					>
-						Forgot Password ?
+						Olvidaste tú constraseña?
 					</Typography>
 				</Stack>
 				<Box>
@@ -100,7 +100,7 @@ const AuthLogin = ({ title, subtitle, subtext }) => {
 						type="submit"
 						onClick={handleSubmit(onSubmit)}
 					>
-						Sign In
+						Ingresar
 					</Button>
 				</Box>
 			</form>

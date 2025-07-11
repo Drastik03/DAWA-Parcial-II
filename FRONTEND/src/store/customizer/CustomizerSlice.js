@@ -4,7 +4,7 @@ const initialState = {
 	activeDir: "ltr",
 	activeMode: "light", 
 	activeTheme: "MEDICAL_ELEGANCE", // BLUE_THEME, GREEN_THEME, RED_THEME, BLACK_THEME, PURPLE_THEME, INDIGO_THEME
-	SidebarWidth: 270,
+	SidebarWidth: 290,
 	MiniSidebarWidth: 87,
 	TopbarHeight: 70,
 	isLayout: "boxed", // This can be full or boxed

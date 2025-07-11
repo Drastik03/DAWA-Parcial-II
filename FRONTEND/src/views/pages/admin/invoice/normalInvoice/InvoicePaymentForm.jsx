@@ -5,12 +5,11 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import { useAuth } from "../../../../../context/AuthContext";
 
-const API_BASE = "http://localhost:5000";
-
+const API_BASE = import.meta.env.VITE_API_URL;
 export default function InvoicePaymentForm({ invoiceId }) {
 	const { user } = useAuth();
 	const [methods, setMethods] = useState([]);
-	const [imageFile, setImageFile] = useState(null); 
+	const [imageFile, setImageFile] = useState(null);
 
 	const { control, handleSubmit, reset, watch } = useForm({
 		defaultValues: {
@@ -54,7 +53,7 @@ export default function InvoicePaymentForm({ invoiceId }) {
 			formData.append("user_created", user.user.user_login_id);
 
 			if (imageFile) {
-				formData.append("file", imageFile); 
+				formData.append("file", imageFile);
 			}
 
 			const res = await axios.post(
@@ -70,7 +69,7 @@ export default function InvoicePaymentForm({ invoiceId }) {
 
 			if (res.data.result) {
 				reset();
-				setImageFile(null); 
+				setImageFile(null);
 				console.log("Pago registrado correctamente");
 			}
 		} catch (err) {

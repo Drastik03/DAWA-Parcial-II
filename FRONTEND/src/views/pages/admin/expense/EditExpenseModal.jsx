@@ -43,12 +43,12 @@ const EditExpenseModal = ({ open, onClose, expense, onUpdated }) => {
 	const [snackbarSeverity, setSnackbarSeverity] = useState("success");
 
 	const { data: expenseTypesData } = useFetch(
-		"http://localhost:5000/admin/ExpenseType/list",
+		`${import.meta.env.VITE_API_URL}/admin/ExpenseType/list`,
 	);
 	const { data: methodData } = useFetch(
-		"http://localhost:5000/admin/payment_method/list",
+		`${import.meta.env.VITE_API_URL}/admin/payment_method/list`,
 	);
-
+	  
 	const expenseTypes = Array.isArray(expenseTypesData?.data)
 		? expenseTypesData.data
 		: [];

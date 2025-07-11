@@ -1,10 +1,13 @@
 import axios from "axios";
 import Cookies from "js-cookie";
 
+const BASE = import.meta.env.VITE_API_URL;
+const API_BASE_URL = `${BASE}/user`;
+
 export async function deleteUser(id) {
 	try {
 		const response = await axios.patch(
-			"http://localhost:5000/user/delete",
+			`${API_BASE_URL}/delete`,
 			{ del_id: id },
 			{
 				headers: {
@@ -19,18 +22,15 @@ export async function deleteUser(id) {
 		throw error;
 	}
 }
+
 export async function createUser(userData) {
 	try {
-		const response = await axios.post(
-			"http://localhost:5000/user/insert",
-			userData,
-			{
-				headers: {
-					"Content-Type": "application/json",
-					tokenapp: Cookies.get("token"),
-				},
+		const response = await axios.post(`${API_BASE_URL}/insert`, userData, {
+			headers: {
+				"Content-Type": "application/json",
+				tokenapp: Cookies.get("token"),
 			},
-		);
+		});
 		return response.data;
 	} catch (error) {
 		console.error("Error al crear el usuario:", error);

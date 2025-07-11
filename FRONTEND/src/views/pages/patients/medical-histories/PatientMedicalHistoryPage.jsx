@@ -24,7 +24,7 @@ import { IconEye } from "@tabler/icons";
 import AddMedicalHistoryForm from "./AddMedicalHistoryForm";
 import EditMedicalHistoryForm from "./EditMedicalHistoryForm";
 
-const API_BASE = "http://localhost:5000/";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const PatientMedicalHistoryPage = () => {
 	const { patientId } = useParams();
@@ -42,7 +42,7 @@ const PatientMedicalHistoryPage = () => {
 	const fetchHistories = useCallback(async () => {
 		try {
 			const res = await axios.get(
-				`${API_BASE}medical-histories/patientHist/${patientId}`,
+				`${API_BASE}/medical-histories/patientHist/${patientId}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 				},
@@ -74,6 +74,7 @@ const PatientMedicalHistoryPage = () => {
 		setEditHistory(null);
 	};
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		if (patientId) fetchHistories();
 	}, [fetchHistories]);
@@ -82,7 +83,7 @@ const PatientMedicalHistoryPage = () => {
 		if (!historyToDelete) return;
 		try {
 			const res = await axios.delete(
-				`${API_BASE}clinic/patient-medical-history/delete/${historyToDelete.hist_id}`,
+				`${API_BASE}/clinic/patient-medical-history/delete/${historyToDelete.hist_id}`,
 				{
 					headers: { tokenapp: Cookies.get("token") },
 					data: { user_deleted: Cookies.get("user_login_id") },
