@@ -16,8 +16,6 @@ import { useForm, Controller } from "react-hook-form";
 import { useAuth } from "../../../../../context/AuthContext";
 import { useFetch } from "../../../../../hooks/useFetch";
 
-const API_BASE = "http://localhost:5000/";
-
 const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 	const {
 		handleSubmit,
@@ -80,7 +78,7 @@ const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 	const { data: diseasesData } = useFetch(
 		`${import.meta.env.VITE_API_URL}/catalog/disease-type/list`,
 	);
-	  
+
 	const diseases = Array.isArray(diseasesData?.data) ? diseasesData?.data : [];
 	console.log(diseasesData);
 	console.log(diseases);
@@ -100,13 +98,13 @@ const AddPatientDiseaseForm = ({ patientId, onSuccess }) => {
 							render={({ field }) => (
 								<Autocomplete
 									options={diseases}
-									getOptionLabel={(option) => option?.dis_name ?? ""}
+									getOptionLabel={(option) => option?.dst_name ?? ""}
 									isOptionEqualToValue={(option, value) =>
-										option.dis_id === value
+										option.dst_id === value
 									}
-									value={diseases.find((d) => d.dis_id === field.value) || null}
+									value={diseases.find((d) => d.dst_id === field.value) || null}
 									onChange={(_, newValue) =>
-										field.onChange(newValue ? newValue.dis_id : "")
+										field.onChange(newValue ? newValue.dst_id : "")
 									}
 									renderInput={(params) => (
 										<TextField

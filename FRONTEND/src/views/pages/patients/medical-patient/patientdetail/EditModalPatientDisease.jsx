@@ -33,7 +33,7 @@ const EditModalPatientDisease = ({
 	const { data: diseasesData } = useFetch(
 		`${API_BASE}/catalog/disease-type/list`,
 	);
-	const diseases = Array.isArray(diseasesData?.data) ? diseasesData?.data : [];
+	const diseases = Array.isArray(diseasesData?.data) ? diseasesData.data : [];
 
 	useEffect(() => {
 		if (defaultValues) {
@@ -56,15 +56,15 @@ const EditModalPatientDisease = ({
 								rules={{ required: "Seleccione una enfermedad" }}
 								render={({ field, fieldState }) => {
 									const selectedOption =
-										diseases.find((d) => d.dis_id === field.value) || null;
+										diseases.find((d) => d.dst_id === field.value) || null;
 
 									return (
 										<Autocomplete
 											options={diseases}
-											getOptionLabel={(option) => option.dis_name || ""}
+											getOptionLabel={(option) => option.dst_name || ""}
 											value={selectedOption}
 											onChange={(_, newValue) =>
-												field.onChange(newValue ? newValue.dis_id : "")
+												field.onChange(newValue ? newValue.dst_id : "")
 											}
 											renderInput={(params) => (
 												<TextField
