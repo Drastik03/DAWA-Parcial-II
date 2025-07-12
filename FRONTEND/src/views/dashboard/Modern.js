@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, Grid } from "@mui/material";
 import TopCards from "../../components/dashboards/modern/TopCards";
 import RevenueUpdates from "../../components/dashboards/modern/RevenueUpdates";

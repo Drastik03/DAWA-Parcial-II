@@ -1,4 +1,3 @@
-import React from "react";
 import { Box, CardContent, Grid, Typography } from "@mui/material";
 
 import icon1 from "../../../assets/images/svgs/icon-connect.svg";
